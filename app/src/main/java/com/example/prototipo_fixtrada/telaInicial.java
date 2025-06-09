@@ -9,7 +9,11 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class telaInicial extends AppCompatActivity {
+<<<<<<< HEAD
 //ab
+=======
+//abdce
+>>>>>>> 3748a237574b507c85fb6a1a36719130962f613d
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
