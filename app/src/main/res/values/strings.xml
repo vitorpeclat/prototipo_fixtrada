@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">prototipo_fixtrada</string>
+    <string-array name="especialidades_array">
+        <item>Selecione uma especialidade</item>
+        <item>Encanador</item>
+        <item>Eletricista</item>
+        <item>Pedreiro</item>
+        <item>Pintor</item>
+        <item>Diarista</item>
+        <item>Técnico em Ar Condicionado</item>
+    </string-array>
 </resources>
