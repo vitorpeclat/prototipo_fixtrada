@@ -15,7 +15,7 @@ public class Banco extends SQLiteOpenHelper {
 
     //tabela cliente
     public static final String TABELA_CLIENTE = "cliente";
-    public static final String COLUNA_CLIENTE_ID = "cliId";
+    public static final String COLUNA_CLIID = "cliId";
     public static final String COLUNA_CLINOME = "cliNome";
     public static final String COLUNA_CLIEMAIL = "cliEmail";
     public static final String COLUNA_CLISENHA = "cliSenha";
@@ -39,6 +39,8 @@ public class Banco extends SQLiteOpenHelper {
     public static final String COLUNA_VEICOR = "veiCor";
     public static final String COLUNA_VEIANO = "veiAno";
     public static final String COLUNA_VEIKM = "veiKm";
+    public static final String COLUNA_VEICLIID = "veiClieId";
+
 
     //tabela registro
     public static final String TABELA_REGISTRO = "registro";
@@ -53,6 +55,7 @@ public class Banco extends SQLiteOpenHelper {
     public static final String COLUNA_MENID = "menId";
     public static final String COLUNA_MENCONTEUDO = "menConteudo";
     public static final String COLUNA_MENREMENTENTE = "menRemetente";
+    public static final String COLUNA_MENREGID = "menRegId";
 
 
     public Banco(Context context) {
@@ -61,30 +64,60 @@ public class Banco extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("CREATE TABLE " + TABELA_RESPOSTA + "("
-                + COLUNA_RESPOSTA_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + COLUNA_ENTNOME + " TEXT NOT NULL,"
-                + COLUNA_ORIGEM + " TEXT NOT NULL,"
-                + COLUNA_DESTINO + " TEXT NOT NULL,"
-                + COLUNA_NOME + " TEXT NOT NULL,"
-                + COLUNA_TELEFONE + " TEXT NOT NULL,"
-                + COLUNA_LOCAL + " TEXT NOT NULL,"
-                + COLUNA_HORA + " DATETIME DEFAULT CURRENT_TIMESTAMP);"
+
+        // Tabela cliente
+        sqLiteDatabase.execSQL("CREATE TABLE " + TABELA_CLIENTE + " ("
+                + COLUNA_CLIID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COLUNA_CLINOME + " TEXT NOT NULL, "
+                + COLUNA_CLIEMAIL + " TEXT NOT NULL, "
+                + COLUNA_CLISENHA + " TEXT NOT NULL, "
+                + COLUNA_CLICPF + " TEXT NOT NULL, "
+                + COLUNA_CLIDATANASC + " TEXT NOT NULL);"
         );
 
-        sqLiteDatabase.execSQL("CREATE TABLE " + TABELA_USUARIOS + "("
-                + COLUNA_USUARIOS_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + COLUNA_USERNOME + " TEXT NOT NULL,"
-                + COLUNA_USUARIO + " TEXT NOT NULL,"
-                + COLUNA_SENHA + " TEXT NOT NULL);"
+        // Tabela prestadorSevico
+        sqLiteDatabase.execSQL("CREATE TABLE " + TABELA_PRESTADORSERVICO + " ("
+                + COLUNA_PREID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COLUNA_PRENOME + " TEXT NOT NULL, "
+                + COLUNA_PREEMAIL + " TEXT NOT NULL, "
+                + COLUNA_PRESENHA + " TEXT NOT NULL, "
+                + COLUNA_PRECNPJ + " TEXT NOT NULL, "
+                + COLUNA_PREDATANASC + " TEXT NOT NULL);"
         );
 
-        sqLiteDatabase.execSQL("INSERT INTO " + TABELA_USUARIOS + "("
-                + COLUNA_USERNOME + ","
-                + COLUNA_USUARIO + ","
-                + COLUNA_SENHA
-                + ") VALUES ( 'administrador', 'admin', '123');");
+        // Tabela veiculo (relacionada ao cliente)
+        sqLiteDatabase.execSQL("CREATE TABLE " + TABELA_VEICULO + " ("
+                + COLUNA_VEIID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COLUNA_VEIMODELO + " TEXT NOT NULL, "
+                + COLUNA_VEIPLACA + " TEXT NOT NULL, "
+                + COLUNA_VEICOR + " TEXT NOT NULL, "
+                + COLUNA_VEIANO + " INTEGER NOT NULL, "
+                + COLUNA_VEIKM + " INTEGER NOT NULL, "
+                + COLUNA_VEICLIID + " INTEGER NOT NULL, "
+                + "FOREIGN KEY(" + COLUNA_VEICLIID + ") REFERENCES " + TABELA_CLIENTE + "(" + COLUNA_CLIID + "));"
+        );
+
+        // Tabela registro (relacionada ao veículo e ao prestador)
+        sqLiteDatabase.execSQL("CREATE TABLE " + TABELA_REGISTRO + " ("
+                + COLUNA_REGID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COLUNA_REGDESC + " TEXT NOT NULL, "
+                + COLUNA_REGDATA + " TEXT NOT NULL, "
+                + COLUNA_REGVEIID + " INTEGER NOT NULL, "
+                + COLUNA_REGPREID + " INTEGER NOT NULL, "
+                + "FOREIGN KEY(" + COLUNA_REGVEIID + ") REFERENCES " + TABELA_VEICULO + "(" + COLUNA_VEIID + "), "
+                + "FOREIGN KEY(" + COLUNA_REGPREID + ") REFERENCES " + TABELA_PRESTADORSERVICO + "(" + COLUNA_PREID + "));"
+        );
+
+        // Tabela mensagem (relacionada ao registro)
+        sqLiteDatabase.execSQL("CREATE TABLE " + TABELA_MENSAGEM + " ("
+                + COLUNA_MENID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COLUNA_MENCONTEUDO + " TEXT NOT NULL, "
+                + COLUNA_MENREMENTENTE + " TEXT NOT NULL, "
+                + COLUNA_MENREGID + " INTEGER NOT NULL, "
+                + "FOREIGN KEY(" + COLUNA_MENREGID + ") REFERENCES " + TABELA_REGISTRO + "(" + COLUNA_REGID + "));"
+        );
     }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
