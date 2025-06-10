@@ -70,15 +70,13 @@ public class TelaInicialActivity extends AppCompatActivity {
         String senha = edSenha.getText().toString().trim();
 
         if(usuario.isEmpty()) {
-            mostrarErro(edUsuario, "Usuário é obrigatório");
+            mostrarErro(edUsuario, "Usuário vazio");
             return false;
         }
-
         if(senha.isEmpty()) {
-            mostrarErro(edSenha, "Senha é obrigatória");
+            mostrarErro(edSenha, "Senha vazia");
             return false;
         }
-
         edUsuario.setError(null);
         edSenha.setError(null);
         txMensagem.setText("");
@@ -89,20 +87,15 @@ public class TelaInicialActivity extends AppCompatActivity {
         String usuario = edUsuario.getText().toString().trim();
         String senha = edSenha.getText().toString().trim();
 
-        // Aqui você faria a chamada ao banco de dados
         if(isPrestador) {
-            // Lógica para login de prestador
             loginPrestador(usuario, senha);
         } else {
-            // Lógica para login de cliente
             loginCliente(usuario, senha);
         }
     }
 
     private void loginCliente(String usuario, String senha) {
-        // Implemente a lógica de login para cliente
-        // Exemplo fictício:
-        if(verificarCredenciaisNoBanco(usuario, senha, "clientes")) {
+        if(verificarCredenciais(usuario, senha, "clientes")) {
             Intent intent = new Intent(TelaInicialActivity.this, MenuClienteActivity.class);
             startActivity(intent);
         } else {
@@ -111,9 +104,7 @@ public class TelaInicialActivity extends AppCompatActivity {
     }
 
     private void loginPrestador(String usuario, String senha) {
-        // Implemente a lógica de login para prestador
-        // Exemplo fictício:
-        if(verificarCredenciaisNoBanco(usuario, senha, "prestadores")) {
+        if(verificarCredenciais(usuario, senha, "prestadores")) {
             Intent intent = new Intent(TelaInicialActivity.this, MenuPrestadorActivity.class);
             startActivity(intent);
         } else {
@@ -121,10 +112,7 @@ public class TelaInicialActivity extends AppCompatActivity {
         }
     }
 
-    // Método fictício - substitua pela sua lógica real de banco de dados
-    private boolean verificarCredenciaisNoBanco(String usuario, String senha, String tabela) {
-        // Aqui você faria a consulta no banco de dados
-        // Retornando true se as credenciais estiverem corretas
+    private boolean verificarCredenciais(String usuario, String senha, String tabela) {
         return true; // Apenas para exemplo
     }
 
