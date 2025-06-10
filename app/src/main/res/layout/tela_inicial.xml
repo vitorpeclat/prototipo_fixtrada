@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,7 +17,6 @@
         android:textSize="24sp"
         android:layout_marginBottom="24dp"/>
 
-    <!-- Botões de seleção de tipo de usuário -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,63 +24,82 @@
         android:weightSum="2"
         android:layout_marginBottom="16dp">
 
-        <Button
-            android:id="@+id/btCliente"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Sou Cliente"
-            android:backgroundTint="@color/purple_500"/>
+            <Button
+                android:id="@+id/btCliente"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="Sou Cliente"
+                android:textColor="@color/branco"
+                android:background="@drawable/button_selected"
+                android:textAllCaps="false"
+                android:layout_marginEnd="16dp"/>
 
-        <Button
-            android:id="@+id/btPrestador"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="8dp"
-            android:text="Sou Prestador"
-            android:backgroundTint="@color/teal_200"/>
-    </LinearLayout>
+            <Button
+                android:id="@+id/btPrestador"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:text="Sou Prestador"
+                android:textColor="@color/branco"
+                android:background="@drawable/button_static"
+                android:textAllCaps="false"
+                android:layout_marginStart="16dp"/>
+        </LinearLayout>
 
-    <!-- Campos de login -->
-    <EditText
-        android:id="@+id/edUsuario"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Usuário"
-        android:inputType="text"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="8dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-    <EditText
-        android:id="@+id/edSenha"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Usuário"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Senha"
-        android:inputType="textPassword"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="16dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edSenha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Senha"
+            android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:weightSum="2">
+        android:weightSum="2"
+        android:layout_marginTop="8dp">
 
         <Button
             android:id="@+id/btCadastro"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
-            android:text="Cadastre-se" />
+            android:text="Cadastre-se"
+            android:textColor="@color/branco"
+            android:backgroundTint="@color/laranja"
+            android:layout_marginEnd="4dp"/>
 
         <Button
             android:id="@+id/btLogin"
             android:layout_width="0dp"
-            android:layout_marginLeft="8dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
-            android:text="Login" />
+            android:text="Login"
+            android:textColor="@color/branco"
+            android:backgroundTint="@color/laranja"
+            android:layout_marginStart="4dp"/>
     </LinearLayout>
 
     <TextView

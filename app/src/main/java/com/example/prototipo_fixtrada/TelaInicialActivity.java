@@ -2,16 +2,17 @@ package com.example.prototipo_fixtrada;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class TelaInicialActivity extends AppCompatActivity {
 
     private Button btLogin, btCadastro, btCliente, btPrestador;
-    private EditText edUsuario, edSenha;
+    private TextInputEditText edUsuario, edSenha;
     private TextView txMensagem;
     private boolean isPrestador = false;
 
@@ -20,7 +21,6 @@ public class TelaInicialActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tela_inicial);
 
-        // Inicializa componentes
         btLogin = findViewById(R.id.btLogin);
         btCadastro = findViewById(R.id.btCadastro);
         btCliente = findViewById(R.id.btCliente);
@@ -29,12 +29,10 @@ public class TelaInicialActivity extends AppCompatActivity {
         edSenha = findViewById(R.id.edSenha);
         txMensagem = findViewById(R.id.txMensagem);
 
-        // Configura os botões de tipo de usuário
+        switchParaCliente();
+
         btCliente.setOnClickListener(v -> switchParaCliente());
         btPrestador.setOnClickListener(v -> switchParaPrestador());
-
-        // Por padrão, começa como cliente
-        switchParaCliente();
 
         btLogin.setOnClickListener(v -> {
             if(validarCampos()) {
@@ -51,18 +49,43 @@ public class TelaInicialActivity extends AppCompatActivity {
 
     private void switchParaCliente() {
         isPrestador = false;
-        btCliente.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_500));
-        btCliente.setTextColor(ContextCompat.getColor(this, android.R.color.white));
-        btPrestador.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_200));
-        btPrestador.setTextColor(ContextCompat.getColor(this, android.R.color.black));
+
+        btCliente.setBackgroundResource(R.drawable.button_selected);
+        btCliente.setTextColor(ContextCompat.getColor(this, R.color.white));
+        btCliente.setBackgroundTintList(null);
+
+        btPrestador.setBackgroundResource(R.drawable.button_static);
+        btPrestador.setTextColor(ContextCompat.getColor(this, R.color.black));
+        btPrestador.setBackgroundTintList(null);
+
+        animacaoBotao(btCliente, btPrestador);
     }
 
     private void switchParaPrestador() {
         isPrestador = true;
-        btPrestador.setBackgroundColor(ContextCompat.getColor(this, R.color.teal_700));
-        btPrestador.setTextColor(ContextCompat.getColor(this, android.R.color.white));
-        btCliente.setBackgroundColor(ContextCompat.getColor(this, R.color.purple_200));
-        btCliente.setTextColor(ContextCompat.getColor(this, android.R.color.black));
+
+        btPrestador.setBackgroundResource(R.drawable.button_selected);
+        btPrestador.setTextColor(ContextCompat.getColor(this, R.color.white));
+        btPrestador.setBackgroundTintList(null);
+
+        btCliente.setBackgroundResource(R.drawable.button_static);
+        btCliente.setTextColor(ContextCompat.getColor(this, R.color.black));
+        btCliente.setBackgroundTintList(null);
+        animacaoBotao(btPrestador, btCliente);
+    }
+
+    private void animacaoBotao(Button selected, Button unselected) {
+        selected.animate()
+                .scaleX(1.15f)
+                .scaleY(1.15f)
+                .setDuration(200)
+                .start();
+
+        unselected.animate()
+                .scaleX(1.0f)
+                .scaleY(1.0f)
+                .setDuration(200)
+                .start();
     }
 
     private boolean validarCampos() {
@@ -70,55 +93,21 @@ public class TelaInicialActivity extends AppCompatActivity {
         String senha = edSenha.getText().toString().trim();
 
         if(usuario.isEmpty()) {
-            mostrarErro(edUsuario, "Usuário vazio");
+            edUsuario.setError("Usuário é obrigatório");
             return false;
         }
+
         if(senha.isEmpty()) {
-            mostrarErro(edSenha, "Senha vazia");
+            edSenha.setError("Senha é obrigatória");
             return false;
         }
-        edUsuario.setError(null);
-        edSenha.setError(null);
-        txMensagem.setText("");
+
         return true;
     }
 
     private void fazerLogin() {
-        String usuario = edUsuario.getText().toString().trim();
-        String senha = edSenha.getText().toString().trim();
-
-        if(isPrestador) {
-            loginPrestador(usuario, senha);
-        } else {
-            loginCliente(usuario, senha);
-        }
-    }
-
-    private void loginCliente(String usuario, String senha) {
-        if(verificarCredenciais(usuario, senha, "clientes")) {
-            Intent intent = new Intent(TelaInicialActivity.this, MenuClienteActivity.class);
-            startActivity(intent);
-        } else {
-            txMensagem.setText("Credenciais inválidas para cliente");
-        }
-    }
-
-    private void loginPrestador(String usuario, String senha) {
-        if(verificarCredenciais(usuario, senha, "prestadores")) {
-            Intent intent = new Intent(TelaInicialActivity.this, MenuPrestadorActivity.class);
-            startActivity(intent);
-        } else {
-            txMensagem.setText("Credenciais inválidas para prestador");
-        }
-    }
-
-    private boolean verificarCredenciais(String usuario, String senha, String tabela) {
-        return true; // Apenas para exemplo
-    }
-
-    private void mostrarErro(EditText campo, String mensagem) {
-        campo.setError(mensagem);
-        campo.requestFocus();
-        txMensagem.setText(mensagem);
+        // Implemente sua lógica de login aqui
+        String tipoUsuario = isPrestador ? "Prestador" : "Cliente";
+        txMensagem.setText("Login como " + tipoUsuario + " em desenvolvimento");
     }
 }
