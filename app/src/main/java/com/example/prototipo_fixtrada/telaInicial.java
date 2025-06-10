@@ -37,7 +37,7 @@ public class telaInicial extends AppCompatActivity {
                 }
             }
         });
-
+//quarenta
         btCadastro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
