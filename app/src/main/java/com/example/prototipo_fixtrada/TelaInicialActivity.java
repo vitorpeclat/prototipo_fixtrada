@@ -21,10 +21,10 @@ public class TelaInicialActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tela_inicial);
 
-        btLogin = findViewById(R.id.btLogin);
-        btCadastro = findViewById(R.id.btCadastro);
-        btCliente = findViewById(R.id.btCliente);
-        btPrestador = findViewById(R.id.btPrestador);
+        btLogin = findViewById(R.id.btLogin); btLogin.setBackgroundTintList(null);
+        btCadastro = findViewById(R.id.btCadastro); btCadastro.setBackgroundTintList(null);
+        btCliente = findViewById(R.id.btCliente); btCliente.setBackgroundTintList(null);
+        btPrestador = findViewById(R.id.btPrestador); btPrestador.setBackgroundTintList(null);
         edUsuario = findViewById(R.id.edUsuario);
         edSenha = findViewById(R.id.edSenha);
         txMensagem = findViewById(R.id.txMensagem);
@@ -51,12 +51,7 @@ public class TelaInicialActivity extends AppCompatActivity {
         isPrestador = false;
 
         btCliente.setBackgroundResource(R.drawable.button_selected);
-        btCliente.setTextColor(ContextCompat.getColor(this, R.color.white));
-        btCliente.setBackgroundTintList(null);
-
         btPrestador.setBackgroundResource(R.drawable.button_static);
-        btPrestador.setTextColor(ContextCompat.getColor(this, R.color.black));
-        btPrestador.setBackgroundTintList(null);
 
         animacaoBotao(btCliente, btPrestador);
     }
@@ -65,12 +60,8 @@ public class TelaInicialActivity extends AppCompatActivity {
         isPrestador = true;
 
         btPrestador.setBackgroundResource(R.drawable.button_selected);
-        btPrestador.setTextColor(ContextCompat.getColor(this, R.color.white));
-        btPrestador.setBackgroundTintList(null);
 
         btCliente.setBackgroundResource(R.drawable.button_static);
-        btCliente.setTextColor(ContextCompat.getColor(this, R.color.black));
-        btCliente.setBackgroundTintList(null);
         animacaoBotao(btPrestador, btCliente);
     }
 

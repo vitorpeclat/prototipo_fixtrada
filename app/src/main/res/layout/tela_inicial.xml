@@ -31,7 +31,6 @@
                 android:layout_weight="1"
                 android:text="Sou Cliente"
                 android:textColor="@color/branco"
-                android:background="@drawable/button_selected"
                 android:textAllCaps="false"
                 android:layout_marginEnd="16dp"/>
 
@@ -42,7 +41,6 @@
                 android:layout_weight="1"
                 android:text="Sou Prestador"
                 android:textColor="@color/branco"
-                android:background="@drawable/button_static"
                 android:textAllCaps="false"
                 android:layout_marginStart="16dp"/>
         </LinearLayout>
@@ -88,7 +86,7 @@
             android:layout_weight="1"
             android:text="Cadastre-se"
             android:textColor="@color/branco"
-            android:backgroundTint="@color/laranja"
+            android:background="@drawable/button_static"
             android:layout_marginEnd="4dp"/>
 
         <Button
@@ -98,7 +96,7 @@
             android:layout_weight="1"
             android:text="Login"
             android:textColor="@color/branco"
-            android:backgroundTint="@color/laranja"
+            android:background="@drawable/button_static"
             android:layout_marginStart="4dp"/>
     </LinearLayout>
 
