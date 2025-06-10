@@ -49,12 +49,11 @@ public class Banco extends SQLiteOpenHelper {
     public static final String COLUNA_REGPREID = "regPreId";
 
     //tabela mensagem
-    public static final String TABELA_REGISTRO = "registro";
-    public static final String COLUNA_REGID = "regId";
-    public static final String COLUNA_REGDESC = "regDesc";
-    public static final String COLUNA_REGDATA = "regData";
-    public static final String COLUNA_REGVEIID = "regVeiId";
-    public static final String COLUNA_REGPREID = "regPreId";
+    public static final String TABELA_MENSAGEM = "mensagem";
+    public static final String COLUNA_MENID = "menId";
+    public static final String COLUNA_MENCONTEUDO = "menConteudo";
+    public static final String COLUNA_MENREMENTENTE = "menRemetente";
+
 
     public Banco(Context context) {
         super(context, BANCO, null, VERSAO);
