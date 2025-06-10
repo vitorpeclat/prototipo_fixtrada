@@ -19,6 +19,9 @@
             android:name=".MenuClienteActivity"
             android:exported="false" />
         <activity
+            android:name=".ChamadaServicoActivity"
+            android:exported="false" />
+        <activity
             android:name=".CadastroActivity"
             android:exported="false" />
         <activity

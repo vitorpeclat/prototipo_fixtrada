@@ -43,7 +43,7 @@ public class Banco extends SQLiteOpenHelper {
 
 
     //tabela registro
-    public static final String TABELA_REGISTRO = "registro";
+    public static final String TABELA_REGISTRO = "registro_servico";
     public static final String COLUNA_REGID = "regId";
     public static final String COLUNA_REGDESC = "regDesc";
     public static final String COLUNA_REGDATA = "regData";
@@ -144,117 +144,140 @@ public class Banco extends SQLiteOpenHelper {
         db.close();
         return count > 0;
     }
-
-    public Usuario getUsuario(String usuario, String senha) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String selection = COLUNA_USUARIO + " = ? AND " + COLUNA_SENHA + " = ?";
-        String[] selectionArgs = {usuario, senha};
-        Cursor cursor = db.query(TABELA_USUARIOS,
-                new String[]{COLUNA_USUARIOS_ID, COLUNA_USERNOME, COLUNA_USUARIO, COLUNA_SENHA},
-                selection, selectionArgs, null, null, null);
-
-        Usuario user = null;
-        if (cursor.moveToFirst()) {
-            user = new Usuario();
-            user.setId(cursor.getInt(cursor.getColumnIndex(COLUNA_USUARIOS_ID)));
-            user.setUserNome(cursor.getString(cursor.getColumnIndex(COLUNA_USERNOME)));
-            user.setUsuario(cursor.getString(cursor.getColumnIndex(COLUNA_USUARIO)));
-            user.setSenha(cursor.getString(cursor.getColumnIndex(COLUNA_SENHA)));
-        }
-
-        cursor.close();
-        db.close();
-        return user;
-    }
-
-    public boolean addUser(Usuario user) {
+    public long inserirCliente(String nome, String email, String senha, String cpf, String dataNasc) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUNA_USUARIO, user.getUsuario());
-        values.put(COLUNA_SENHA, user.getSenha());
-        values.put(COLUNA_USERNOME, user.getUserNome());
-        long result = db.insert(TABELA_USUARIOS, null, values);
+        values.put(COLUNA_CLINOME, nome);
+        values.put(COLUNA_CLIEMAIL, email);
+        values.put(COLUNA_CLISENHA, senha);
+        values.put(COLUNA_CLICPF, cpf);
+        values.put(COLUNA_CLIDATANASC, dataNasc);
+        long id = db.insert(TABELA_CLIENTE, null, values);
         db.close();
-        return result != -1;
+        return id;
     }
 
-    public void salvarResposta(Resposta resposta){
+    public List<String> listarClientes() {
+        List<String> clientes = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABELA_CLIENTE, null);
+        while (cursor.moveToNext()) {
+            String nome = cursor.getString(cursor.getColumnIndex(COLUNA_CLINOME));
+            clientes.add(nome);
+        }
+        cursor.close();
+        db.close();
+        return clientes;
+    }
+
+    public long inserirPrestador(String nome, String email, String senha, String cnpj, String dataNasc) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUNA_ENTNOME, resposta.getEntNome());
-        values.put(COLUNA_ORIGEM, resposta.getOrigem());
-        values.put(COLUNA_DESTINO, resposta.getDestino());
-        values.put(COLUNA_NOME, resposta.getNome());
-        values.put(COLUNA_TELEFONE, resposta.getTelefone());
-        values.put(COLUNA_LOCAL, resposta.getLocal());
-        if (resposta.getHora() != null && !resposta.getHora().isEmpty()) {
-            values.put(COLUNA_HORA, resposta.getHora());
-        }
-
-        db.insert(TABELA_RESPOSTA, null, values);
+        values.put(COLUNA_PRENOME, nome);
+        values.put(COLUNA_PREEMAIL, email);
+        values.put(COLUNA_PRESENHA, senha);
+        values.put(COLUNA_PRECNPJ, cnpj);
+        values.put(COLUNA_PREDATANASC, dataNasc);
+        long id = db.insert(TABELA_PRESTADORSERVICO, null, values);
         db.close();
+        return id;
     }
 
-    public List<Resposta> getTodasRespostas() {
-        List<Resposta> respostas = new ArrayList<>();
+    public List<String> listarPrestadores() {
+        List<String> prestadores = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.query(TABELA_RESPOSTA, null, null, null, null, null, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                Resposta resposta = new Resposta();
-                resposta.setId(cursor.getInt(cursor.getColumnIndex(COLUNA_RESPOSTA_ID)));
-                resposta.setEntNome(cursor.getString(cursor.getColumnIndex(COLUNA_ENTNOME)));
-                resposta.setOrigem(cursor.getString(cursor.getColumnIndex(COLUNA_ORIGEM)));
-                resposta.setDestino(cursor.getString(cursor.getColumnIndex(COLUNA_DESTINO)));
-                resposta.setNome(cursor.getString(cursor.getColumnIndex(COLUNA_NOME)));
-                resposta.setTelefone(cursor.getString(cursor.getColumnIndex(COLUNA_TELEFONE)));
-                resposta.setLocal(cursor.getString(cursor.getColumnIndex(COLUNA_LOCAL)));
-                resposta.setHora(cursor.getString(cursor.getColumnIndex(COLUNA_HORA)));
-
-                respostas.add(resposta);
-            } while (cursor.moveToNext());
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABELA_PRESTADORSERVICO, null);
+        while (cursor.moveToNext()) {
+            String nome = cursor.getString(cursor.getColumnIndex(COLUNA_PRENOME));
+            prestadores.add(nome);
         }
-
         cursor.close();
         db.close();
-        return respostas;
+        return prestadores;
     }
 
-    public List<Resposta> getRespostasPorEntrevistador(String entrevistador) {
-        List<Resposta> respostas = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        String selection = COLUNA_ENTNOME + " = ?";
-        String[] selectionArgs = {entrevistador};
-
-        Cursor cursor = db.query(TABELA_RESPOSTA, null, selection, selectionArgs, null, null, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                Resposta resposta = new Resposta();
-                resposta.setId(cursor.getInt(cursor.getColumnIndex(COLUNA_RESPOSTA_ID)));
-                resposta.setEntNome(cursor.getString(cursor.getColumnIndex(COLUNA_ENTNOME)));
-                resposta.setOrigem(cursor.getString(cursor.getColumnIndex(COLUNA_ORIGEM)));
-                resposta.setDestino(cursor.getString(cursor.getColumnIndex(COLUNA_DESTINO)));
-                resposta.setNome(cursor.getString(cursor.getColumnIndex(COLUNA_NOME)));
-                resposta.setTelefone(cursor.getString(cursor.getColumnIndex(COLUNA_TELEFONE)));
-                resposta.setLocal(cursor.getString(cursor.getColumnIndex(COLUNA_LOCAL)));
-                resposta.setHora(cursor.getString(cursor.getColumnIndex(COLUNA_HORA)));
-
-                respostas.add(resposta);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        db.close();
-        return respostas;
-    }
-
-    public void limparRespostas() {
+    public long inserirVeiculo(String modelo, String placa, String cor, int ano, int km, int clienteId) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABELA_RESPOSTA, null, null);
+        ContentValues values = new ContentValues();
+        values.put(COLUNA_VEIMODELO, modelo);
+        values.put(COLUNA_VEIPLACA, placa);
+        values.put(COLUNA_VEICOR, cor);
+        values.put(COLUNA_VEIANO, ano);
+        values.put(COLUNA_VEIKM, km);
+        values.put(COLUNA_VEICLIID, clienteId);
+        long id = db.insert(TABELA_VEICULO, null, values);
         db.close();
+        return id;
+    }
+
+    public List<String> listarVeiculos() {
+        List<String> veiculos = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABELA_VEICULO, null);
+        while (cursor.moveToNext()) {
+            String modelo = cursor.getString(cursor.getColumnIndex(COLUNA_VEIMODELO));
+            String placa = cursor.getString(cursor.getColumnIndex(COLUNA_VEIPLACA));
+            veiculos.add(modelo + " - " + placa);
+        }
+        cursor.close();
+        db.close();
+        return veiculos;
+    }
+
+    public long inserirRegistro(String descricao, String data, int veiId, int preId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUNA_REGDESC, descricao);
+        values.put(COLUNA_REGDATA, data);
+        values.put(COLUNA_REGVEIID, veiId);
+        values.put(COLUNA_REGPREID, preId);
+        long id = db.insert(TABELA_REGISTRO, null, values);
+        db.close();
+        return id;
+    }
+
+    public List<String> listarRegistros() {
+        List<String> registros = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABELA_REGISTRO, null);
+        while (cursor.moveToNext()) {
+            String desc = cursor.getString(cursor.getColumnIndex(COLUNA_REGDESC));
+            String data = cursor.getString(cursor.getColumnIndex(COLUNA_REGDATA));
+            registros.add(data + ": " + desc);
+        }
+        cursor.close();
+        db.close();
+        return registros;
+    }
+
+    public long inserirMensagem(String conteudo, String remetente, int regId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUNA_MENCONTEUDO, conteudo);
+        values.put(COLUNA_MENREMENTENTE, remetente);
+        values.put(COLUNA_MENREGID, regId);
+        long id = db.insert(TABELA_MENSAGEM, null, values);
+        db.close();
+        return id;
+    }
+
+    public List<String> listarMensagensPorRegistro(int regId) {
+        List<String> mensagens = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(
+                TABELA_MENSAGEM,
+                null,
+                COLUNA_MENREGID + "=?",
+                new String[]{String.valueOf(regId)},
+                null, null, null
+        );
+        while (cursor.moveToNext()) {
+            String remetente = cursor.getString(cursor.getColumnIndex(COLUNA_MENREMENTENTE));
+            String conteudo = cursor.getString(cursor.getColumnIndex(COLUNA_MENCONTEUDO));
+            mensagens.add(remetente + ": " + conteudo);
+        }
+        cursor.close();
+        db.close();
+        return mensagens;
     }
 }
