@@ -280,6 +280,4 @@ public class Banco extends SQLiteOpenHelper {
         db.close();
         return mensagens;
     }
-
-
 }
