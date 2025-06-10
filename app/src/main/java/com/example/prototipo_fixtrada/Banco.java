@@ -123,11 +123,22 @@ public class Banco extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
-    public boolean checkUser(String usuario, String senha){
+    public boolean checkUserCliente(String email, String senha){
         SQLiteDatabase db = this.getReadableDatabase();
-        String selection = COLUNA_USUARIO + " = ? AND " + COLUNA_SENHA + " = ?";
-        String[] selectionArgs = {usuario, senha};
-        Cursor cursor = db.query(TABELA_USUARIOS, new String[]{COLUNA_USUARIOS_ID}, selection, selectionArgs, null, null, null);
+        String selection = COLUNA_CLIEMAIL + " = ? AND " + COLUNA_CLISENHA + " = ?";
+        String[] selectionArgs = {email, senha};
+        Cursor cursor = db.query(TABELA_CLIENTE, new String[]{COLUNA_CLIID}, selection, selectionArgs, null, null, null);
+        int count = cursor.getCount();
+        cursor.close();
+        db.close();
+        return count > 0;
+    }
+
+    public boolean checkUserPrestador(String email, String senha){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selection = COLUNA_PREEMAIL + " = ? AND " + COLUNA_PRESENHA + " = ?";
+        String[] selectionArgs = {email, senha};
+        Cursor cursor = db.query(TABELA_PRESTADORSERVICO, new String[]{COLUNA_PREID}, selection, selectionArgs, null, null, null);
         int count = cursor.getCount();
         cursor.close();
         db.close();
