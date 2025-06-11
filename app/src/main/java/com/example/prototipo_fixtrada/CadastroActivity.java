@@ -151,36 +151,71 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
     private boolean validarCampos() {
+        boolean valido = true;
+
         String nome = edNome.getText().toString().trim();
         String email = edEmail.getText().toString().trim();
         String senha = edSenha.getText().toString().trim();
         String documento = isPrestador ? edCnpj.getText().toString().trim() : edCpf.getText().toString().trim();
         String dataNasc = edDataNasc.getText().toString().trim();
 
-        if (nome.isEmpty() || email.isEmpty() || senha.isEmpty() || documento.isEmpty()) return false;
-
-        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (nome.isEmpty()) {
+            edNome.setError("Preencha o nome");
+            valido = false;
+        }
+        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             edEmail.setError("Email inválido");
-            return false;
+            valido = false;
         }
-
-        if (!isPrestador) {
+        if (senha.isEmpty() || senha.length() < 6) {
+            edSenha.setError("Senha deve ter ao menos 6 caracteres");
+            valido = false;
+        }
+        if (isPrestador) {
+            if (documento.isEmpty() || documento.replaceAll("[^\\d]", "").length() != 14) {
+                edCnpj.setError("CNPJ inválido");
+                valido = false;
+            }
+        } else {
+            if (documento.isEmpty() || documento.replaceAll("[^\\d]", "").length() != 11) {
+                edCpf.setError("CPF inválido");
+                valido = false;
+            }
             if (dataNasc.isEmpty() || !dataNasc.matches("\\d{2}/\\d{2}/\\d{4}")) {
-                edDataNasc.setError("Data inválida");
-                return false;
+                edDataNasc.setError("Data inválida (DD/MM/AAAA)");
+                valido = false;
             }
 
-            if (edModelo.getText().toString().trim().isEmpty() ||
-                    edPlaca.getText().toString().trim().isEmpty() ||
-                    edCor.getText().toString().trim().isEmpty() ||
-                    edAno.getText().toString().trim().isEmpty() ||
-                    edKm.getText().toString().trim().isEmpty()) {
-                Toast.makeText(this, "Preencha todos os dados do veículo", Toast.LENGTH_SHORT).show();
-                return false;
+            // Verifica os campos do veículo
+            String modelo = edModelo.getText().toString().trim();
+            String placa = edPlaca.getText().toString().trim();
+            String cor = edCor.getText().toString().trim();
+            String anoStr = edAno.getText().toString().trim();
+            String kmStr = edKm.getText().toString().trim();
+
+            if (modelo.isEmpty()) {
+                edModelo.setError("Informe o modelo do veículo");
+                valido = false;
+            }
+            if (placa.isEmpty() || placa.length() < 6) {
+                edPlaca.setError("Placa inválida");
+                valido = false;
+            }
+            if (cor.isEmpty()) {
+                edCor.setError("Informe a cor do veículo");
+                valido = false;
+            }
+            if (anoStr.isEmpty() || !anoStr.matches("\\d{4}")) {
+                edAno.setError("Ano inválido (ex: 2020)");
+                valido = false;
+            }
+            if (kmStr.isEmpty()) {
+                edKm.setError("Informe a quilometragem");
+                valido = false;
             }
         }
 
-        return true;
+        return valido;
     }
 
     private void cadastrarUsuario() {
