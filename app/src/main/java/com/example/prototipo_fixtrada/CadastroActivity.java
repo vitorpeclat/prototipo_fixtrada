@@ -186,7 +186,6 @@ public class CadastroActivity extends AppCompatActivity {
                 valido = false;
             }
 
-            // Verifica os campos do veículo
             String modelo = edModelo.getText().toString().trim();
             String placa = edPlaca.getText().toString().trim();
             String cor = edCor.getText().toString().trim();
@@ -214,7 +213,6 @@ public class CadastroActivity extends AppCompatActivity {
                 valido = false;
             }
         }
-
         return valido;
     }
 
