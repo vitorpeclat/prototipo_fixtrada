@@ -9,11 +9,17 @@
     android:gravity="center"
     tools:context=".TelaInicialActivity">
 
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="150dp"
+        android:src="@drawable/logoplaceholder"
+        android:layout_gravity="center"
+        android:contentDescription="@string/app_logo"/>
     <TextView
         android:id="@+id/txTitulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bem vindo ao Fixtrada"
+        android:text="Bem vindo!"
         android:textSize="24sp"
         android:layout_marginBottom="24dp"/>
 
