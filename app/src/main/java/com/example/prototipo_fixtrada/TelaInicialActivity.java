@@ -49,47 +49,41 @@ public class TelaInicialActivity extends AppCompatActivity {
 
     private void switchParaCliente() {
         isPrestador = false;
-
         btCliente.setBackgroundResource(R.drawable.button_selected);
         btPrestador.setBackgroundResource(R.drawable.button_static);
-
         animacaoBotao(btCliente, btPrestador);
     }
 
     private void switchParaPrestador() {
         isPrestador = true;
-
         btPrestador.setBackgroundResource(R.drawable.button_selected);
-
         btCliente.setBackgroundResource(R.drawable.button_static);
         animacaoBotao(btPrestador, btCliente);
     }
 
-    private void animacaoBotao(Button selected, Button unselected) {
+    public static void animacaoBotao(Button selected, Button unselected) {
         selected.animate()
                 .scaleX(1.15f)
                 .scaleY(1.15f)
                 .setDuration(200)
                 .start();
-
         unselected.animate()
                 .scaleX(1.0f)
                 .scaleY(1.0f)
                 .setDuration(200)
                 .start();
     }
-
     private boolean validarCampos() {
         String usuario = edUsuario.getText().toString().trim();
         String senha = edSenha.getText().toString().trim();
 
         if(usuario.isEmpty()) {
-            edUsuario.setError("Usuário é obrigatório");
+            edUsuario.setError("Usuário inválido");
             return false;
         }
 
         if(senha.isEmpty()) {
-            edSenha.setError("Senha é obrigatória");
+            edSenha.setError("Senha inválida");
             return false;
         }
 
@@ -97,8 +91,29 @@ public class TelaInicialActivity extends AppCompatActivity {
     }
 
     private void fazerLogin() {
-        // Implemente sua lógica de login aqui
-        String tipoUsuario = isPrestador ? "Prestador" : "Cliente";
-        txMensagem.setText("Login como " + tipoUsuario + " em desenvolvimento");
+        String email = edUsuario.getText().toString().trim();
+        String senha = edSenha.getText().toString().trim();
+
+        Banco banco = new Banco(this);
+
+        if (isPrestador) {
+            boolean valido = banco.checkUserPrestador(email, senha);
+            if (valido) {
+                Intent intent = new Intent(TelaInicialActivity.this, MenuPrestadorActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                txMensagem.setText("Credenciais inválidas para Prestador");
+            }
+        } else {
+            boolean valido = banco.checkUserCliente(email, senha);
+            if (valido) {
+                Intent intent = new Intent(TelaInicialActivity.this, MenuClienteActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                txMensagem.setText("Credenciais inválidas para Cliente");
+            }
+        }
     }
 }

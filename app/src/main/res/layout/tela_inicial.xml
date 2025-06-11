@@ -30,7 +30,7 @@
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:text="Sou Cliente"
-                android:textColor="@color/branco"
+                android:textColor="@color/branco_escuro"
                 android:textAllCaps="false"
                 android:layout_marginEnd="16dp"/>
 
@@ -40,7 +40,7 @@
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:text="Sou Prestador"
-                android:textColor="@color/branco"
+                android:textColor="@color/branco_escuro"
                 android:textAllCaps="false"
                 android:layout_marginStart="16dp"/>
         </LinearLayout>
@@ -85,7 +85,7 @@
             android:layout_height="48dp"
             android:layout_weight="1"
             android:text="Cadastre-se"
-            android:textColor="@color/branco"
+            android:textColor="@color/branco_escuro"
             android:background="@drawable/button_static"
             android:layout_marginEnd="4dp"/>
 
@@ -95,7 +95,7 @@
             android:layout_height="48dp"
             android:layout_weight="1"
             android:text="Login"
-            android:textColor="@color/branco"
+            android:textColor="@color/branco_escuro"
             android:background="@drawable/button_static"
             android:layout_marginStart="4dp"/>
     </LinearLayout>

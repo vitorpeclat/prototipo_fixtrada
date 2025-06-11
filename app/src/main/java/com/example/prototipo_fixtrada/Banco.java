@@ -29,7 +29,6 @@ public class Banco extends SQLiteOpenHelper {
     public static final String COLUNA_PREEMAIL = "preEmail";
     public static final String COLUNA_PRESENHA = "preSenha";
     public static final String COLUNA_PRECNPJ = "preCnpj";
-    public static final String COLUNA_PREDATANASC = "preDataNasc";
 
     //tabela veiculo
     public static final String TABELA_VEICULO = "veiculo";
@@ -81,8 +80,7 @@ public class Banco extends SQLiteOpenHelper {
                 + COLUNA_PRENOME + " TEXT NOT NULL, "
                 + COLUNA_PREEMAIL + " TEXT NOT NULL, "
                 + COLUNA_PRESENHA + " TEXT NOT NULL, "
-                + COLUNA_PRECNPJ + " TEXT NOT NULL, "
-                + COLUNA_PREDATANASC + " TEXT NOT NULL);"
+                + COLUNA_PRECNPJ + " TEXT NOT NULL);"
         );
 
         // Tabela veiculo (relacionada ao cliente)
@@ -170,14 +168,13 @@ public class Banco extends SQLiteOpenHelper {
         return clientes;
     }
 
-    public long inserirPrestador(String nome, String email, String senha, String cnpj, String dataNasc) {
+    public long inserirPrestador(String nome, String email, String senha, String cnpj) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUNA_PRENOME, nome);
         values.put(COLUNA_PREEMAIL, email);
         values.put(COLUNA_PRESENHA, senha);
         values.put(COLUNA_PRECNPJ, cnpj);
-        values.put(COLUNA_PREDATANASC, dataNasc);
         long id = db.insert(TABELA_PRESTADORSERVICO, null, values);
         db.close();
         return id;
