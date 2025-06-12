@@ -1,4 +1,4 @@
-package com.example.prototipo_fixtrada;
+package com.example.prototipo_fixtrada.construtores;
 
 public class Veiculo {
     private int veiId;

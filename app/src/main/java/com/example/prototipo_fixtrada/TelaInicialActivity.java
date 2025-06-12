@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.prototipo_fixtrada.construtores.Cliente;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class TelaInicialActivity extends AppCompatActivity {
