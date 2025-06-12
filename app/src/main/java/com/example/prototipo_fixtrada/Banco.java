@@ -132,6 +132,7 @@ public class Banco extends SQLiteOpenHelper {
         db.close();
         return count > 0;
     }
+
     //ÁREA DO CLIENTE
     public long inserirCliente(String nome, String email, String senha, String cpf, String dataNasc) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -187,6 +188,7 @@ public class Banco extends SQLiteOpenHelper {
         db.close();
         return veiculos;
     }
+
     //ÁREA DO PRESTADOR
     public long inserirPrestador(String nome, String email, String senha, String cnpj) {
         SQLiteDatabase db = this.getWritableDatabase();
