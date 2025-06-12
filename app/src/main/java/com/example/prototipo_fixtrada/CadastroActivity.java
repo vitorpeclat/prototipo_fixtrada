@@ -16,7 +16,7 @@ import com.google.android.material.textfield.TextInputLayout;
 public class CadastroActivity extends AppCompatActivity {
 
     private Button btCadCliente, btCadPrestador, btConfirmarCadastro;
-    private TextInputEditText edNome, edEmail, edSenha, edCpf, edCnpj, edEndereco,edDataNasc;
+    private TextInputEditText edNome, edEmail, edSenha, edConfirmarSenha, edCpf, edCnpj, edEndereco,edDataNasc;
     private TextInputEditText edModelo, edMarca, edPlaca, edCor, edAno, edKm;
     private TextInputLayout layoutCpf, layoutCnpj, layoutEndereco, layoutDataNasc, layoutNome;
     private TextInputLayout layoutModelo, layoutMarca, layoutPlaca, layoutCor, layoutAno, layoutKm;
@@ -38,6 +38,7 @@ public class CadastroActivity extends AppCompatActivity {
         edNome = findViewById(R.id.edNome);
         edEmail = findViewById(R.id.edEmail);
         edSenha = findViewById(R.id.edSenha);
+        edConfirmarSenha = findViewById(R.id.edConfirmarSenha);
         edCpf = findViewById(R.id.edCpf);
         edCnpj = findViewById(R.id.edCnpj);
         edEndereco = findViewById(R.id.edEndereco);
@@ -127,6 +128,7 @@ public class CadastroActivity extends AppCompatActivity {
         String nome = edNome.getText().toString().trim();
         String email = edEmail.getText().toString().trim();
         String senha = edSenha.getText().toString().trim();
+        String confirmarSenha = edConfirmarSenha.getText().toString().trim();
         String documento = isPrestador ? edCnpj.getText().toString().trim() : edCpf.getText().toString().trim();
         String endereco = isPrestador ? edEndereco.getText().toString().trim() : "";
         String dataNasc = edDataNasc.getText().toString().trim();
@@ -141,6 +143,10 @@ public class CadastroActivity extends AppCompatActivity {
         }
         if (senha.isEmpty() || senha.length() < 6) {
             edSenha.setError("Senha deve ter ao menos 6 caracteres");
+            valido = false;
+        }
+        if (!senha.equals(confirmarSenha)) {
+            edConfirmarSenha.setError("As senhas não coincidem");
             valido = false;
         }
         if (isPrestador) {
