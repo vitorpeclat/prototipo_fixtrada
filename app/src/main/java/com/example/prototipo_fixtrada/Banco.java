@@ -12,7 +12,6 @@ import java.util.List;
 public class Banco extends SQLiteOpenHelper {
     private static final String BANCO = "fixtrada.db";
     private static final int VERSAO = 1;
-
     //tabela cliente
     public static final String TABELA_CLIENTE = "cliente";
     public static final String COLUNA_CLIID = "cliId";
@@ -21,7 +20,6 @@ public class Banco extends SQLiteOpenHelper {
     public static final String COLUNA_CLISENHA = "cliSenha";
     public static final String COLUNA_CLICPF = "cliCpf";
     public static final String COLUNA_CLIDATANASC = "cliDataNasc";
-
     //tabela prestadorSevico
     public static final String TABELA_PRESTADORSERVICO = "prestadorSevico";
     public static final String COLUNA_PREID = "preId";
@@ -29,7 +27,6 @@ public class Banco extends SQLiteOpenHelper {
     public static final String COLUNA_PREEMAIL = "preEmail";
     public static final String COLUNA_PRESENHA = "preSenha";
     public static final String COLUNA_PRECNPJ = "preCnpj";
-
     //tabela veiculo
     public static final String TABELA_VEICULO = "veiculo";
     public static final String COLUNA_VEIID = "veiId";
@@ -39,8 +36,6 @@ public class Banco extends SQLiteOpenHelper {
     public static final String COLUNA_VEIANO = "veiAno";
     public static final String COLUNA_VEIKM = "veiKm";
     public static final String COLUNA_VEICLIID = "veiClieId";
-
-
     //tabela registro
     public static final String TABELA_REGISTRO = "registro_servico";
     public static final String COLUNA_REGID = "regId";
@@ -48,7 +43,6 @@ public class Banco extends SQLiteOpenHelper {
     public static final String COLUNA_REGDATA = "regData";
     public static final String COLUNA_REGVEIID = "regVeiId";
     public static final String COLUNA_REGPREID = "regPreId";
-
     //tabela mensagem
     public static final String TABELA_MENSAGEM = "mensagem";
     public static final String COLUNA_MENID = "menId";
@@ -56,14 +50,11 @@ public class Banco extends SQLiteOpenHelper {
     public static final String COLUNA_MENREMENTENTE = "menRemetente";
     public static final String COLUNA_MENREGID = "menRegId";
 
-
     public Banco(Context context) {
         super(context, BANCO, null, VERSAO);
     }
-
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-
         // Tabela cliente
         sqLiteDatabase.execSQL("CREATE TABLE " + TABELA_CLIENTE + " ("
                 + COLUNA_CLIID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -73,7 +64,6 @@ public class Banco extends SQLiteOpenHelper {
                 + COLUNA_CLICPF + " TEXT NOT NULL, "
                 + COLUNA_CLIDATANASC + " TEXT NOT NULL);"
         );
-
         // Tabela prestadorSevico
         sqLiteDatabase.execSQL("CREATE TABLE " + TABELA_PRESTADORSERVICO + " ("
                 + COLUNA_PREID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -82,7 +72,6 @@ public class Banco extends SQLiteOpenHelper {
                 + COLUNA_PRESENHA + " TEXT NOT NULL, "
                 + COLUNA_PRECNPJ + " TEXT NOT NULL);"
         );
-
         // Tabela veiculo (relacionada ao cliente)
         sqLiteDatabase.execSQL("CREATE TABLE " + TABELA_VEICULO + " ("
                 + COLUNA_VEIID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -94,7 +83,6 @@ public class Banco extends SQLiteOpenHelper {
                 + COLUNA_VEICLIID + " INTEGER NOT NULL, "
                 + "FOREIGN KEY(" + COLUNA_VEICLIID + ") REFERENCES " + TABELA_CLIENTE + "(" + COLUNA_CLIID + "));"
         );
-
         // Tabela registro (relacionada ao veículo e ao prestador)
         sqLiteDatabase.execSQL("CREATE TABLE " + TABELA_REGISTRO + " ("
                 + COLUNA_REGID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -105,7 +93,6 @@ public class Banco extends SQLiteOpenHelper {
                 + "FOREIGN KEY(" + COLUNA_REGVEIID + ") REFERENCES " + TABELA_VEICULO + "(" + COLUNA_VEIID + "), "
                 + "FOREIGN KEY(" + COLUNA_REGPREID + ") REFERENCES " + TABELA_PRESTADORSERVICO + "(" + COLUNA_PREID + "));"
         );
-
         // Tabela mensagem (relacionada ao registro)
         sqLiteDatabase.execSQL("CREATE TABLE " + TABELA_MENSAGEM + " ("
                 + COLUNA_MENID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -115,8 +102,6 @@ public class Banco extends SQLiteOpenHelper {
                 + "FOREIGN KEY(" + COLUNA_MENREGID + ") REFERENCES " + TABELA_REGISTRO + "(" + COLUNA_REGID + "));"
         );
     }
-
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
@@ -142,6 +127,7 @@ public class Banco extends SQLiteOpenHelper {
         db.close();
         return count > 0;
     }
+
     public long inserirCliente(String nome, String email, String senha, String cpf, String dataNasc) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
