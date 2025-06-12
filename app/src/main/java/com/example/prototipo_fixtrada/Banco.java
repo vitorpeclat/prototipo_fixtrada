@@ -25,6 +25,7 @@ public class Banco extends SQLiteOpenHelper {
     public static final String COLUNA_PREID = "preId";
     public static final String COLUNA_PRENOME = "preNome";
     public static final String COLUNA_PREEMAIL = "preEmail";
+    public static final String COLUNA_PREENDERECO = "preEndereco";
     public static final String COLUNA_PRENOTA = "preNota";
     public static final String COLUNA_PRESENHA = "preSenha";
     public static final String COLUNA_PRECNPJ = "preCnpj";
@@ -72,7 +73,8 @@ public class Banco extends SQLiteOpenHelper {
                 + COLUNA_PREID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COLUNA_PRENOME + " TEXT NOT NULL, "
                 + COLUNA_PREEMAIL + " TEXT NOT NULL, "
-                + COLUNA_PRENOTA + " REAL NOT NULL, "
+                + COLUNA_PREENDERECO + " TEXT NOT NULL, "
+                + COLUNA_PRENOTA + " REAL, "
                 + COLUNA_PRESENHA + " TEXT NOT NULL, "
                 + COLUNA_PRECNPJ + " TEXT NOT NULL);"
         );
@@ -213,13 +215,14 @@ public class Banco extends SQLiteOpenHelper {
     }
 
     //ÁREA DO PRESTADOR
-    public long inserirPrestador(String nome, String email, String senha, String cnpj) {
+    public long inserirPrestador(String nome, String email, String senha, String cnpj, String endereco) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUNA_PRENOME, nome);
         values.put(COLUNA_PREEMAIL, email);
         values.put(COLUNA_PRESENHA, senha);
         values.put(COLUNA_PRECNPJ, cnpj);
+        values.put(COLUNA_PREENDERECO, endereco);
         long id = db.insert(TABELA_PRESTADORSERVICO, null, values);
         db.close();
         return id;
