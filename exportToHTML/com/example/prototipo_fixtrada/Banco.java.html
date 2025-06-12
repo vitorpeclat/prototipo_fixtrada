@@ -1,0 +1,288 @@
+<html>
+<head>
+<title>Banco.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+.s4 { color: #2aacb8;}
+.s5 { color: #7a7e85;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Banco.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">prototipo_fixtrada</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">content</span><span class="s2">.</span><span class="s1">ContentValues</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">content</span><span class="s2">.</span><span class="s1">Context</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">database</span><span class="s2">.</span><span class="s1">Cursor</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">database</span><span class="s2">.</span><span class="s1">sqlite</span><span class="s2">.</span><span class="s1">SQLiteDatabase</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">database</span><span class="s2">.</span><span class="s1">sqlite</span><span class="s2">.</span><span class="s1">SQLiteOpenHelper</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">ArrayList</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">List</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">Banco </span><span class="s0">extends </span><span class="s1">SQLiteOpenHelper </span><span class="s2">{</span>
+    <span class="s0">private static final </span><span class="s1">String BANCO </span><span class="s2">= </span><span class="s3">&quot;fixtrada.db&quot;</span><span class="s2">;</span>
+    <span class="s0">private static final int </span><span class="s1">VERSAO </span><span class="s2">= </span><span class="s4">1</span><span class="s2">;</span>
+    <span class="s5">//tabela cliente</span>
+    <span class="s0">public static final </span><span class="s1">String TABELA_CLIENTE </span><span class="s2">= </span><span class="s3">&quot;cliente&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_CLIID </span><span class="s2">= </span><span class="s3">&quot;cliId&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_CLINOME </span><span class="s2">= </span><span class="s3">&quot;cliNome&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_CLIEMAIL </span><span class="s2">= </span><span class="s3">&quot;cliEmail&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_CLISENHA </span><span class="s2">= </span><span class="s3">&quot;cliSenha&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_CLICPF </span><span class="s2">= </span><span class="s3">&quot;cliCpf&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_CLIDATANASC </span><span class="s2">= </span><span class="s3">&quot;cliDataNasc&quot;</span><span class="s2">;</span>
+    <span class="s5">//tabela prestadorSevico</span>
+    <span class="s0">public static final </span><span class="s1">String TABELA_PRESTADORSERVICO </span><span class="s2">= </span><span class="s3">&quot;prestadorSevico&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_PREID </span><span class="s2">= </span><span class="s3">&quot;preId&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_PRENOME </span><span class="s2">= </span><span class="s3">&quot;preNome&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_PREEMAIL </span><span class="s2">= </span><span class="s3">&quot;preEmail&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_PRESENHA </span><span class="s2">= </span><span class="s3">&quot;preSenha&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_PRECNPJ </span><span class="s2">= </span><span class="s3">&quot;preCnpj&quot;</span><span class="s2">;</span>
+    <span class="s5">//tabela veiculo</span>
+    <span class="s0">public static final </span><span class="s1">String TABELA_VEICULO </span><span class="s2">= </span><span class="s3">&quot;veiculo&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_VEIID </span><span class="s2">= </span><span class="s3">&quot;veiId&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_VEIMODELO </span><span class="s2">= </span><span class="s3">&quot;veiModelo&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_VEIPLACA </span><span class="s2">= </span><span class="s3">&quot;veiPlaca&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_VEICOR </span><span class="s2">= </span><span class="s3">&quot;veiCor&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_VEIANO </span><span class="s2">= </span><span class="s3">&quot;veiAno&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_VEIKM </span><span class="s2">= </span><span class="s3">&quot;veiKm&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_VEICLIID </span><span class="s2">= </span><span class="s3">&quot;veiClieId&quot;</span><span class="s2">;</span>
+    <span class="s5">//tabela registro</span>
+    <span class="s0">public static final </span><span class="s1">String TABELA_REGISTRO </span><span class="s2">= </span><span class="s3">&quot;registro_servico&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_REGID </span><span class="s2">= </span><span class="s3">&quot;regId&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_REGDESC </span><span class="s2">= </span><span class="s3">&quot;regDesc&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_REGDATA </span><span class="s2">= </span><span class="s3">&quot;regData&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_REGVEIID </span><span class="s2">= </span><span class="s3">&quot;regVeiId&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_REGPREID </span><span class="s2">= </span><span class="s3">&quot;regPreId&quot;</span><span class="s2">;</span>
+    <span class="s5">//tabela mensagem</span>
+    <span class="s0">public static final </span><span class="s1">String TABELA_MENSAGEM </span><span class="s2">= </span><span class="s3">&quot;mensagem&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_MENID </span><span class="s2">= </span><span class="s3">&quot;menId&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_MENCONTEUDO </span><span class="s2">= </span><span class="s3">&quot;menConteudo&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_MENREMENTENTE </span><span class="s2">= </span><span class="s3">&quot;menRemetente&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_MENREGID </span><span class="s2">= </span><span class="s3">&quot;menRegId&quot;</span><span class="s2">;</span>
+
+    <span class="s0">public </span><span class="s1">Banco</span><span class="s2">(</span><span class="s1">Context context</span><span class="s2">) {</span>
+        <span class="s0">super</span><span class="s2">(</span><span class="s1">context</span><span class="s2">, </span><span class="s1">BANCO</span><span class="s2">, </span><span class="s0">null</span><span class="s2">, </span><span class="s1">VERSAO</span><span class="s2">);</span>
+    <span class="s2">}</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onCreate</span><span class="s2">(</span><span class="s1">SQLiteDatabase sqLiteDatabase</span><span class="s2">) {</span>
+        <span class="s5">// Tabela cliente</span>
+        <span class="s1">sqLiteDatabase</span><span class="s2">.</span><span class="s1">execSQL</span><span class="s2">(</span><span class="s3">&quot;CREATE TABLE &quot; </span><span class="s2">+ </span><span class="s1">TABELA_CLIENTE </span><span class="s2">+ </span><span class="s3">&quot; (&quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_CLIID </span><span class="s2">+ </span><span class="s3">&quot; INTEGER PRIMARY KEY AUTOINCREMENT, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_CLINOME </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_CLIEMAIL </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_CLISENHA </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_CLICPF </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_CLIDATANASC </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL);&quot;</span>
+        <span class="s2">);</span>
+        <span class="s5">// Tabela prestadorSevico</span>
+        <span class="s1">sqLiteDatabase</span><span class="s2">.</span><span class="s1">execSQL</span><span class="s2">(</span><span class="s3">&quot;CREATE TABLE &quot; </span><span class="s2">+ </span><span class="s1">TABELA_PRESTADORSERVICO </span><span class="s2">+ </span><span class="s3">&quot; (&quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_PREID </span><span class="s2">+ </span><span class="s3">&quot; INTEGER PRIMARY KEY AUTOINCREMENT, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_PRENOME </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_PREEMAIL </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_PRESENHA </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_PRECNPJ </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL);&quot;</span>
+        <span class="s2">);</span>
+        <span class="s5">// Tabela veiculo (relacionada ao cliente)</span>
+        <span class="s1">sqLiteDatabase</span><span class="s2">.</span><span class="s1">execSQL</span><span class="s2">(</span><span class="s3">&quot;CREATE TABLE &quot; </span><span class="s2">+ </span><span class="s1">TABELA_VEICULO </span><span class="s2">+ </span><span class="s3">&quot; (&quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_VEIID </span><span class="s2">+ </span><span class="s3">&quot; INTEGER PRIMARY KEY AUTOINCREMENT, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_VEIMODELO </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_VEIPLACA </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_VEICOR </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_VEIANO </span><span class="s2">+ </span><span class="s3">&quot; INTEGER NOT NULL, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_VEIKM </span><span class="s2">+ </span><span class="s3">&quot; INTEGER NOT NULL, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_VEICLIID </span><span class="s2">+ </span><span class="s3">&quot; INTEGER NOT NULL, &quot;</span>
+                <span class="s2">+ </span><span class="s3">&quot;FOREIGN KEY(&quot; </span><span class="s2">+ </span><span class="s1">COLUNA_VEICLIID </span><span class="s2">+ </span><span class="s3">&quot;) REFERENCES &quot; </span><span class="s2">+ </span><span class="s1">TABELA_CLIENTE </span><span class="s2">+ </span><span class="s3">&quot;(&quot; </span><span class="s2">+ </span><span class="s1">COLUNA_CLIID </span><span class="s2">+ </span><span class="s3">&quot;));&quot;</span>
+        <span class="s2">);</span>
+        <span class="s5">// Tabela registro (relacionada ao veículo e ao prestador)</span>
+        <span class="s1">sqLiteDatabase</span><span class="s2">.</span><span class="s1">execSQL</span><span class="s2">(</span><span class="s3">&quot;CREATE TABLE &quot; </span><span class="s2">+ </span><span class="s1">TABELA_REGISTRO </span><span class="s2">+ </span><span class="s3">&quot; (&quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_REGID </span><span class="s2">+ </span><span class="s3">&quot; INTEGER PRIMARY KEY AUTOINCREMENT, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_REGDESC </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_REGDATA </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_REGVEIID </span><span class="s2">+ </span><span class="s3">&quot; INTEGER NOT NULL, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_REGPREID </span><span class="s2">+ </span><span class="s3">&quot; INTEGER NOT NULL, &quot;</span>
+                <span class="s2">+ </span><span class="s3">&quot;FOREIGN KEY(&quot; </span><span class="s2">+ </span><span class="s1">COLUNA_REGVEIID </span><span class="s2">+ </span><span class="s3">&quot;) REFERENCES &quot; </span><span class="s2">+ </span><span class="s1">TABELA_VEICULO </span><span class="s2">+ </span><span class="s3">&quot;(&quot; </span><span class="s2">+ </span><span class="s1">COLUNA_VEIID </span><span class="s2">+ </span><span class="s3">&quot;), &quot;</span>
+                <span class="s2">+ </span><span class="s3">&quot;FOREIGN KEY(&quot; </span><span class="s2">+ </span><span class="s1">COLUNA_REGPREID </span><span class="s2">+ </span><span class="s3">&quot;) REFERENCES &quot; </span><span class="s2">+ </span><span class="s1">TABELA_PRESTADORSERVICO </span><span class="s2">+ </span><span class="s3">&quot;(&quot; </span><span class="s2">+ </span><span class="s1">COLUNA_PREID </span><span class="s2">+ </span><span class="s3">&quot;));&quot;</span>
+        <span class="s2">);</span>
+        <span class="s5">// Tabela mensagem (relacionada ao registro)</span>
+        <span class="s1">sqLiteDatabase</span><span class="s2">.</span><span class="s1">execSQL</span><span class="s2">(</span><span class="s3">&quot;CREATE TABLE &quot; </span><span class="s2">+ </span><span class="s1">TABELA_MENSAGEM </span><span class="s2">+ </span><span class="s3">&quot; (&quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_MENID </span><span class="s2">+ </span><span class="s3">&quot; INTEGER PRIMARY KEY AUTOINCREMENT, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_MENCONTEUDO </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_MENREMENTENTE </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_MENREGID </span><span class="s2">+ </span><span class="s3">&quot; INTEGER NOT NULL, &quot;</span>
+                <span class="s2">+ </span><span class="s3">&quot;FOREIGN KEY(&quot; </span><span class="s2">+ </span><span class="s1">COLUNA_MENREGID </span><span class="s2">+ </span><span class="s3">&quot;) REFERENCES &quot; </span><span class="s2">+ </span><span class="s1">TABELA_REGISTRO </span><span class="s2">+ </span><span class="s3">&quot;(&quot; </span><span class="s2">+ </span><span class="s1">COLUNA_REGID </span><span class="s2">+ </span><span class="s3">&quot;));&quot;</span>
+        <span class="s2">);</span>
+    <span class="s2">}</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onUpgrade</span><span class="s2">(</span><span class="s1">SQLiteDatabase db</span><span class="s2">, </span><span class="s0">int </span><span class="s1">oldVersion</span><span class="s2">, </span><span class="s0">int </span><span class="s1">newVersion</span><span class="s2">) {</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">checkUserCliente</span><span class="s2">(</span><span class="s1">String email</span><span class="s2">, </span><span class="s1">String senha</span><span class="s2">){</span>
+        <span class="s1">SQLiteDatabase db </span><span class="s2">= </span><span class="s0">this</span><span class="s2">.</span><span class="s1">getReadableDatabase</span><span class="s2">();</span>
+        <span class="s1">String selection </span><span class="s2">= </span><span class="s1">COLUNA_CLIEMAIL </span><span class="s2">+ </span><span class="s3">&quot; = ? AND &quot; </span><span class="s2">+ </span><span class="s1">COLUNA_CLISENHA </span><span class="s2">+ </span><span class="s3">&quot; = ?&quot;</span><span class="s2">;</span>
+        <span class="s1">String</span><span class="s2">[] </span><span class="s1">selectionArgs </span><span class="s2">= {</span><span class="s1">email</span><span class="s2">, </span><span class="s1">senha</span><span class="s2">};</span>
+        <span class="s1">Cursor cursor </span><span class="s2">= </span><span class="s1">db</span><span class="s2">.</span><span class="s1">query</span><span class="s2">(</span><span class="s1">TABELA_CLIENTE</span><span class="s2">, </span><span class="s0">new </span><span class="s1">String</span><span class="s2">[]{</span><span class="s1">COLUNA_CLIID</span><span class="s2">}, </span><span class="s1">selection</span><span class="s2">, </span><span class="s1">selectionArgs</span><span class="s2">, </span><span class="s0">null</span><span class="s2">, </span><span class="s0">null</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s0">int </span><span class="s1">count </span><span class="s2">= </span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">getCount</span><span class="s2">();</span>
+        <span class="s1">cursor</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+        <span class="s1">db</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+        <span class="s0">return </span><span class="s1">count </span><span class="s2">&gt; </span><span class="s4">0</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public boolean </span><span class="s1">checkUserPrestador</span><span class="s2">(</span><span class="s1">String email</span><span class="s2">, </span><span class="s1">String senha</span><span class="s2">){</span>
+        <span class="s1">SQLiteDatabase db </span><span class="s2">= </span><span class="s0">this</span><span class="s2">.</span><span class="s1">getReadableDatabase</span><span class="s2">();</span>
+        <span class="s1">String selection </span><span class="s2">= </span><span class="s1">COLUNA_PREEMAIL </span><span class="s2">+ </span><span class="s3">&quot; = ? AND &quot; </span><span class="s2">+ </span><span class="s1">COLUNA_PRESENHA </span><span class="s2">+ </span><span class="s3">&quot; = ?&quot;</span><span class="s2">;</span>
+        <span class="s1">String</span><span class="s2">[] </span><span class="s1">selectionArgs </span><span class="s2">= {</span><span class="s1">email</span><span class="s2">, </span><span class="s1">senha</span><span class="s2">};</span>
+        <span class="s1">Cursor cursor </span><span class="s2">= </span><span class="s1">db</span><span class="s2">.</span><span class="s1">query</span><span class="s2">(</span><span class="s1">TABELA_PRESTADORSERVICO</span><span class="s2">, </span><span class="s0">new </span><span class="s1">String</span><span class="s2">[]{</span><span class="s1">COLUNA_PREID</span><span class="s2">}, </span><span class="s1">selection</span><span class="s2">, </span><span class="s1">selectionArgs</span><span class="s2">, </span><span class="s0">null</span><span class="s2">, </span><span class="s0">null</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s0">int </span><span class="s1">count </span><span class="s2">= </span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">getCount</span><span class="s2">();</span>
+        <span class="s1">cursor</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+        <span class="s1">db</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+        <span class="s0">return </span><span class="s1">count </span><span class="s2">&gt; </span><span class="s4">0</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public long </span><span class="s1">inserirCliente</span><span class="s2">(</span><span class="s1">String nome</span><span class="s2">, </span><span class="s1">String email</span><span class="s2">, </span><span class="s1">String senha</span><span class="s2">, </span><span class="s1">String cpf</span><span class="s2">, </span><span class="s1">String dataNasc</span><span class="s2">) {</span>
+        <span class="s1">SQLiteDatabase db </span><span class="s2">= </span><span class="s0">this</span><span class="s2">.</span><span class="s1">getWritableDatabase</span><span class="s2">();</span>
+        <span class="s1">ContentValues values </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ContentValues</span><span class="s2">();</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_CLINOME</span><span class="s2">, </span><span class="s1">nome</span><span class="s2">);</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_CLIEMAIL</span><span class="s2">, </span><span class="s1">email</span><span class="s2">);</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_CLISENHA</span><span class="s2">, </span><span class="s1">senha</span><span class="s2">);</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_CLICPF</span><span class="s2">, </span><span class="s1">cpf</span><span class="s2">);</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_CLIDATANASC</span><span class="s2">, </span><span class="s1">dataNasc</span><span class="s2">);</span>
+        <span class="s0">long </span><span class="s1">id </span><span class="s2">= </span><span class="s1">db</span><span class="s2">.</span><span class="s1">insert</span><span class="s2">(</span><span class="s1">TABELA_CLIENTE</span><span class="s2">, </span><span class="s0">null</span><span class="s2">, </span><span class="s1">values</span><span class="s2">);</span>
+        <span class="s1">db</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+        <span class="s0">return </span><span class="s1">id</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">List</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">&gt; </span><span class="s1">listarClientes</span><span class="s2">() {</span>
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">&gt; </span><span class="s1">clientes </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ArrayList</span><span class="s2">&lt;&gt;();</span>
+        <span class="s1">SQLiteDatabase db </span><span class="s2">= </span><span class="s0">this</span><span class="s2">.</span><span class="s1">getReadableDatabase</span><span class="s2">();</span>
+        <span class="s1">Cursor cursor </span><span class="s2">= </span><span class="s1">db</span><span class="s2">.</span><span class="s1">rawQuery</span><span class="s2">(</span><span class="s3">&quot;SELECT * FROM &quot; </span><span class="s2">+ </span><span class="s1">TABELA_CLIENTE</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s0">while </span><span class="s2">(</span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">moveToNext</span><span class="s2">()) {</span>
+            <span class="s1">String nome </span><span class="s2">= </span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">getString</span><span class="s2">(</span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">getColumnIndex</span><span class="s2">(</span><span class="s1">COLUNA_CLINOME</span><span class="s2">));</span>
+            <span class="s1">clientes</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">nome</span><span class="s2">);</span>
+        <span class="s2">}</span>
+        <span class="s1">cursor</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+        <span class="s1">db</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+        <span class="s0">return </span><span class="s1">clientes</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public long </span><span class="s1">inserirPrestador</span><span class="s2">(</span><span class="s1">String nome</span><span class="s2">, </span><span class="s1">String email</span><span class="s2">, </span><span class="s1">String senha</span><span class="s2">, </span><span class="s1">String cnpj</span><span class="s2">) {</span>
+        <span class="s1">SQLiteDatabase db </span><span class="s2">= </span><span class="s0">this</span><span class="s2">.</span><span class="s1">getWritableDatabase</span><span class="s2">();</span>
+        <span class="s1">ContentValues values </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ContentValues</span><span class="s2">();</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_PRENOME</span><span class="s2">, </span><span class="s1">nome</span><span class="s2">);</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_PREEMAIL</span><span class="s2">, </span><span class="s1">email</span><span class="s2">);</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_PRESENHA</span><span class="s2">, </span><span class="s1">senha</span><span class="s2">);</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_PRECNPJ</span><span class="s2">, </span><span class="s1">cnpj</span><span class="s2">);</span>
+        <span class="s0">long </span><span class="s1">id </span><span class="s2">= </span><span class="s1">db</span><span class="s2">.</span><span class="s1">insert</span><span class="s2">(</span><span class="s1">TABELA_PRESTADORSERVICO</span><span class="s2">, </span><span class="s0">null</span><span class="s2">, </span><span class="s1">values</span><span class="s2">);</span>
+        <span class="s1">db</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+        <span class="s0">return </span><span class="s1">id</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">List</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">&gt; </span><span class="s1">listarPrestadores</span><span class="s2">() {</span>
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">&gt; </span><span class="s1">prestadores </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ArrayList</span><span class="s2">&lt;&gt;();</span>
+        <span class="s1">SQLiteDatabase db </span><span class="s2">= </span><span class="s0">this</span><span class="s2">.</span><span class="s1">getReadableDatabase</span><span class="s2">();</span>
+        <span class="s1">Cursor cursor </span><span class="s2">= </span><span class="s1">db</span><span class="s2">.</span><span class="s1">rawQuery</span><span class="s2">(</span><span class="s3">&quot;SELECT * FROM &quot; </span><span class="s2">+ </span><span class="s1">TABELA_PRESTADORSERVICO</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s0">while </span><span class="s2">(</span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">moveToNext</span><span class="s2">()) {</span>
+            <span class="s1">String nome </span><span class="s2">= </span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">getString</span><span class="s2">(</span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">getColumnIndex</span><span class="s2">(</span><span class="s1">COLUNA_PRENOME</span><span class="s2">));</span>
+            <span class="s1">prestadores</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">nome</span><span class="s2">);</span>
+        <span class="s2">}</span>
+        <span class="s1">cursor</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+        <span class="s1">db</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+        <span class="s0">return </span><span class="s1">prestadores</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public long </span><span class="s1">inserirVeiculo</span><span class="s2">(</span><span class="s1">String modelo</span><span class="s2">, </span><span class="s1">String placa</span><span class="s2">, </span><span class="s1">String cor</span><span class="s2">, </span><span class="s0">int </span><span class="s1">ano</span><span class="s2">, </span><span class="s0">int </span><span class="s1">km</span><span class="s2">, </span><span class="s0">int </span><span class="s1">clienteId</span><span class="s2">) {</span>
+        <span class="s1">SQLiteDatabase db </span><span class="s2">= </span><span class="s0">this</span><span class="s2">.</span><span class="s1">getWritableDatabase</span><span class="s2">();</span>
+        <span class="s1">ContentValues values </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ContentValues</span><span class="s2">();</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_VEIMODELO</span><span class="s2">, </span><span class="s1">modelo</span><span class="s2">);</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_VEIPLACA</span><span class="s2">, </span><span class="s1">placa</span><span class="s2">);</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_VEICOR</span><span class="s2">, </span><span class="s1">cor</span><span class="s2">);</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_VEIANO</span><span class="s2">, </span><span class="s1">ano</span><span class="s2">);</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_VEIKM</span><span class="s2">, </span><span class="s1">km</span><span class="s2">);</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_VEICLIID</span><span class="s2">, </span><span class="s1">clienteId</span><span class="s2">);</span>
+        <span class="s0">long </span><span class="s1">id </span><span class="s2">= </span><span class="s1">db</span><span class="s2">.</span><span class="s1">insert</span><span class="s2">(</span><span class="s1">TABELA_VEICULO</span><span class="s2">, </span><span class="s0">null</span><span class="s2">, </span><span class="s1">values</span><span class="s2">);</span>
+        <span class="s1">db</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+        <span class="s0">return </span><span class="s1">id</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">List</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">&gt; </span><span class="s1">listarVeiculos</span><span class="s2">() {</span>
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">&gt; </span><span class="s1">veiculos </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ArrayList</span><span class="s2">&lt;&gt;();</span>
+        <span class="s1">SQLiteDatabase db </span><span class="s2">= </span><span class="s0">this</span><span class="s2">.</span><span class="s1">getReadableDatabase</span><span class="s2">();</span>
+        <span class="s1">Cursor cursor </span><span class="s2">= </span><span class="s1">db</span><span class="s2">.</span><span class="s1">rawQuery</span><span class="s2">(</span><span class="s3">&quot;SELECT * FROM &quot; </span><span class="s2">+ </span><span class="s1">TABELA_VEICULO</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s0">while </span><span class="s2">(</span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">moveToNext</span><span class="s2">()) {</span>
+            <span class="s1">String modelo </span><span class="s2">= </span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">getString</span><span class="s2">(</span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">getColumnIndex</span><span class="s2">(</span><span class="s1">COLUNA_VEIMODELO</span><span class="s2">));</span>
+            <span class="s1">String placa </span><span class="s2">= </span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">getString</span><span class="s2">(</span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">getColumnIndex</span><span class="s2">(</span><span class="s1">COLUNA_VEIPLACA</span><span class="s2">));</span>
+            <span class="s1">veiculos</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">modelo </span><span class="s2">+ </span><span class="s3">&quot; - &quot; </span><span class="s2">+ </span><span class="s1">placa</span><span class="s2">);</span>
+        <span class="s2">}</span>
+        <span class="s1">cursor</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+        <span class="s1">db</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+        <span class="s0">return </span><span class="s1">veiculos</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public long </span><span class="s1">inserirRegistro</span><span class="s2">(</span><span class="s1">String descricao</span><span class="s2">, </span><span class="s1">String data</span><span class="s2">, </span><span class="s0">int </span><span class="s1">veiId</span><span class="s2">, </span><span class="s0">int </span><span class="s1">preId</span><span class="s2">) {</span>
+        <span class="s1">SQLiteDatabase db </span><span class="s2">= </span><span class="s0">this</span><span class="s2">.</span><span class="s1">getWritableDatabase</span><span class="s2">();</span>
+        <span class="s1">ContentValues values </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ContentValues</span><span class="s2">();</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_REGDESC</span><span class="s2">, </span><span class="s1">descricao</span><span class="s2">);</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_REGDATA</span><span class="s2">, </span><span class="s1">data</span><span class="s2">);</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_REGVEIID</span><span class="s2">, </span><span class="s1">veiId</span><span class="s2">);</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_REGPREID</span><span class="s2">, </span><span class="s1">preId</span><span class="s2">);</span>
+        <span class="s0">long </span><span class="s1">id </span><span class="s2">= </span><span class="s1">db</span><span class="s2">.</span><span class="s1">insert</span><span class="s2">(</span><span class="s1">TABELA_REGISTRO</span><span class="s2">, </span><span class="s0">null</span><span class="s2">, </span><span class="s1">values</span><span class="s2">);</span>
+        <span class="s1">db</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+        <span class="s0">return </span><span class="s1">id</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">List</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">&gt; </span><span class="s1">listarRegistros</span><span class="s2">() {</span>
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">&gt; </span><span class="s1">registros </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ArrayList</span><span class="s2">&lt;&gt;();</span>
+        <span class="s1">SQLiteDatabase db </span><span class="s2">= </span><span class="s0">this</span><span class="s2">.</span><span class="s1">getReadableDatabase</span><span class="s2">();</span>
+        <span class="s1">Cursor cursor </span><span class="s2">= </span><span class="s1">db</span><span class="s2">.</span><span class="s1">rawQuery</span><span class="s2">(</span><span class="s3">&quot;SELECT * FROM &quot; </span><span class="s2">+ </span><span class="s1">TABELA_REGISTRO</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s0">while </span><span class="s2">(</span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">moveToNext</span><span class="s2">()) {</span>
+            <span class="s1">String desc </span><span class="s2">= </span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">getString</span><span class="s2">(</span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">getColumnIndex</span><span class="s2">(</span><span class="s1">COLUNA_REGDESC</span><span class="s2">));</span>
+            <span class="s1">String data </span><span class="s2">= </span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">getString</span><span class="s2">(</span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">getColumnIndex</span><span class="s2">(</span><span class="s1">COLUNA_REGDATA</span><span class="s2">));</span>
+            <span class="s1">registros</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">data </span><span class="s2">+ </span><span class="s3">&quot;: &quot; </span><span class="s2">+ </span><span class="s1">desc</span><span class="s2">);</span>
+        <span class="s2">}</span>
+        <span class="s1">cursor</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+        <span class="s1">db</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+        <span class="s0">return </span><span class="s1">registros</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public long </span><span class="s1">inserirMensagem</span><span class="s2">(</span><span class="s1">String conteudo</span><span class="s2">, </span><span class="s1">String remetente</span><span class="s2">, </span><span class="s0">int </span><span class="s1">regId</span><span class="s2">) {</span>
+        <span class="s1">SQLiteDatabase db </span><span class="s2">= </span><span class="s0">this</span><span class="s2">.</span><span class="s1">getWritableDatabase</span><span class="s2">();</span>
+        <span class="s1">ContentValues values </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ContentValues</span><span class="s2">();</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_MENCONTEUDO</span><span class="s2">, </span><span class="s1">conteudo</span><span class="s2">);</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_MENREMENTENTE</span><span class="s2">, </span><span class="s1">remetente</span><span class="s2">);</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_MENREGID</span><span class="s2">, </span><span class="s1">regId</span><span class="s2">);</span>
+        <span class="s0">long </span><span class="s1">id </span><span class="s2">= </span><span class="s1">db</span><span class="s2">.</span><span class="s1">insert</span><span class="s2">(</span><span class="s1">TABELA_MENSAGEM</span><span class="s2">, </span><span class="s0">null</span><span class="s2">, </span><span class="s1">values</span><span class="s2">);</span>
+        <span class="s1">db</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+        <span class="s0">return </span><span class="s1">id</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">List</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">&gt; </span><span class="s1">listarMensagensPorRegistro</span><span class="s2">(</span><span class="s0">int </span><span class="s1">regId</span><span class="s2">) {</span>
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">&gt; </span><span class="s1">mensagens </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ArrayList</span><span class="s2">&lt;&gt;();</span>
+        <span class="s1">SQLiteDatabase db </span><span class="s2">= </span><span class="s0">this</span><span class="s2">.</span><span class="s1">getReadableDatabase</span><span class="s2">();</span>
+        <span class="s1">Cursor cursor </span><span class="s2">= </span><span class="s1">db</span><span class="s2">.</span><span class="s1">query</span><span class="s2">(</span>
+                <span class="s1">TABELA_MENSAGEM</span><span class="s2">,</span>
+                <span class="s0">null</span><span class="s2">,</span>
+                <span class="s1">COLUNA_MENREGID </span><span class="s2">+ </span><span class="s3">&quot;=?&quot;</span><span class="s2">,</span>
+                <span class="s0">new </span><span class="s1">String</span><span class="s2">[]{</span><span class="s1">String</span><span class="s2">.</span><span class="s1">valueOf</span><span class="s2">(</span><span class="s1">regId</span><span class="s2">)},</span>
+                <span class="s0">null</span><span class="s2">, </span><span class="s0">null</span><span class="s2">, </span><span class="s0">null</span>
+        <span class="s2">);</span>
+        <span class="s0">while </span><span class="s2">(</span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">moveToNext</span><span class="s2">()) {</span>
+            <span class="s1">String remetente </span><span class="s2">= </span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">getString</span><span class="s2">(</span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">getColumnIndex</span><span class="s2">(</span><span class="s1">COLUNA_MENREMENTENTE</span><span class="s2">));</span>
+            <span class="s1">String conteudo </span><span class="s2">= </span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">getString</span><span class="s2">(</span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">getColumnIndex</span><span class="s2">(</span><span class="s1">COLUNA_MENCONTEUDO</span><span class="s2">));</span>
+            <span class="s1">mensagens</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">remetente </span><span class="s2">+ </span><span class="s3">&quot;: &quot; </span><span class="s2">+ </span><span class="s1">conteudo</span><span class="s2">);</span>
+        <span class="s2">}</span>
+        <span class="s1">cursor</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+        <span class="s1">db</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+        <span class="s0">return </span><span class="s1">mensagens</span><span class="s2">;</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+</pre>
+</body>
+</html>

@@ -34,9 +34,13 @@ public class TelaInicialActivity extends AppCompatActivity {
         btPrestador.setOnClickListener(v -> switchParaPrestador());
 
         btLogin.setOnClickListener(v -> {
-            if(validarCampos()) {
+            /*if(validarCampos()) {
                 fazerLogin();
-            }
+            }*/
+
+            Intent intent = new Intent(TelaInicialActivity.this, ChatActivity.class);
+            startActivity(intent);
+            finish();
         });
 
         btCadastro.setOnClickListener(v -> {
