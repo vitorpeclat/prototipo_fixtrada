@@ -27,7 +27,7 @@ MenuClienteActivity.java</font>
 <span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">core</span><span class="s2">.</span><span class="s1">view</span><span class="s2">.</span><span class="s1">WindowInsetsCompat</span><span class="s2">;</span>
 
 <span class="s0">public class </span><span class="s1">MenuClienteActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity </span><span class="s2">{</span>
-
+    <span class="s1">Button solicitarServico</span><span class="s2">;</span>
     <span class="s1">@Override</span>
     <span class="s0">protected void </span><span class="s1">onCreate</span><span class="s2">(</span><span class="s1">Bundle savedInstanceState</span><span class="s2">) {</span>
         <span class="s0">super</span><span class="s2">.</span><span class="s1">onCreate</span><span class="s2">(</span><span class="s1">savedInstanceState</span><span class="s2">);</span>
@@ -39,7 +39,6 @@ MenuClienteActivity.java</font>
             <span class="s1">Intent intent </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Intent</span><span class="s2">(</span><span class="s1">MenuClienteActivity</span><span class="s2">.</span><span class="s0">this</span><span class="s2">, </span><span class="s1">ChatActivity</span><span class="s2">.</span><span class="s0">class</span><span class="s2">);</span>
             <span class="s1">startActivity</span><span class="s2">(</span><span class="s1">intent</span><span class="s2">);</span>
         <span class="s2">});</span>
-
 
         <span class="s1">ViewCompat</span><span class="s2">.</span><span class="s1">setOnApplyWindowInsetsListener</span><span class="s2">(</span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">main</span><span class="s2">), (</span><span class="s1">v</span><span class="s2">, </span><span class="s1">insets</span><span class="s2">) </span><span class="s1">-&gt; </span><span class="s2">{</span>
             <span class="s1">Insets systemBars </span><span class="s2">= </span><span class="s1">insets</span><span class="s2">.</span><span class="s1">getInsets</span><span class="s2">(</span><span class="s1">WindowInsetsCompat</span><span class="s2">.</span><span class="s1">Type</span><span class="s2">.</span><span class="s1">systemBars</span><span class="s2">());</span>

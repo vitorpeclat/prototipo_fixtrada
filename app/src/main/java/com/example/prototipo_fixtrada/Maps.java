@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.prototipo_fixtrada.construtores.PrestadorServico;
 import com.example.prototipo_fixtrada.databinding.ActivityMapsBinding;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;

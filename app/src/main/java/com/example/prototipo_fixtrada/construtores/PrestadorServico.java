@@ -1,4 +1,4 @@
-package com.example.prototipo_fixtrada;
+package com.example.prototipo_fixtrada.construtores;
 
 public class PrestadorServico {
     private int preId;

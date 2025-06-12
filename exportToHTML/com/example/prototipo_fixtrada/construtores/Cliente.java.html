@@ -1,0 +1,58 @@
+<html>
+<head>
+<title>Cliente.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Cliente.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">prototipo_fixtrada</span><span class="s2">.</span><span class="s1">construtores</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">Cliente </span><span class="s2">{</span>
+    <span class="s0">private int </span><span class="s1">cliId</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">String cliNome</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">String cliEmail</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">String cliSenha</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">String cliCpf</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">String cliDataNasc</span><span class="s2">;</span>
+
+    <span class="s0">public </span><span class="s1">Cliente</span><span class="s2">(</span><span class="s0">int </span><span class="s1">cliId</span><span class="s2">, </span><span class="s1">String cliNome</span><span class="s2">, </span><span class="s1">String cliEmail</span><span class="s2">, </span><span class="s1">String cliSenha</span><span class="s2">, </span><span class="s1">String cliCpf</span><span class="s2">, </span><span class="s1">String cliDataNasc</span><span class="s2">) {</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">cliId </span><span class="s2">= </span><span class="s1">cliId</span><span class="s2">;</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">cliNome </span><span class="s2">= </span><span class="s1">cliNome</span><span class="s2">;</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">cliEmail </span><span class="s2">= </span><span class="s1">cliEmail</span><span class="s2">;</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">cliSenha </span><span class="s2">= </span><span class="s1">cliSenha</span><span class="s2">;</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">cliCpf </span><span class="s2">= </span><span class="s1">cliCpf</span><span class="s2">;</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">cliDataNasc </span><span class="s2">= </span><span class="s1">cliDataNasc</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public </span><span class="s1">Cliente</span><span class="s2">() {}</span>
+
+    <span class="s0">public int </span><span class="s1">getCliId</span><span class="s2">() { </span><span class="s0">return </span><span class="s1">cliId</span><span class="s2">; }</span>
+    <span class="s0">public void </span><span class="s1">setCliId</span><span class="s2">(</span><span class="s0">int </span><span class="s1">cliId</span><span class="s2">) { </span><span class="s0">this</span><span class="s2">.</span><span class="s1">cliId </span><span class="s2">= </span><span class="s1">cliId</span><span class="s2">; }</span>
+
+    <span class="s0">public </span><span class="s1">String getCliNome</span><span class="s2">() { </span><span class="s0">return </span><span class="s1">cliNome</span><span class="s2">; }</span>
+    <span class="s0">public void </span><span class="s1">setCliNome</span><span class="s2">(</span><span class="s1">String cliNome</span><span class="s2">) { </span><span class="s0">this</span><span class="s2">.</span><span class="s1">cliNome </span><span class="s2">= </span><span class="s1">cliNome</span><span class="s2">; }</span>
+
+    <span class="s0">public </span><span class="s1">String getCliEmail</span><span class="s2">() { </span><span class="s0">return </span><span class="s1">cliEmail</span><span class="s2">; }</span>
+    <span class="s0">public void </span><span class="s1">setCliEmail</span><span class="s2">(</span><span class="s1">String cliEmail</span><span class="s2">) { </span><span class="s0">this</span><span class="s2">.</span><span class="s1">cliEmail </span><span class="s2">= </span><span class="s1">cliEmail</span><span class="s2">; }</span>
+
+    <span class="s0">public </span><span class="s1">String getCliSenha</span><span class="s2">() { </span><span class="s0">return </span><span class="s1">cliSenha</span><span class="s2">; }</span>
+    <span class="s0">public void </span><span class="s1">setCliSenha</span><span class="s2">(</span><span class="s1">String cliSenha</span><span class="s2">) { </span><span class="s0">this</span><span class="s2">.</span><span class="s1">cliSenha </span><span class="s2">= </span><span class="s1">cliSenha</span><span class="s2">; }</span>
+
+    <span class="s0">public </span><span class="s1">String getCliCpf</span><span class="s2">() { </span><span class="s0">return </span><span class="s1">cliCpf</span><span class="s2">; }</span>
+    <span class="s0">public void </span><span class="s1">setCliCpf</span><span class="s2">(</span><span class="s1">String cliCpf</span><span class="s2">) { </span><span class="s0">this</span><span class="s2">.</span><span class="s1">cliCpf </span><span class="s2">= </span><span class="s1">cliCpf</span><span class="s2">; }</span>
+
+    <span class="s0">public </span><span class="s1">String getCliDataNasc</span><span class="s2">() { </span><span class="s0">return </span><span class="s1">cliDataNasc</span><span class="s2">; }</span>
+    <span class="s0">public void </span><span class="s1">setCliDataNasc</span><span class="s2">(</span><span class="s1">String cliDataNasc</span><span class="s2">) { </span><span class="s0">this</span><span class="s2">.</span><span class="s1">cliDataNasc </span><span class="s2">= </span><span class="s1">cliDataNasc</span><span class="s2">; }</span>
+<span class="s2">}</span>
+</pre>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/map_container"
@@ -8,22 +8,28 @@
     tools:context=".Maps">
 
     <!-- Mapa ocupando todo o espaço -->
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
     <!-- Botão centralizado para solicitar serviço -->
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="25dp">
     <Button
         android:id="@+id/btnSolicitarServico"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Solicitar Serviço"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="24dp"
         android:backgroundTint="@android:color/holo_blue_dark"
-        android:textColor="@android:color/white"/>
+        android:text="Solicitar Serviço"
+        android:textColor="@android:color/white" />
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="397dp"
+        android:layout_height="483dp" />
 
     <!-- Botão de chat no canto inferior direito -->
     <Button
@@ -35,4 +41,5 @@
         android:layout_margin="24dp"
         android:backgroundTint="@android:color/holo_green_dark"
         android:textColor="@android:color/white"/>
-</FrameLayout>
+</LinearLayout>
+</ScrollView>
