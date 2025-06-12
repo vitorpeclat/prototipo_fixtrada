@@ -1,0 +1,139 @@
+<html>
+<head>
+<title>TelaInicialActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+.s4 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+TelaInicialActivity.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">prototipo_fixtrada</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">content</span><span class="s2">.</span><span class="s1">Intent</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">os</span><span class="s2">.</span><span class="s1">Bundle</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">view</span><span class="s2">.</span><span class="s1">View</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">Button</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">TextView</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">appcompat</span><span class="s2">.</span><span class="s1">app</span><span class="s2">.</span><span class="s1">AppCompatActivity</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">core</span><span class="s2">.</span><span class="s1">content</span><span class="s2">.</span><span class="s1">ContextCompat</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">google</span><span class="s2">.</span><span class="s1">android</span><span class="s2">.</span><span class="s1">material</span><span class="s2">.</span><span class="s1">textfield</span><span class="s2">.</span><span class="s1">TextInputEditText</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">TelaInicialActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity </span><span class="s2">{</span>
+
+    <span class="s0">private </span><span class="s1">Button btLogin</span><span class="s2">, </span><span class="s1">btCadastro</span><span class="s2">, </span><span class="s1">btCliente</span><span class="s2">, </span><span class="s1">btPrestador</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">TextInputEditText edUsuario</span><span class="s2">, </span><span class="s1">edSenha</span><span class="s2">;</span>
+    <span class="s0">private </span><span class="s1">TextView txMensagem</span><span class="s2">;</span>
+    <span class="s0">private boolean </span><span class="s1">isPrestador </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onCreate</span><span class="s2">(</span><span class="s1">Bundle savedInstanceState</span><span class="s2">) {</span>
+        <span class="s0">super</span><span class="s2">.</span><span class="s1">onCreate</span><span class="s2">(</span><span class="s1">savedInstanceState</span><span class="s2">);</span>
+        <span class="s1">setContentView</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">layout</span><span class="s2">.</span><span class="s1">tela_inicial</span><span class="s2">);</span>
+
+        <span class="s1">btLogin </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">btLogin</span><span class="s2">); </span><span class="s1">btLogin</span><span class="s2">.</span><span class="s1">setBackgroundTintList</span><span class="s2">(</span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s1">btCadastro </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">btCadastro</span><span class="s2">); </span><span class="s1">btCadastro</span><span class="s2">.</span><span class="s1">setBackgroundTintList</span><span class="s2">(</span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s1">btCliente </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">btCliente</span><span class="s2">); </span><span class="s1">btCliente</span><span class="s2">.</span><span class="s1">setBackgroundTintList</span><span class="s2">(</span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s1">btPrestador </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">btPrestador</span><span class="s2">); </span><span class="s1">btPrestador</span><span class="s2">.</span><span class="s1">setBackgroundTintList</span><span class="s2">(</span><span class="s0">null</span><span class="s2">);</span>
+        <span class="s1">edUsuario </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">edUsuario</span><span class="s2">);</span>
+        <span class="s1">edSenha </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">edSenha</span><span class="s2">);</span>
+        <span class="s1">txMensagem </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">txMensagem</span><span class="s2">);</span>
+
+        <span class="s1">switchParaCliente</span><span class="s2">();</span>
+
+        <span class="s1">btCliente</span><span class="s2">.</span><span class="s1">setOnClickListener</span><span class="s2">(</span><span class="s1">v -&gt; switchParaCliente</span><span class="s2">());</span>
+        <span class="s1">btPrestador</span><span class="s2">.</span><span class="s1">setOnClickListener</span><span class="s2">(</span><span class="s1">v -&gt; switchParaPrestador</span><span class="s2">());</span>
+
+        <span class="s1">btLogin</span><span class="s2">.</span><span class="s1">setOnClickListener</span><span class="s2">(</span><span class="s1">v -&gt; </span><span class="s2">{</span>
+            <span class="s0">if</span><span class="s2">(</span><span class="s1">validarCampos</span><span class="s2">()) {</span>
+                <span class="s1">fazerLogin</span><span class="s2">();</span>
+            <span class="s2">}</span>
+        <span class="s2">});</span>
+
+        <span class="s1">btCadastro</span><span class="s2">.</span><span class="s1">setOnClickListener</span><span class="s2">(</span><span class="s1">v -&gt; </span><span class="s2">{</span>
+            <span class="s1">Intent intent </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Intent</span><span class="s2">(</span><span class="s1">TelaInicialActivity</span><span class="s2">.</span><span class="s0">this</span><span class="s2">, </span><span class="s1">CadastroActivity</span><span class="s2">.</span><span class="s0">class</span><span class="s2">);</span>
+            <span class="s1">intent</span><span class="s2">.</span><span class="s1">putExtra</span><span class="s2">(</span><span class="s3">&quot;tipoUsuario&quot;</span><span class="s2">, </span><span class="s1">isPrestador </span><span class="s2">? </span><span class="s3">&quot;prestador&quot; </span><span class="s2">: </span><span class="s3">&quot;cliente&quot;</span><span class="s2">);</span>
+            <span class="s1">startActivity</span><span class="s2">(</span><span class="s1">intent</span><span class="s2">);</span>
+        <span class="s2">});</span>
+    <span class="s2">}</span>
+
+    <span class="s0">private void </span><span class="s1">switchParaCliente</span><span class="s2">() {</span>
+        <span class="s1">isPrestador </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+        <span class="s1">btCliente</span><span class="s2">.</span><span class="s1">setBackgroundResource</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">drawable</span><span class="s2">.</span><span class="s1">button_selected</span><span class="s2">);</span>
+        <span class="s1">btPrestador</span><span class="s2">.</span><span class="s1">setBackgroundResource</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">drawable</span><span class="s2">.</span><span class="s1">button_static</span><span class="s2">);</span>
+        <span class="s1">animacaoBotao</span><span class="s2">(</span><span class="s1">btCliente</span><span class="s2">, </span><span class="s1">btPrestador</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">private void </span><span class="s1">switchParaPrestador</span><span class="s2">() {</span>
+        <span class="s1">isPrestador </span><span class="s2">= </span><span class="s0">true</span><span class="s2">;</span>
+        <span class="s1">btPrestador</span><span class="s2">.</span><span class="s1">setBackgroundResource</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">drawable</span><span class="s2">.</span><span class="s1">button_selected</span><span class="s2">);</span>
+        <span class="s1">btCliente</span><span class="s2">.</span><span class="s1">setBackgroundResource</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">drawable</span><span class="s2">.</span><span class="s1">button_static</span><span class="s2">);</span>
+        <span class="s1">animacaoBotao</span><span class="s2">(</span><span class="s1">btPrestador</span><span class="s2">, </span><span class="s1">btCliente</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public static void </span><span class="s1">animacaoBotao</span><span class="s2">(</span><span class="s1">Button selected</span><span class="s2">, </span><span class="s1">Button unselected</span><span class="s2">) {</span>
+        <span class="s1">selected</span><span class="s2">.</span><span class="s1">animate</span><span class="s2">()</span>
+                <span class="s2">.</span><span class="s1">scaleX</span><span class="s2">(</span><span class="s4">1.15f</span><span class="s2">)</span>
+                <span class="s2">.</span><span class="s1">scaleY</span><span class="s2">(</span><span class="s4">1.15f</span><span class="s2">)</span>
+                <span class="s2">.</span><span class="s1">setDuration</span><span class="s2">(</span><span class="s4">200</span><span class="s2">)</span>
+                <span class="s2">.</span><span class="s1">start</span><span class="s2">();</span>
+        <span class="s1">unselected</span><span class="s2">.</span><span class="s1">animate</span><span class="s2">()</span>
+                <span class="s2">.</span><span class="s1">scaleX</span><span class="s2">(</span><span class="s4">1.0f</span><span class="s2">)</span>
+                <span class="s2">.</span><span class="s1">scaleY</span><span class="s2">(</span><span class="s4">1.0f</span><span class="s2">)</span>
+                <span class="s2">.</span><span class="s1">setDuration</span><span class="s2">(</span><span class="s4">200</span><span class="s2">)</span>
+                <span class="s2">.</span><span class="s1">start</span><span class="s2">();</span>
+    <span class="s2">}</span>
+    <span class="s0">private boolean </span><span class="s1">validarCampos</span><span class="s2">() {</span>
+        <span class="s1">String usuario </span><span class="s2">= </span><span class="s1">edUsuario</span><span class="s2">.</span><span class="s1">getText</span><span class="s2">().</span><span class="s1">toString</span><span class="s2">().</span><span class="s1">trim</span><span class="s2">();</span>
+        <span class="s1">String senha </span><span class="s2">= </span><span class="s1">edSenha</span><span class="s2">.</span><span class="s1">getText</span><span class="s2">().</span><span class="s1">toString</span><span class="s2">().</span><span class="s1">trim</span><span class="s2">();</span>
+
+        <span class="s0">if</span><span class="s2">(</span><span class="s1">usuario</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">()) {</span>
+            <span class="s1">edUsuario</span><span class="s2">.</span><span class="s1">setError</span><span class="s2">(</span><span class="s3">&quot;Usuário inválido&quot;</span><span class="s2">);</span>
+            <span class="s0">return false</span><span class="s2">;</span>
+        <span class="s2">}</span>
+
+        <span class="s0">if</span><span class="s2">(</span><span class="s1">senha</span><span class="s2">.</span><span class="s1">isEmpty</span><span class="s2">()) {</span>
+            <span class="s1">edSenha</span><span class="s2">.</span><span class="s1">setError</span><span class="s2">(</span><span class="s3">&quot;Senha inválida&quot;</span><span class="s2">);</span>
+            <span class="s0">return false</span><span class="s2">;</span>
+        <span class="s2">}</span>
+
+        <span class="s0">return true</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">private void </span><span class="s1">fazerLogin</span><span class="s2">() {</span>
+        <span class="s1">String email </span><span class="s2">= </span><span class="s1">edUsuario</span><span class="s2">.</span><span class="s1">getText</span><span class="s2">().</span><span class="s1">toString</span><span class="s2">().</span><span class="s1">trim</span><span class="s2">();</span>
+        <span class="s1">String senha </span><span class="s2">= </span><span class="s1">edSenha</span><span class="s2">.</span><span class="s1">getText</span><span class="s2">().</span><span class="s1">toString</span><span class="s2">().</span><span class="s1">trim</span><span class="s2">();</span>
+
+        <span class="s1">Banco banco </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Banco</span><span class="s2">(</span><span class="s0">this</span><span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">isPrestador</span><span class="s2">) {</span>
+            <span class="s0">boolean </span><span class="s1">valido </span><span class="s2">= </span><span class="s1">banco</span><span class="s2">.</span><span class="s1">checkUserPrestador</span><span class="s2">(</span><span class="s1">email</span><span class="s2">, </span><span class="s1">senha</span><span class="s2">);</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">valido</span><span class="s2">) {</span>
+                <span class="s1">Intent intent </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Intent</span><span class="s2">(</span><span class="s1">TelaInicialActivity</span><span class="s2">.</span><span class="s0">this</span><span class="s2">, </span><span class="s1">MenuPrestadorActivity</span><span class="s2">.</span><span class="s0">class</span><span class="s2">);</span>
+                <span class="s1">startActivity</span><span class="s2">(</span><span class="s1">intent</span><span class="s2">);</span>
+                <span class="s1">finish</span><span class="s2">();</span>
+            <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                <span class="s1">txMensagem</span><span class="s2">.</span><span class="s1">setText</span><span class="s2">(</span><span class="s3">&quot;Credenciais inválidas para Prestador&quot;</span><span class="s2">);</span>
+            <span class="s2">}</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s0">boolean </span><span class="s1">valido </span><span class="s2">= </span><span class="s1">banco</span><span class="s2">.</span><span class="s1">checkUserCliente</span><span class="s2">(</span><span class="s1">email</span><span class="s2">, </span><span class="s1">senha</span><span class="s2">);</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">valido</span><span class="s2">) {</span>
+                <span class="s1">Intent intent </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Intent</span><span class="s2">(</span><span class="s1">TelaInicialActivity</span><span class="s2">.</span><span class="s0">this</span><span class="s2">, </span><span class="s1">MenuClienteActivity</span><span class="s2">.</span><span class="s0">class</span><span class="s2">);</span>
+                <span class="s1">startActivity</span><span class="s2">(</span><span class="s1">intent</span><span class="s2">);</span>
+                <span class="s1">finish</span><span class="s2">();</span>
+            <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+                <span class="s1">txMensagem</span><span class="s2">.</span><span class="s1">setText</span><span class="s2">(</span><span class="s3">&quot;Credenciais inválidas para Cliente&quot;</span><span class="s2">);</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+<span class="s2">}</span></pre>
+</body>
+</html>
