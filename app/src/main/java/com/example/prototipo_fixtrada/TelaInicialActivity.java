@@ -1,12 +1,12 @@
 package com.example.prototipo_fixtrada;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+
 import com.google.android.material.textfield.TextInputEditText;
 
 public class TelaInicialActivity extends AppCompatActivity {
@@ -19,7 +19,7 @@ public class TelaInicialActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tela_inicial);
+        setContentView(R.layout.activity_tela_inicial);
 
         btLogin = findViewById(R.id.btLogin); btLogin.setBackgroundTintList(null);
         btCadastro = findViewById(R.id.btCadastro); btCadastro.setBackgroundTintList(null);
@@ -99,18 +99,36 @@ public class TelaInicialActivity extends AppCompatActivity {
         if (isPrestador) {
             boolean valido = banco.checkUserPrestador(email, senha);
             if (valido) {
-                Intent intent = new Intent(TelaInicialActivity.this, MenuPrestadorActivity.class);
-                startActivity(intent);
-                finish();
+                PrestadorServico prestador = banco.buscarPrestadorPorEmailSenha(email, senha);
+                if (prestador != null) {
+                    SharedPreferences prefs = getSharedPreferences("usuarioPrefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("tipo", "prestador");
+                    editor.putInt("id", prestador.getPreId());
+                    editor.apply();
+
+                    Intent intent = new Intent(TelaInicialActivity.this, MenuClienteActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             } else {
                 txMensagem.setText("Credenciais inválidas para Prestador");
             }
         } else {
             boolean valido = banco.checkUserCliente(email, senha);
             if (valido) {
-                Intent intent = new Intent(TelaInicialActivity.this, MenuClienteActivity.class);
-                startActivity(intent);
-                finish();
+                Cliente cliente = banco.buscarClientePorEmailSenha(email, senha);
+                if (cliente != null) {
+                    SharedPreferences prefs = getSharedPreferences("usuarioPrefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("tipo", "cliente");
+                    editor.putInt("id", cliente.getCliId());
+                    editor.apply();
+
+                    Intent intent = new Intent(TelaInicialActivity.this, MenuClienteActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             } else {
                 txMensagem.setText("Credenciais inválidas para Cliente");
             }

@@ -26,6 +26,12 @@
             android:exported="false"
             android:label="@string/title_activity_maps" />
         <activity
+            android:name=".ChatAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".ChatActivity"
+            android:exported="false" />
+        <activity
             android:name=".MenuAdminActivity"
             android:exported="false" />
         <activity

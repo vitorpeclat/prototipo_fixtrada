@@ -1,0 +1,104 @@
+<html>
+<head>
+<title>ChatAdapter.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+ChatAdapter.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">prototipo_fixtrada</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">view</span><span class="s2">.</span><span class="s1">LayoutInflater</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">view</span><span class="s2">.</span><span class="s1">View</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">view</span><span class="s2">.</span><span class="s1">ViewGroup</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">TextView</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">annotation</span><span class="s2">.</span><span class="s1">NonNull</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">recyclerview</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">RecyclerView</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">List</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">ChatAdapter </span><span class="s0">extends </span><span class="s1">RecyclerView</span><span class="s2">.</span><span class="s1">Adapter</span><span class="s2">&lt;</span><span class="s1">RecyclerView</span><span class="s2">.</span><span class="s1">ViewHolder</span><span class="s2">&gt; {</span>
+
+    <span class="s0">private final </span><span class="s1">List</span><span class="s2">&lt;</span><span class="s1">Mensagem</span><span class="s2">&gt; </span><span class="s1">mensagens</span><span class="s2">;</span>
+    <span class="s0">private final </span><span class="s1">String usuarioAtual</span><span class="s2">;</span>
+
+    <span class="s0">public </span><span class="s1">ChatAdapter</span><span class="s2">(</span><span class="s1">List</span><span class="s2">&lt;</span><span class="s1">Mensagem</span><span class="s2">&gt; </span><span class="s1">mensagens</span><span class="s2">, </span><span class="s1">String usuarioAtual</span><span class="s2">) {</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">mensagens </span><span class="s2">= </span><span class="s1">mensagens</span><span class="s2">;</span>
+        <span class="s0">this</span><span class="s2">.</span><span class="s1">usuarioAtual </span><span class="s2">= </span><span class="s1">usuarioAtual</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public int </span><span class="s1">getItemViewType</span><span class="s2">(</span><span class="s0">int </span><span class="s1">position</span><span class="s2">) {</span>
+        <span class="s1">Mensagem msg </span><span class="s2">= </span><span class="s1">mensagens</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">position</span><span class="s2">);</span>
+        <span class="s0">return </span><span class="s1">msg</span><span class="s2">.</span><span class="s1">getRemetente</span><span class="s2">().</span><span class="s1">equals</span><span class="s2">(</span><span class="s1">usuarioAtual</span><span class="s2">) ? </span><span class="s3">0 </span><span class="s2">: </span><span class="s3">1</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@NonNull</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">RecyclerView</span><span class="s2">.</span><span class="s1">ViewHolder onCreateViewHolder</span><span class="s2">(</span><span class="s1">@NonNull ViewGroup parent</span><span class="s2">, </span><span class="s0">int </span><span class="s1">viewType</span><span class="s2">) {</span>
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">viewType </span><span class="s2">== </span><span class="s3">0</span><span class="s2">) {</span>
+            <span class="s1">View view </span><span class="s2">= </span><span class="s1">LayoutInflater</span><span class="s2">.</span><span class="s1">from</span><span class="s2">(</span><span class="s1">parent</span><span class="s2">.</span><span class="s1">getContext</span><span class="s2">()).</span><span class="s1">inflate</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">layout</span><span class="s2">.</span><span class="s1">item_mensagem_cliente</span><span class="s2">, </span><span class="s1">parent</span><span class="s2">, </span><span class="s0">false</span><span class="s2">);</span>
+            <span class="s0">return new </span><span class="s1">EnviadaViewHolder</span><span class="s2">(</span><span class="s1">view</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s1">View view </span><span class="s2">= </span><span class="s1">LayoutInflater</span><span class="s2">.</span><span class="s1">from</span><span class="s2">(</span><span class="s1">parent</span><span class="s2">.</span><span class="s1">getContext</span><span class="s2">()).</span><span class="s1">inflate</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">layout</span><span class="s2">.</span><span class="s1">item_mensagem_prestador</span><span class="s2">, </span><span class="s1">parent</span><span class="s2">, </span><span class="s0">false</span><span class="s2">);</span>
+            <span class="s0">return new </span><span class="s1">RecebidaViewHolder</span><span class="s2">(</span><span class="s1">view</span><span class="s2">);</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onBindViewHolder</span><span class="s2">(</span><span class="s1">@NonNull RecyclerView</span><span class="s2">.</span><span class="s1">ViewHolder holder</span><span class="s2">, </span><span class="s0">int </span><span class="s1">position</span><span class="s2">) {</span>
+        <span class="s1">Mensagem mensagem </span><span class="s2">= </span><span class="s1">mensagens</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">position</span><span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">holder</span><span class="s2">.</span><span class="s1">getItemViewType</span><span class="s2">() == </span><span class="s3">0</span><span class="s2">) {</span>
+            <span class="s2">((</span><span class="s1">EnviadaViewHolder</span><span class="s2">) </span><span class="s1">holder</span><span class="s2">).</span><span class="s1">bind</span><span class="s2">(</span><span class="s1">mensagem</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s2">((</span><span class="s1">RecebidaViewHolder</span><span class="s2">) </span><span class="s1">holder</span><span class="s2">).</span><span class="s1">bind</span><span class="s2">(</span><span class="s1">mensagem</span><span class="s2">);</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public int </span><span class="s1">getItemCount</span><span class="s2">() {</span>
+        <span class="s0">return </span><span class="s1">mensagens</span><span class="s2">.</span><span class="s1">size</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+    <span class="s0">static class </span><span class="s1">EnviadaViewHolder </span><span class="s0">extends </span><span class="s1">RecyclerView</span><span class="s2">.</span><span class="s1">ViewHolder </span><span class="s2">{</span>
+        <span class="s1">TextView txtMensagem</span><span class="s2">, </span><span class="s1">txtHora</span><span class="s2">;</span>
+
+        <span class="s1">EnviadaViewHolder</span><span class="s2">(</span><span class="s1">View itemView</span><span class="s2">) {</span>
+            <span class="s0">super</span><span class="s2">(</span><span class="s1">itemView</span><span class="s2">);</span>
+            <span class="s1">txtMensagem </span><span class="s2">= </span><span class="s1">itemView</span><span class="s2">.</span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">txtMensagemCliente</span><span class="s2">);</span>
+            <span class="s1">txtHora </span><span class="s2">= </span><span class="s1">itemView</span><span class="s2">.</span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">txtHoraCliente</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s0">void </span><span class="s1">bind</span><span class="s2">(</span><span class="s1">Mensagem mensagem</span><span class="s2">) {</span>
+            <span class="s1">txtMensagem</span><span class="s2">.</span><span class="s1">setText</span><span class="s2">(</span><span class="s1">mensagem</span><span class="s2">.</span><span class="s1">getTexto</span><span class="s2">());</span>
+            <span class="s1">txtHora</span><span class="s2">.</span><span class="s1">setText</span><span class="s2">(</span><span class="s1">mensagem</span><span class="s2">.</span><span class="s1">getHorario</span><span class="s2">());</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+
+    <span class="s0">static class </span><span class="s1">RecebidaViewHolder </span><span class="s0">extends </span><span class="s1">RecyclerView</span><span class="s2">.</span><span class="s1">ViewHolder </span><span class="s2">{</span>
+        <span class="s1">TextView txtMensagem</span><span class="s2">, </span><span class="s1">txtHora</span><span class="s2">;</span>
+
+        <span class="s1">RecebidaViewHolder</span><span class="s2">(</span><span class="s1">View itemView</span><span class="s2">) {</span>
+            <span class="s0">super</span><span class="s2">(</span><span class="s1">itemView</span><span class="s2">);</span>
+            <span class="s1">txtMensagem </span><span class="s2">= </span><span class="s1">itemView</span><span class="s2">.</span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">txtMensagemPrestador</span><span class="s2">);</span>
+            <span class="s1">txtHora </span><span class="s2">= </span><span class="s1">itemView</span><span class="s2">.</span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">txtHoraPrestador</span><span class="s2">);</span>
+        <span class="s2">}</span>
+
+        <span class="s0">void </span><span class="s1">bind</span><span class="s2">(</span><span class="s1">Mensagem mensagem</span><span class="s2">) {</span>
+            <span class="s1">txtMensagem</span><span class="s2">.</span><span class="s1">setText</span><span class="s2">(</span><span class="s1">mensagem</span><span class="s2">.</span><span class="s1">getTexto</span><span class="s2">());</span>
+            <span class="s1">txtHora</span><span class="s2">.</span><span class="s1">setText</span><span class="s2">(</span><span class="s1">mensagem</span><span class="s2">.</span><span class="s1">getHorario</span><span class="s2">());</span>
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+</pre>
+</body>
+</html>
