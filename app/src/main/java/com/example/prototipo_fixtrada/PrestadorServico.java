@@ -9,9 +9,11 @@ public class PrestadorServico {
     private String preEspecialidade;
     private float preNota;
 
+    private String preEndereco;
+
     public PrestadorServico() {}
 
-    public PrestadorServico(int preId, String preNome, String preEmail, String preSenha, String preCpf, String preEspecialidade, float preNota) {
+    public PrestadorServico(int preId, String preNome, String preEmail, String preSenha, String preCpf, String preEspecialidade, float preNota, String preEndereco) {
         this.preId = preId;
         this.preNome = preNome;
         this.preEmail = preEmail;
@@ -19,6 +21,14 @@ public class PrestadorServico {
         this.preCpf = preCpf;
         this.preEspecialidade = preEspecialidade;
         this.preNota = preNota;
+        this.preEndereco = preEndereco;
+    }
+
+    public String getPreEndereco() {
+        return preEndereco;
+    }
+    public void setPreEndereco(String preEndereco) {
+        this.preEndereco = preEndereco;
     }
 
     public int getPreId() { return preId; }

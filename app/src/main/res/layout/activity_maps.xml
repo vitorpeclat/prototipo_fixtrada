@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!-- Botão sobreposto no canto inferior -->
+    <!-- Botão centralizado para solicitar serviço -->
     <Button
         android:id="@+id/btnSolicitarServico"
         android:layout_width="wrap_content"
@@ -23,5 +23,16 @@
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="24dp"
         android:backgroundTint="@android:color/holo_blue_dark"
+        android:textColor="@android:color/white"/>
+
+    <!-- Botão de chat no canto inferior direito -->
+    <Button
+        android:id="@+id/btnChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chat"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="24dp"
+        android:backgroundTint="@android:color/holo_green_dark"
         android:textColor="@android:color/white"/>
 </FrameLayout>

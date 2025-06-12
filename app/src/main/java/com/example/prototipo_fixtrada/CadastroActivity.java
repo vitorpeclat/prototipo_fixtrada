@@ -1,5 +1,7 @@
 package com.example.prototipo_fixtrada;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,10 +10,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.List;
 
 public class CadastroActivity extends AppCompatActivity {
 
@@ -213,7 +218,43 @@ public class CadastroActivity extends AppCompatActivity {
 
         long idUsuario;
         if (isPrestador) {
-            idUsuario = dbHelper.inserirPrestador(nome, email, senha, documento, endereco);
+            try {
+                Geocoder geocoder = new Geocoder(this);
+                List<Address> results = geocoder.getFromLocationName(endereco, 1);
+                if (results == null || results.isEmpty()) {
+                    Toast.makeText(this, "Endereço não encontrado. Verifique e tente novamente.", Toast.LENGTH_LONG).show();
+                    return;
+                } else {
+                    Address end = results.get(0);
+                    String enderecoFormatado = end.getThoroughfare(); // Rua, Avenida, etc.
+                    String numero = end.getSubThoroughfare();
+                    String cidade = end.getLocality();
+                    String estado = end.getAdminArea();
+                    String cep = end.getPostalCode();
+
+                    // Cria uma sugestão
+                    String sugestao = (enderecoFormatado != null ? enderecoFormatado : "") +
+                            (numero != null ? ", " + numero : "") +
+                            (cidade != null ? " - " + cidade : "") +
+                            (estado != null ? "/" + estado : "") +
+                            (cep != null ? " (" + cep + ")" : "");
+
+                    new AlertDialog.Builder(this)
+                            .setTitle("Endereço sugerido")
+                            .setMessage("Confirme se o endereço está correto:\n\n" + sugestao)
+                            .setPositiveButton("Confirmar", (dialog, which) -> {
+                                continuarCadastroPrestador(nome, email, senha, documento, sugestao);
+                            })
+                            .setNegativeButton("Editar", null)
+                            .show();
+
+                    return; // espera o usuário confirmar no dialog
+                }
+            } catch (Exception e) {
+                Toast.makeText(this, "Erro ao validar endereço", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+                return;
+            }
         } else {
             idUsuario = dbHelper.inserirCliente(nome, email, senha, documento, dataNasc);
 
@@ -229,6 +270,16 @@ public class CadastroActivity extends AppCompatActivity {
             }
         }
 
+        if (idUsuario != -1) {
+            Toast.makeText(this, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show();
+            finish();
+        } else {
+            txMensagemCadastro.setText("Erro ao cadastrar. Tente novamente.");
+        }
+    }
+
+    private void continuarCadastroPrestador(String nome, String email, String senha, String cnpj, String enderecoCorrigido) {
+        long idUsuario = dbHelper.inserirPrestador(nome, email, senha, cnpj, enderecoCorrigido);
         if (idUsuario != -1) {
             Toast.makeText(this, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show();
             finish();

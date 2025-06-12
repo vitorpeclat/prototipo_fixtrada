@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Banco extends SQLiteOpenHelper {
     private static final String BANCO = "fixtrada.db";
-    private static final int VERSAO = 1;
+    private static final int VERSAO = 2;
     //tabela cliente
     public static final String TABELA_CLIENTE = "cliente";
     public static final String COLUNA_CLIID = "cliId";
@@ -113,6 +113,10 @@ public class Banco extends SQLiteOpenHelper {
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if (oldVersion < 2) {
+            db.execSQL("ALTER TABLE " + TABELA_PRESTADORSERVICO +
+                    " ADD COLUMN " + COLUNA_PREENDERECO + " TEXT");
+        }
     }
     //VALIDAÇÃO DE USUÁRIO
     public boolean checkUserCliente(String email, String senha){
@@ -162,6 +166,29 @@ public class Banco extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return clientes;
+    }
+
+    public Cliente buscarClientePorEmailSenha(String email, String senha) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABELA_CLIENTE +
+                        " WHERE " + COLUNA_CLIEMAIL + " = ? AND " + COLUNA_CLISENHA + " = ?",
+                new String[]{email, senha});
+
+        if (cursor.moveToFirst()) {
+            Cliente cliente = new Cliente();
+            cliente.setCliId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUNA_CLIID)));
+            cliente.setCliNome(cursor.getString(cursor.getColumnIndexOrThrow(COLUNA_CLINOME)));
+            cliente.setCliEmail(cursor.getString(cursor.getColumnIndexOrThrow(COLUNA_CLIEMAIL)));
+            cliente.setCliSenha(cursor.getString(cursor.getColumnIndexOrThrow(COLUNA_CLISENHA)));
+            cliente.setCliCpf(cursor.getString(cursor.getColumnIndexOrThrow(COLUNA_CLICPF)));
+            cliente.setCliDataNasc(cursor.getString(cursor.getColumnIndexOrThrow(COLUNA_CLIDATANASC)));
+            cursor.close();
+            db.close();
+            return cliente;
+        }
+        cursor.close();
+        db.close();
+        return null;
     }
     //ÁREA DO VEÍCULO
     public long inserirVeiculo(String modelo, String marca, String placa, String cor, int ano, int km, int clienteId) {
@@ -231,6 +258,49 @@ public class Banco extends SQLiteOpenHelper {
             String nome = cursor.getString(cursor.getColumnIndex(COLUNA_PRENOME));
             prestadores.add(nome);
         }
+        cursor.close();
+        db.close();
+        return prestadores;
+    }
+
+    public PrestadorServico buscarPrestadorPorEmailSenha(String email, String senha) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABELA_PRESTADORSERVICO +
+                        " WHERE " + COLUNA_PREEMAIL + " = ? AND " + COLUNA_PRESENHA + " = ?",
+                new String[]{email, senha});
+
+        if (cursor.moveToFirst()) {
+            PrestadorServico prestador = new PrestadorServico();
+            prestador.setPreId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUNA_PREID)));
+            prestador.setPreNome(cursor.getString(cursor.getColumnIndexOrThrow(COLUNA_PRENOME)));
+            prestador.setPreEmail(cursor.getString(cursor.getColumnIndexOrThrow(COLUNA_PREEMAIL)));
+            prestador.setPreSenha(cursor.getString(cursor.getColumnIndexOrThrow(COLUNA_PRESENHA)));
+            prestador.setPreCpf(cursor.getString(cursor.getColumnIndexOrThrow(COLUNA_PRECNPJ)));
+            prestador.setPreNota(cursor.getFloat(cursor.getColumnIndexOrThrow(COLUNA_PRENOTA)));
+            cursor.close();
+            db.close();
+            return prestador;
+        }
+
+        cursor.close();
+        db.close();
+        return null;
+    }
+
+    public List<PrestadorServico> listarPrestadoresComEndereco() {
+        List<PrestadorServico> prestadores = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("SELECT " + COLUNA_PRENOME + ", " + COLUNA_PREENDERECO +
+                " FROM " + TABELA_PRESTADORSERVICO, null);
+
+        while (cursor.moveToNext()) {
+            PrestadorServico p = new PrestadorServico();
+            p.setPreNome(cursor.getString(cursor.getColumnIndex(COLUNA_PRENOME)));
+            p.setPreEndereco(cursor.getString(cursor.getColumnIndex(COLUNA_PREENDERECO)));
+            prestadores.add(p);
+        }
+
         cursor.close();
         db.close();
         return prestadores;

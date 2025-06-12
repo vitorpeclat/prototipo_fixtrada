@@ -3,6 +3,8 @@ package com.example.prototipo_fixtrada;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,8 +18,10 @@ import com.example.prototipo_fixtrada.databinding.ActivityMapsBinding;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class Maps extends FragmentActivity implements OnMapReadyCallback {
 
@@ -51,7 +55,7 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
                     == PackageManager.PERMISSION_GRANTED) {
                 mMap.setMyLocationEnabled(true);
                 mMap.setOnMyLocationChangeListener(location -> {
-                    adicionarMecanicosProximos(location);
+                    exibirPrestadoresProximos(location);
                     Toast.makeText(this, "Serviço solicitado! Procurando mecânicos próximos...", Toast.LENGTH_SHORT).show();
                     // Remove listener após uso único
                     mMap.setOnMyLocationChangeListener(null);
@@ -89,48 +93,58 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(destaque, 13));
     }
 
-    private void adicionarMecanicosProximos(Location cliente) {
-        // Limpa marcadores anteriores
+    private void exibirPrestadoresProximos(Location cliente) {
+        Banco db = new Banco(this);
+        List<PrestadorServico> prestadores = db.listarPrestadoresComEndereco();
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+        // Limpa os marcadores anteriores
         for (Marker marker : marcadoresMecanicos) {
             marker.remove();
         }
         marcadoresMecanicos.clear();
 
-        double lat = cliente.getLatitude();
-        double lon = cliente.getLongitude();
-        LatLng posCliente = new LatLng(lat, lon);
-
         LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
-        boundsBuilder.include(posCliente);
+        boundsBuilder.include(new LatLng(cliente.getLatitude(), cliente.getLongitude()));
 
-        List<Marker> novosMarcadores = new ArrayList<>();
+        for (PrestadorServico p : prestadores) {
+            try {
+                List<Address> results = geocoder.getFromLocationName(p.getPreEndereco(), 1);
+                if (results != null && !results.isEmpty()) {
+                    double lat = results.get(0).getLatitude();
+                    double lon = results.get(0).getLongitude();
+                    Location localMecanico = new Location("");
+                    localMecanico.setLatitude(lat);
+                    localMecanico.setLongitude(lon);
 
-        for (int i = 0; i < nomesMecanicos.length; i++) {
-            double[] desloc = gerarDeslocamentoAleatorio(5);
-            double latMec = lat + desloc[0];
-            double lonMec = lon + desloc[1];
+                    float distancia = cliente.distanceTo(localMecanico); // em metros
 
-            LatLng pos = new LatLng(latMec, lonMec);
-            Marker marcador = mMap.addMarker(new MarkerOptions()
-                    .position(pos)
-                    .title(nomesMecanicos[i]));
+                    if (distancia <= 5000) { // 5km
+                        LatLng pos = new LatLng(lat, lon);
+                        Marker marcador = mMap.addMarker(new MarkerOptions()
+                                .position(pos)
+                                .title(p.getPreNome())
+                                .snippet(p.getPreEndereco()));
 
-            novosMarcadores.add(marcador);
-            marcadoresMecanicos.add(marcador);
-            boundsBuilder.include(pos);
+                        marcador.showInfoWindow();
+                        marcadoresMecanicos.add(marcador);
+                        boundsBuilder.include(pos);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
-        // Ajusta câmera para enquadrar todos
-        int padding = 120;
-        LatLngBounds bounds = boundsBuilder.build();
-        mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding));
-
-        // Aguarda 400ms e mostra os balões de todos os marcadores
-        new android.os.Handler().postDelayed(() -> {
-            for (Marker m : novosMarcadores) {
-                m.showInfoWindow();
-            }
-        }, 400); // delay em milissegundos
+        if (marcadoresMecanicos.size() >= 2) {
+            LatLngBounds bounds = boundsBuilder.build();
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 150));
+        } else if (marcadoresMecanicos.size() == 1) {
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                    marcadoresMecanicos.get(0).getPosition(), 15));
+        } else {
+            Toast.makeText(this, "Nenhum mecânico encontrado num raio de 5 km", Toast.LENGTH_LONG).show();
+        }
     }
 
     private double[] gerarDeslocamentoAleatorio(double raioKm) {
@@ -158,5 +172,29 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private void exibirPrestadoresDoBanco() {
+        Banco db = new Banco(this);
+        List<PrestadorServico> prestadores = db.listarPrestadoresComEndereco();
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+
+        for (PrestadorServico p : prestadores) {
+            try {
+                List<Address> results = geocoder.getFromLocationName(p.getPreEndereco(), 1);
+                if (results != null && !results.isEmpty()) {
+                    double lat = results.get(0).getLatitude();
+                    double lon = results.get(0).getLongitude();
+                    LatLng pos = new LatLng(lat, lon);
+
+                    mMap.addMarker(new MarkerOptions()
+                            .position(pos)
+                            .title(p.getPreNome())
+                            .snippet(p.getPreEndereco()));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
