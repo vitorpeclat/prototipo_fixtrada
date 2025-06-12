@@ -50,6 +50,7 @@ Banco.java</font>
     <span class="s0">public static final </span><span class="s1">String TABELA_VEICULO </span><span class="s2">= </span><span class="s3">&quot;veiculo&quot;</span><span class="s2">;</span>
     <span class="s0">public static final </span><span class="s1">String COLUNA_VEIID </span><span class="s2">= </span><span class="s3">&quot;veiId&quot;</span><span class="s2">;</span>
     <span class="s0">public static final </span><span class="s1">String COLUNA_VEIMODELO </span><span class="s2">= </span><span class="s3">&quot;veiModelo&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_VEIMARCA </span><span class="s2">= </span><span class="s3">&quot;veiMarca&quot;</span><span class="s2">;</span>
     <span class="s0">public static final </span><span class="s1">String COLUNA_VEIPLACA </span><span class="s2">= </span><span class="s3">&quot;veiPlaca&quot;</span><span class="s2">;</span>
     <span class="s0">public static final </span><span class="s1">String COLUNA_VEICOR </span><span class="s2">= </span><span class="s3">&quot;veiCor&quot;</span><span class="s2">;</span>
     <span class="s0">public static final </span><span class="s1">String COLUNA_VEIANO </span><span class="s2">= </span><span class="s3">&quot;veiAno&quot;</span><span class="s2">;</span>
@@ -95,6 +96,7 @@ Banco.java</font>
         <span class="s1">sqLiteDatabase</span><span class="s2">.</span><span class="s1">execSQL</span><span class="s2">(</span><span class="s3">&quot;CREATE TABLE &quot; </span><span class="s2">+ </span><span class="s1">TABELA_VEICULO </span><span class="s2">+ </span><span class="s3">&quot; (&quot;</span>
                 <span class="s2">+ </span><span class="s1">COLUNA_VEIID </span><span class="s2">+ </span><span class="s3">&quot; INTEGER PRIMARY KEY AUTOINCREMENT, &quot;</span>
                 <span class="s2">+ </span><span class="s1">COLUNA_VEIMODELO </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_VEIMARCA </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL, &quot;</span>
                 <span class="s2">+ </span><span class="s1">COLUNA_VEIPLACA </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL, &quot;</span>
                 <span class="s2">+ </span><span class="s1">COLUNA_VEICOR </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL, &quot;</span>
                 <span class="s2">+ </span><span class="s1">COLUNA_VEIANO </span><span class="s2">+ </span><span class="s3">&quot; INTEGER NOT NULL, &quot;</span>
@@ -198,10 +200,11 @@ Banco.java</font>
         <span class="s0">return </span><span class="s1">prestadores</span><span class="s2">;</span>
     <span class="s2">}</span>
 
-    <span class="s0">public long </span><span class="s1">inserirVeiculo</span><span class="s2">(</span><span class="s1">String modelo</span><span class="s2">, </span><span class="s1">String placa</span><span class="s2">, </span><span class="s1">String cor</span><span class="s2">, </span><span class="s0">int </span><span class="s1">ano</span><span class="s2">, </span><span class="s0">int </span><span class="s1">km</span><span class="s2">, </span><span class="s0">int </span><span class="s1">clienteId</span><span class="s2">) {</span>
+    <span class="s0">public long </span><span class="s1">inserirVeiculo</span><span class="s2">(</span><span class="s1">String modelo</span><span class="s2">, </span><span class="s1">String marca</span><span class="s2">, </span><span class="s1">String placa</span><span class="s2">, </span><span class="s1">String cor</span><span class="s2">, </span><span class="s0">int </span><span class="s1">ano</span><span class="s2">, </span><span class="s0">int </span><span class="s1">km</span><span class="s2">, </span><span class="s0">int </span><span class="s1">clienteId</span><span class="s2">) {</span>
         <span class="s1">SQLiteDatabase db </span><span class="s2">= </span><span class="s0">this</span><span class="s2">.</span><span class="s1">getWritableDatabase</span><span class="s2">();</span>
         <span class="s1">ContentValues values </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ContentValues</span><span class="s2">();</span>
         <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_VEIMODELO</span><span class="s2">, </span><span class="s1">modelo</span><span class="s2">);</span>
+        <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_VEIMARCA</span><span class="s2">, </span><span class="s1">marca</span><span class="s2">);</span>
         <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_VEIPLACA</span><span class="s2">, </span><span class="s1">placa</span><span class="s2">);</span>
         <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_VEICOR</span><span class="s2">, </span><span class="s1">cor</span><span class="s2">);</span>
         <span class="s1">values</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s1">COLUNA_VEIANO</span><span class="s2">, </span><span class="s1">ano</span><span class="s2">);</span>
