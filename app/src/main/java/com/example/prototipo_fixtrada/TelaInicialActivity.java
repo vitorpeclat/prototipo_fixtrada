@@ -100,22 +100,28 @@ public class TelaInicialActivity extends AppCompatActivity {
         if (isPrestador) {
             boolean valido = banco.checkUserPrestador(email, senha);
             if (valido) {
-                PrestadorServico prestador = banco.buscarPrestadorPorEmailSenha(email, senha);
-                if (prestador != null) {
-                    Intent intent = new Intent(TelaInicialActivity.this, MenuPrestadorActivity.class);
-                    startActivity(intent);
-                }
+                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("user_email", email);
+                editor.putString("user_cat", "prestador");
+                editor.apply();
+
+                Intent intent = new Intent(TelaInicialActivity.this, MenuPrestadorActivity.class);
+                startActivity(intent);
             } else {
                 txMensagem.setText("Credenciais inválidas para Prestador");
             }
         } else {
             boolean valido = banco.checkUserCliente(email, senha);
             if (valido) {
-                Cliente cliente = banco.buscarClientePorEmailSenha(email, senha);
-                if (cliente != null) {
-                    Intent intent = new Intent(TelaInicialActivity.this, MenuClienteActivity.class);
-                    startActivity(intent);
-                }
+                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("user_email", email);
+                editor.putString("user_cat", "cliente");
+                editor.apply();
+
+                Intent intent = new Intent(TelaInicialActivity.this, MenuClienteActivity.class);
+                startActivity(intent);
             } else {
                 txMensagem.setText("Credenciais inválidas para Cliente");
             }

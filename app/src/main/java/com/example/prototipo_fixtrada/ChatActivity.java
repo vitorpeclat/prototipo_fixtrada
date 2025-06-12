@@ -1,5 +1,6 @@
 package com.example.prototipo_fixtrada;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,8 +31,11 @@ public class ChatActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerChat);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String userCat = sharedPreferences.getString("user_cat", null);
+
         listaMensagens = new ArrayList<>();
-        carregarMensagensSimuladas();
+        carregarMensagensSimuladas(userCat);
 
         chatAdapter = new ChatAdapter(listaMensagens, "cliente");
         recyclerView.setAdapter(chatAdapter);
@@ -49,10 +53,15 @@ public class ChatActivity extends AppCompatActivity {
                 recyclerView.scrollToPosition(listaMensagens.size() - 1);
                 editMensagem.setText("");
 
-                // Simulação: resposta automática
                 recyclerView.postDelayed(() -> {
-                    Mensagem resposta = new Mensagem("prestador", "Obrigado pela mensagem! Em breve responderemos.", hora);
-                    listaMensagens.add(resposta);
+                    if (userCat == "prestador"){
+                        Mensagem resposta = new Mensagem("prestador", "ok", hora);
+                        listaMensagens.add(resposta);
+                    }
+                    else{
+                        Mensagem resposta = new Mensagem("prestador", "Obrigado pela mensagem! Em breve responderemos.", hora);
+                        listaMensagens.add(resposta);
+                    }
                     chatAdapter.notifyItemInserted(listaMensagens.size() - 1);
                     recyclerView.scrollToPosition(listaMensagens.size() - 1);
                 }, 1500);
@@ -60,12 +69,24 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    private void carregarMensagensSimuladas() {
-        String horaAtual = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
-        listaMensagens.add(new Mensagem("cliente", "Olá, estou com um problema no meu carro.", horaAtual));
-        listaMensagens.add(new Mensagem("prestador", "Olá! Poderia me descrever o que está acontecendo?", horaAtual));
-        listaMensagens.add(new Mensagem("cliente", "Está saindo muita fumaça do motor.", horaAtual));
-        listaMensagens.add(new Mensagem("prestador", "Entendi. Podemos agendar uma visita técnica?", horaAtual));
-        listaMensagens.add(new Mensagem("cliente", "Sim, pode ser hoje à tarde?", horaAtual));
+    private void carregarMensagensSimuladas(String userCat) {
+        if (userCat == "prestador"){
+            String horaAtual = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
+            listaMensagens.add(new Mensagem("prestador", "Olá, estou com um problema no meu carro.", horaAtual));
+            listaMensagens.add(new Mensagem("cliente", "Olá! Poderia me descrever o que está acontecendo?", horaAtual));
+            listaMensagens.add(new Mensagem("prestador", "Está saindo muita fumaça do motor.", horaAtual));
+            listaMensagens.add(new Mensagem("cliente", "Entendi. Podemos agendar uma visita técnica?", horaAtual));
+            listaMensagens.add(new Mensagem("prestador", "Sim, pode ser hoje à tarde?", horaAtual));
+            listaMensagens.add(new Mensagem("prestador", "estou aguardando", horaAtual));
+            listaMensagens.add(new Mensagem("cliente", "Obrigado pela mensagem! Em breve responderemos.", horaAtual));
+        }
+        else {
+            String horaAtual = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
+            listaMensagens.add(new Mensagem("cliente", "Olá, estou com um problema no meu carro.", horaAtual));
+            listaMensagens.add(new Mensagem("prestador", "Olá! Poderia me descrever o que está acontecendo?", horaAtual));
+            listaMensagens.add(new Mensagem("cliente", "Está saindo muita fumaça do motor.", horaAtual));
+            listaMensagens.add(new Mensagem("prestador", "Entendi. Podemos agendar uma visita técnica?", horaAtual));
+            listaMensagens.add(new Mensagem("cliente", "Sim, pode ser hoje à tarde?", horaAtual));
+        }
     }
 }
