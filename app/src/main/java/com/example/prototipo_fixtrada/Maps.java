@@ -173,28 +173,4 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
-    private void exibirPrestadoresDoBanco() {
-        Banco db = new Banco(this);
-        List<PrestadorServico> prestadores = db.listarPrestadoresComEndereco();
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-
-        for (PrestadorServico p : prestadores) {
-            try {
-                List<Address> results = geocoder.getFromLocationName(p.getPreEndereco(), 1);
-                if (results != null && !results.isEmpty()) {
-                    double lat = results.get(0).getLatitude();
-                    double lon = results.get(0).getLongitude();
-                    LatLng pos = new LatLng(lat, lon);
-
-                    mMap.addMarker(new MarkerOptions()
-                            .position(pos)
-                            .title(p.getPreNome())
-                            .snippet(p.getPreEndereco()));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }
