@@ -31,6 +31,7 @@ public class Banco extends SQLiteOpenHelper {
     public static final String TABELA_VEICULO = "veiculo";
     public static final String COLUNA_VEIID = "veiId";
     public static final String COLUNA_VEIMODELO = "veiModelo";
+    public static final String COLUNA_VEIMARCA = "veiMarca";
     public static final String COLUNA_VEIPLACA = "veiPlaca";
     public static final String COLUNA_VEICOR = "veiCor";
     public static final String COLUNA_VEIANO = "veiAno";
@@ -76,6 +77,7 @@ public class Banco extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("CREATE TABLE " + TABELA_VEICULO + " ("
                 + COLUNA_VEIID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COLUNA_VEIMODELO + " TEXT NOT NULL, "
+                + COLUNA_VEIMARCA + " TEXT NOT NULL, "
                 + COLUNA_VEIPLACA + " TEXT NOT NULL, "
                 + COLUNA_VEICOR + " TEXT NOT NULL, "
                 + COLUNA_VEIANO + " INTEGER NOT NULL, "
@@ -179,10 +181,11 @@ public class Banco extends SQLiteOpenHelper {
         return prestadores;
     }
 
-    public long inserirVeiculo(String modelo, String placa, String cor, int ano, int km, int clienteId) {
+    public long inserirVeiculo(String modelo, String marca, String placa, String cor, int ano, int km, int clienteId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUNA_VEIMODELO, modelo);
+        values.put(COLUNA_VEIMARCA, marca);
         values.put(COLUNA_VEIPLACA, placa);
         values.put(COLUNA_VEICOR, cor);
         values.put(COLUNA_VEIANO, ano);

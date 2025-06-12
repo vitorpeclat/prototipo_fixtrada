@@ -17,9 +17,9 @@ public class CadastroActivity extends AppCompatActivity {
 
     private Button btCadCliente, btCadPrestador, btConfirmarCadastro;
     private TextInputEditText edNome, edEmail, edSenha, edCpf, edCnpj, edDataNasc;
-    private TextInputEditText edModelo, edPlaca, edCor, edAno, edKm;
+    private TextInputEditText edModelo, edMarca, edPlaca, edCor, edAno, edKm;
     private TextInputLayout layoutCpf, layoutCnpj, layoutDataNasc, layoutNome;
-    private TextInputLayout layoutModelo, layoutPlaca, layoutCor, layoutAno, layoutKm;
+    private TextInputLayout layoutModelo, layoutMarca, layoutPlaca, layoutCor, layoutAno, layoutKm;
     private TextView txMensagemCadastro;
     private boolean isPrestador = false;
     private Banco dbHelper;
@@ -43,6 +43,7 @@ public class CadastroActivity extends AppCompatActivity {
         edDataNasc = findViewById(R.id.edDataNasc);
 
         edModelo = findViewById(R.id.edModelo);
+        edMarca = findViewById(R.id.edMarca);
         edPlaca = findViewById(R.id.edPlaca);
         edCor = findViewById(R.id.edCor);
         edAno = findViewById(R.id.edAno);
@@ -54,6 +55,7 @@ public class CadastroActivity extends AppCompatActivity {
         layoutNome = findViewById(R.id.layoutNome);
 
         layoutModelo = findViewById(R.id.layoutModelo);
+        layoutMarca = findViewById(R.id.layoutMarca);
         layoutPlaca = findViewById(R.id.layoutPlaca);
         layoutCor = findViewById(R.id.layoutCor);
         layoutAno = findViewById(R.id.layoutAno);
@@ -126,6 +128,7 @@ public class CadastroActivity extends AppCompatActivity {
         layoutNome.setHint("Nome Completo");
 
         layoutModelo.setVisibility(View.VISIBLE);
+        layoutMarca.setVisibility(View.VISIBLE);
         layoutPlaca.setVisibility(View.VISIBLE);
         layoutCor.setVisibility(View.VISIBLE);
         layoutAno.setVisibility(View.VISIBLE);
@@ -144,6 +147,7 @@ public class CadastroActivity extends AppCompatActivity {
         layoutNome.setHint("Nome da Mecânica");
 
         layoutModelo.setVisibility(View.GONE);
+        layoutMarca.setVisibility(View.GONE);
         layoutPlaca.setVisibility(View.GONE);
         layoutCor.setVisibility(View.GONE);
         layoutAno.setVisibility(View.GONE);
@@ -187,6 +191,7 @@ public class CadastroActivity extends AppCompatActivity {
             }
 
             String modelo = edModelo.getText().toString().trim();
+            String marca = edMarca.getText().toString().trim();
             String placa = edPlaca.getText().toString().trim();
             String cor = edCor.getText().toString().trim();
             String anoStr = edAno.getText().toString().trim();
@@ -194,6 +199,10 @@ public class CadastroActivity extends AppCompatActivity {
 
             if (modelo.isEmpty()) {
                 edModelo.setError("Informe o modelo do veículo");
+                valido = false;
+            }
+            if (marca.isEmpty()) {
+                edMarca.setError("Informe a marca do veículo");
                 valido = false;
             }
             if (placa.isEmpty() || placa.length() < 6) {
@@ -231,12 +240,13 @@ public class CadastroActivity extends AppCompatActivity {
 
             if (idUsuario != -1) {
                 String modelo = edModelo.getText().toString().trim();
+                String marca = edMarca.getText().toString().trim();
                 String placa = edPlaca.getText().toString().trim();
                 String cor = edCor.getText().toString().trim();
                 int ano = Integer.parseInt(edAno.getText().toString().trim());
                 int km = Integer.parseInt(edKm.getText().toString().trim());
 
-                dbHelper.inserirVeiculo(modelo, placa, cor, ano, km, (int) idUsuario);
+                dbHelper.inserirVeiculo(modelo, marca, placa, cor, ano, km, (int) idUsuario);
             }
         }
 
