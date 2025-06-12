@@ -25,6 +25,7 @@ public class Banco extends SQLiteOpenHelper {
     public static final String COLUNA_PREID = "preId";
     public static final String COLUNA_PRENOME = "preNome";
     public static final String COLUNA_PREEMAIL = "preEmail";
+    public static final String COLUNA_PRENOTA = "preNota";
     public static final String COLUNA_PRESENHA = "preSenha";
     public static final String COLUNA_PRECNPJ = "preCnpj";
     //tabela veiculo
@@ -61,6 +62,7 @@ public class Banco extends SQLiteOpenHelper {
                 + COLUNA_CLIID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COLUNA_CLINOME + " TEXT NOT NULL, "
                 + COLUNA_CLIEMAIL + " TEXT NOT NULL, "
+               // + COLUNA_CLINOTA + " TEXT NOT NULL, "
                 + COLUNA_CLISENHA + " TEXT NOT NULL, "
                 + COLUNA_CLICPF + " TEXT NOT NULL, "
                 + COLUNA_CLIDATANASC + " TEXT NOT NULL);"
@@ -70,6 +72,7 @@ public class Banco extends SQLiteOpenHelper {
                 + COLUNA_PREID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COLUNA_PRENOME + " TEXT NOT NULL, "
                 + COLUNA_PREEMAIL + " TEXT NOT NULL, "
+                + COLUNA_PRENOTA + " REAL NOT NULL, "
                 + COLUNA_PRESENHA + " TEXT NOT NULL, "
                 + COLUNA_PRECNPJ + " TEXT NOT NULL);"
         );
@@ -107,7 +110,7 @@ public class Banco extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
-
+    //VALIDAÇÃO DE USUÁRIO
     public boolean checkUserCliente(String email, String senha){
         SQLiteDatabase db = this.getReadableDatabase();
         String selection = COLUNA_CLIEMAIL + " = ? AND " + COLUNA_CLISENHA + " = ?";
@@ -129,7 +132,7 @@ public class Banco extends SQLiteOpenHelper {
         db.close();
         return count > 0;
     }
-
+    //ÁREA DO CLIENTE
     public long inserirCliente(String nome, String email, String senha, String cpf, String dataNasc) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -155,32 +158,7 @@ public class Banco extends SQLiteOpenHelper {
         db.close();
         return clientes;
     }
-
-    public long inserirPrestador(String nome, String email, String senha, String cnpj) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUNA_PRENOME, nome);
-        values.put(COLUNA_PREEMAIL, email);
-        values.put(COLUNA_PRESENHA, senha);
-        values.put(COLUNA_PRECNPJ, cnpj);
-        long id = db.insert(TABELA_PRESTADORSERVICO, null, values);
-        db.close();
-        return id;
-    }
-
-    public List<String> listarPrestadores() {
-        List<String> prestadores = new ArrayList<>();
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABELA_PRESTADORSERVICO, null);
-        while (cursor.moveToNext()) {
-            String nome = cursor.getString(cursor.getColumnIndex(COLUNA_PRENOME));
-            prestadores.add(nome);
-        }
-        cursor.close();
-        db.close();
-        return prestadores;
-    }
-
+    //ÁREA DO VEÍCULO
     public long inserirVeiculo(String modelo, String marca, String placa, String cor, int ano, int km, int clienteId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -209,7 +187,48 @@ public class Banco extends SQLiteOpenHelper {
         db.close();
         return veiculos;
     }
+    //ÁREA DO PRESTADOR
+    public long inserirPrestador(String nome, String email, String senha, String cnpj) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUNA_PRENOME, nome);
+        values.put(COLUNA_PREEMAIL, email);
+        values.put(COLUNA_PRESENHA, senha);
+        values.put(COLUNA_PRECNPJ, cnpj);
+        long id = db.insert(TABELA_PRESTADORSERVICO, null, values);
+        db.close();
+        return id;
+    }
 
+    public boolean inserirNota(int prestadorId, float nota) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUNA_PRENOTA, nota);
+
+        int linhasAfetadas = db.update(
+                TABELA_PRESTADORSERVICO,
+                values,
+                COLUNA_PREID + " = ?",
+                new String[]{String.valueOf(prestadorId)}
+        );
+
+        db.close();
+        return linhasAfetadas > 0;
+    }
+
+    public List<String> listarPrestadores() {
+        List<String> prestadores = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABELA_PRESTADORSERVICO, null);
+        while (cursor.moveToNext()) {
+            String nome = cursor.getString(cursor.getColumnIndex(COLUNA_PRENOME));
+            prestadores.add(nome);
+        }
+        cursor.close();
+        db.close();
+        return prestadores;
+    }
+    //ÁREA DO REGISTRO
     public long inserirRegistro(String descricao, String data, int veiId, int preId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
