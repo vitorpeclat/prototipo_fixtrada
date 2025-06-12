@@ -13,7 +13,7 @@
 
         <TextView
             android:id="@+id/tituloChat"
-            android:layout_width="299dp"
+            android:layout_width="348dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="8dp"
@@ -24,10 +24,9 @@
 
         <Button
             android:id="@+id/btnAvaliar"
-            android:layout_width="wrap_content"
+            android:layout_width="45dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_static"
-            android:text="Avaliar" />
+            android:background="@drawable/ic_op" />
 
     </LinearLayout>
 

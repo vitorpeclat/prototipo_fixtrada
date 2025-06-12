@@ -168,28 +168,6 @@ public class Banco extends SQLiteOpenHelper {
         return clientes;
     }
 
-    public Cliente buscarClientePorEmailSenha(String email, String senha) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABELA_CLIENTE +
-                        " WHERE " + COLUNA_CLIEMAIL + " = ? AND " + COLUNA_CLISENHA + " = ?",
-                new String[]{email, senha});
-
-        if (cursor.moveToFirst()) {
-            Cliente cliente = new Cliente();
-            cliente.setCliId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUNA_CLIID)));
-            cliente.setCliNome(cursor.getString(cursor.getColumnIndexOrThrow(COLUNA_CLINOME)));
-            cliente.setCliEmail(cursor.getString(cursor.getColumnIndexOrThrow(COLUNA_CLIEMAIL)));
-            cliente.setCliSenha(cursor.getString(cursor.getColumnIndexOrThrow(COLUNA_CLISENHA)));
-            cliente.setCliCpf(cursor.getString(cursor.getColumnIndexOrThrow(COLUNA_CLICPF)));
-            cliente.setCliDataNasc(cursor.getString(cursor.getColumnIndexOrThrow(COLUNA_CLIDATANASC)));
-            cursor.close();
-            db.close();
-            return cliente;
-        }
-        cursor.close();
-        db.close();
-        return null;
-    }
     //ÁREA DO VEÍCULO
     public long inserirVeiculo(String modelo, String marca, String placa, String cor, int ano, int km, int clienteId) {
         SQLiteDatabase db = this.getWritableDatabase();
