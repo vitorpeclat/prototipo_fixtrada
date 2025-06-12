@@ -2,6 +2,7 @@ package com.example.prototipo_fixtrada;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -42,6 +43,14 @@ public class ChatActivity extends AppCompatActivity {
 
         EditText editMensagem = findViewById(R.id.editMensagem);
         Button btnEnviar = findViewById(R.id.btnEnviar);
+        Button btnAvaliar = findViewById(R.id.btnAvaliar);
+
+        btnAvaliar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         btnEnviar.setOnClickListener(v -> {
             String texto = editMensagem.getText().toString().trim();

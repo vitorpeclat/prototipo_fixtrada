@@ -1,6 +1,7 @@
 package com.example.prototipo_fixtrada;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.location.Address;
@@ -49,6 +50,11 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
+
+        binding.btnChat.setOnClickListener(v -> {
+            Intent intent = new Intent(Maps.this, ChatActivity.class);
+            startActivity(intent);
+        });
 
         binding.btnSolicitarServico.setOnClickListener(v -> {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -145,17 +151,6 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         } else {
             Toast.makeText(this, "Nenhum mecânico encontrado num raio de 5 km", Toast.LENGTH_LONG).show();
         }
-    }
-
-    private double[] gerarDeslocamentoAleatorio(double raioKm) {
-        double raioEmGraus = raioKm / 111.32;
-        double u = Math.random();
-        double v = Math.random();
-        double w = raioEmGraus * Math.sqrt(u);
-        double t = 2 * Math.PI * v;
-        double deslocLat = w * Math.cos(t);
-        double deslocLon = w * Math.sin(t) / Math.cos(Math.toRadians(-23.55));
-        return new double[]{deslocLat, deslocLon};
     }
 
     @Override
