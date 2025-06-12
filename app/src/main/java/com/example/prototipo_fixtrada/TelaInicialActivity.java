@@ -120,7 +120,7 @@ public class TelaInicialActivity extends AppCompatActivity {
                 editor.putString("user_cat", "cliente");
                 editor.apply();
 
-                Intent intent = new Intent(TelaInicialActivity.this, MenuClienteActivity.class);
+                Intent intent = new Intent(TelaInicialActivity.this, Maps.class);
                 startActivity(intent);
             } else {
                 txMensagem.setText("Credenciais inválidas para Cliente");
