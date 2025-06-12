@@ -43,6 +43,7 @@
             android:id="@+id/btnEnviar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_static"
             android:text="Enviar" />
     </LinearLayout>
 </LinearLayout>

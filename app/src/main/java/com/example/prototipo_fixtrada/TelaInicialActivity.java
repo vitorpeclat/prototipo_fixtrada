@@ -101,15 +101,8 @@ public class TelaInicialActivity extends AppCompatActivity {
             if (valido) {
                 PrestadorServico prestador = banco.buscarPrestadorPorEmailSenha(email, senha);
                 if (prestador != null) {
-                    SharedPreferences prefs = getSharedPreferences("usuarioPrefs", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString("tipo", "prestador");
-                    editor.putInt("id", prestador.getPreId());
-                    editor.apply();
-
-                    Intent intent = new Intent(TelaInicialActivity.this, MenuClienteActivity.class);
+                    Intent intent = new Intent(TelaInicialActivity.this, MenuPrestadorActivity.class);
                     startActivity(intent);
-                    finish();
                 }
             } else {
                 txMensagem.setText("Credenciais inválidas para Prestador");
@@ -119,15 +112,8 @@ public class TelaInicialActivity extends AppCompatActivity {
             if (valido) {
                 Cliente cliente = banco.buscarClientePorEmailSenha(email, senha);
                 if (cliente != null) {
-                    SharedPreferences prefs = getSharedPreferences("usuarioPrefs", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putString("tipo", "cliente");
-                    editor.putInt("id", cliente.getCliId());
-                    editor.apply();
-
                     Intent intent = new Intent(TelaInicialActivity.this, MenuClienteActivity.class);
                     startActivity(intent);
-                    finish();
                 }
             } else {
                 txMensagem.setText("Credenciais inválidas para Cliente");
