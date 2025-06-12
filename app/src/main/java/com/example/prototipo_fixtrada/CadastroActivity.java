@@ -16,9 +16,9 @@ import com.google.android.material.textfield.TextInputLayout;
 public class CadastroActivity extends AppCompatActivity {
 
     private Button btCadCliente, btCadPrestador, btConfirmarCadastro;
-    private TextInputEditText edNome, edEmail, edSenha, edCpf, edCnpj, edDataNasc;
+    private TextInputEditText edNome, edEmail, edSenha, edCpf, edCnpj, edEndereco,edDataNasc;
     private TextInputEditText edModelo, edMarca, edPlaca, edCor, edAno, edKm;
-    private TextInputLayout layoutCpf, layoutCnpj, layoutDataNasc, layoutNome;
+    private TextInputLayout layoutCpf, layoutCnpj, layoutEndereco, layoutDataNasc, layoutNome;
     private TextInputLayout layoutModelo, layoutMarca, layoutPlaca, layoutCor, layoutAno, layoutKm;
     private TextView txMensagemCadastro;
     private boolean isPrestador = false;
@@ -40,6 +40,7 @@ public class CadastroActivity extends AppCompatActivity {
         edSenha = findViewById(R.id.edSenha);
         edCpf = findViewById(R.id.edCpf);
         edCnpj = findViewById(R.id.edCnpj);
+        edEndereco = findViewById(R.id.edEndereco);
         edDataNasc = findViewById(R.id.edDataNasc);
 
         edModelo = findViewById(R.id.edModelo);
@@ -51,6 +52,7 @@ public class CadastroActivity extends AppCompatActivity {
 
         layoutCpf = findViewById(R.id.layoutCpf);
         layoutCnpj = findViewById(R.id.layoutCnpj);
+        layoutEndereco = findViewById(R.id.layoutEndereco);
         layoutDataNasc = findViewById(R.id.layoutDataNasc);
         layoutNome = findViewById(R.id.layoutNome);
 
@@ -78,43 +80,6 @@ public class CadastroActivity extends AppCompatActivity {
         });
     }
 
-    private void mascaraDataNasc() {
-        edDataNasc.addTextChangedListener(new TextWatcher() {
-            private boolean isUpdating;
-            private final String mask = "##/##/####";
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (isUpdating) {
-                    isUpdating = false;
-                    return;
-                }
-
-                String digitsOnly = s.toString().replaceAll("[^\\d]", "");
-                StringBuilder formatted = new StringBuilder();
-                int i = 0;
-
-                for (char m : mask.toCharArray()) {
-                    if (m != '#') {
-                        formatted.append(m);
-                        continue;
-                    }
-                    if (i >= digitsOnly.length()) break;
-                    formatted.append(digitsOnly.charAt(i));
-                    i++;
-                }
-
-                isUpdating = true;
-                edDataNasc.setText(formatted.toString());
-                edDataNasc.setSelection(formatted.length());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
-    }
 
     private void switchParaCliente() {
         isPrestador = false;
@@ -124,6 +89,7 @@ public class CadastroActivity extends AppCompatActivity {
 
         layoutCpf.setVisibility(View.VISIBLE);
         layoutCnpj.setVisibility(View.GONE);
+        layoutEndereco.setVisibility(View.GONE);
         layoutDataNasc.setVisibility(View.VISIBLE);
         layoutNome.setHint("Nome Completo");
 
@@ -143,6 +109,7 @@ public class CadastroActivity extends AppCompatActivity {
 
         layoutCpf.setVisibility(View.GONE);
         layoutCnpj.setVisibility(View.VISIBLE);
+        layoutEndereco.setVisibility(View.VISIBLE);
         layoutDataNasc.setVisibility(View.GONE);
         layoutNome.setHint("Nome da Mecânica");
 
@@ -161,6 +128,7 @@ public class CadastroActivity extends AppCompatActivity {
         String email = edEmail.getText().toString().trim();
         String senha = edSenha.getText().toString().trim();
         String documento = isPrestador ? edCnpj.getText().toString().trim() : edCpf.getText().toString().trim();
+        String endereco = isPrestador ? edEndereco.getText().toString().trim() : "";
         String dataNasc = edDataNasc.getText().toString().trim();
 
         if (nome.isEmpty()) {
@@ -168,7 +136,7 @@ public class CadastroActivity extends AppCompatActivity {
             valido = false;
         }
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            edEmail.setError("Email inválido");
+            edEmail.setError("Email inválido, coloque o domínio (ex. @gmail.com)");
             valido = false;
         }
         if (senha.isEmpty() || senha.length() < 6) {
@@ -178,6 +146,10 @@ public class CadastroActivity extends AppCompatActivity {
         if (isPrestador) {
             if (documento.isEmpty() || documento.replaceAll("[^\\d]", "").length() != 14) {
                 edCnpj.setError("CNPJ inválido");
+                valido = false;
+            }
+            if (endereco.isEmpty()) {
+                edEndereco.setError("Preencha o endereço");
                 valido = false;
             }
         } else {
@@ -230,11 +202,12 @@ public class CadastroActivity extends AppCompatActivity {
         String email = edEmail.getText().toString().trim();
         String senha = edSenha.getText().toString().trim();
         String documento = isPrestador ? edCnpj.getText().toString().trim() : edCpf.getText().toString().trim();
+        String endereco = isPrestador ? edEndereco.getText().toString().trim() : "";
         String dataNasc = isPrestador ? "" : edDataNasc.getText().toString().trim();
 
         long idUsuario;
         if (isPrestador) {
-            idUsuario = dbHelper.inserirPrestador(nome, email, senha, documento);
+            idUsuario = dbHelper.inserirPrestador(nome, email, senha, documento, endereco);
         } else {
             idUsuario = dbHelper.inserirCliente(nome, email, senha, documento, dataNasc);
 
@@ -257,7 +230,44 @@ public class CadastroActivity extends AppCompatActivity {
             txMensagemCadastro.setText("Erro ao cadastrar. Tente novamente.");
         }
     }
+    //MASCARAS
+    private void mascaraDataNasc() {
+        edDataNasc.addTextChangedListener(new TextWatcher() {
+            private boolean isUpdating;
+            private final String mask = "##/##/####";
 
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (isUpdating) {
+                    isUpdating = false;
+                    return;
+                }
+
+                String digitsOnly = s.toString().replaceAll("[^\\d]", "");
+                StringBuilder formatted = new StringBuilder();
+                int i = 0;
+
+                for (char m : mask.toCharArray()) {
+                    if (m != '#') {
+                        formatted.append(m);
+                        continue;
+                    }
+                    if (i >= digitsOnly.length()) break;
+                    formatted.append(digitsOnly.charAt(i));
+                    i++;
+                }
+
+                isUpdating = true;
+                edDataNasc.setText(formatted.toString());
+                edDataNasc.setSelection(formatted.length());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
     private void mascaraCpf() {
         edCpf.addTextChangedListener(new TextWatcher() {
             private boolean isUpdating;
