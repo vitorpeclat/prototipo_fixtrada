@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.prototipo_fixtrada.construtores.Mensagem;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
