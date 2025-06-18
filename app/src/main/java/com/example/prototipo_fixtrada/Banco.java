@@ -226,29 +226,32 @@ public class Banco extends SQLiteOpenHelper {
         return prestadores;
     }
 
+    // SALVAR
     public void salvarMensagem(String remetente, String mensagem, String hora) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues valores = new ContentValues();
-        valores.put("remetente", remetente);
-        valores.put("mensagem", mensagem);
-        valores.put("hora", hora);
-        db.insert("mensagens", null, valores);
+        valores.put(COLUNA_MENREMENTENTE, remetente);
+        valores.put(COLUNA_MENCONTEUDO, mensagem);
+        valores.put(COLUNA_MENHORARIO, hora);
+        db.insert("mensagem", null, valores);
     }
 
+    // LISTAR
     public List<Mensagem> listarMensagens() {
         List<Mensagem> mensagens = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM mensagens", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM mensagem", null);
 
-        while (cursor.moveToNext()) {
-            String remetente = cursor.getString(cursor.getColumnIndexOrThrow("remetente"));
-            String texto = cursor.getString(cursor.getColumnIndexOrThrow("mensagem"));
-            String hora = cursor.getString(cursor.getColumnIndexOrThrow("hora"));
-            mensagens.add(new Mensagem(remetente, texto, hora));
+        if (cursor.moveToFirst()) {
+            do {
+                String remetente = cursor.getString(cursor.getColumnIndexOrThrow(COLUNA_MENREMENTENTE));
+                String texto = cursor.getString(cursor.getColumnIndexOrThrow(COLUNA_MENCONTEUDO));
+                String hora = cursor.getString(cursor.getColumnIndexOrThrow(COLUNA_MENHORARIO));
+                mensagens.add(new Mensagem(remetente, texto, hora));
+            } while (cursor.moveToNext());
         }
 
         cursor.close();
         return mensagens;
     }
-
 }
