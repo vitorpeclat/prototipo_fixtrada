@@ -100,9 +100,10 @@ public class Banco extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 2) {
             db.execSQL("ALTER TABLE " + TABELA_PRESTADORSERVICO + " ADD COLUMN " + COLUNA_PRECEP + " TEXT");
+            db.execSQL("ALTER TABLE " + TABELA_PRESTADORSERVICO + " ADD COLUMN " + COLUNA_PREENDERECO + " TEXT");
+            db.execSQL("ALTER TABLE " + TABELA_PRESTADORSERVICO + " ADD COLUMN " + COLUNA_PRENOTA + " REAL");
         }
         if (oldVersion < 3) {
-            db.execSQL("ALTER TABLE " + TABELA_PRESTADORSERVICO + " ADD COLUMN " + COLUNA_PREENDERECO + " TEXT");
             db.execSQL("INSERT INTO " + TABELA_CLIENTE + " (" +
                     COLUNA_CLINOME + ", " +
                     COLUNA_CLIEMAIL + ", " +
@@ -117,7 +118,7 @@ public class Banco extends SQLiteOpenHelper {
                     COLUNA_PREENDERECO + ", " +
                     COLUNA_PRESENHA + ", " +
                     COLUNA_PRECNPJ + ") VALUES (" +
-                    "'teste', 'teste@teste.com', '04567-000', 'Rua das Oficinas, 100 - SP', '123456', '11222333444455');");
+                    "'teste', 'teste@teste.com', '07791650', 'Rua das Oficinas, 100 - SP', '123456', '11222333444455');");
 
         }
     }
