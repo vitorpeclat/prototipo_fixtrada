@@ -70,7 +70,7 @@ public class Banco extends SQLiteOpenHelper {
                 COLUNA_PRENOME + " TEXT NOT NULL, " +
                 COLUNA_PREEMAIL + " TEXT NOT NULL, " +
                 COLUNA_PRECEP + " TEXT NOT NULL, " +
-                COLUNA_PREENDERECO + " TEXT, " + // Novo campo opcional
+                COLUNA_PREENDERECO + " TEXT, " +
                 COLUNA_PRENOTA + " REAL, " +
                 COLUNA_PRESENHA + " TEXT NOT NULL, " +
                 COLUNA_PRECNPJ + " TEXT NOT NULL);");
@@ -96,15 +96,6 @@ public class Banco extends SQLiteOpenHelper {
                 COLUNA_MENHORARIO + " TEXT NOT NULL);");
     }
 
-    private void inserirPrestadorInicial(SQLiteDatabase db, String nome, String email, String senha, String cnpj, String endereco) {
-        ContentValues values = new ContentValues();
-        values.put(COLUNA_PRENOME, nome);
-        values.put(COLUNA_PREEMAIL, email);
-        values.put(COLUNA_PRESENHA, senha);
-        values.put(COLUNA_PRECNPJ, cnpj);
-        values.put(COLUNA_PRECEP, endereco);
-        db.insert(TABELA_PRESTADORSERVICO, null, values);
-    }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 2) {
@@ -167,7 +158,7 @@ public class Banco extends SQLiteOpenHelper {
     }
 
     //ÁREA DO PRESTADOR
-    public long inserirPrestador(String nome, String email, String senha, String cnpj, String cep, String enderecoCompleto) {
+    public long inserirPrestador(String nome, String email, String senha, String cnpj, String cep, String endereco) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUNA_PRENOME, nome);
@@ -175,7 +166,7 @@ public class Banco extends SQLiteOpenHelper {
         values.put(COLUNA_PRESENHA, senha);
         values.put(COLUNA_PRECNPJ, cnpj);
         values.put(COLUNA_PRECEP, cep);
-        values.put(COLUNA_PREENDERECO, enderecoCompleto);
+        values.put(COLUNA_PREENDERECO, endereco);
         long id = db.insert(TABELA_PRESTADORSERVICO, null, values);
         db.close();
         return id;
