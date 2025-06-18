@@ -13,7 +13,7 @@ import java.util.List;
 // banco atualizado
 public class Banco extends SQLiteOpenHelper {
     private static final String BANCO = "fixtrada.db";
-    private static final int VERSAO = 3;
+    private static final int VERSAO = 4;
     //tabela cliente
     public static final String TABELA_CLIENTE = "cliente";
     public static final String COLUNA_CLIID = "cliId";
@@ -28,7 +28,7 @@ public class Banco extends SQLiteOpenHelper {
     public static final String COLUNA_PRENOME = "preNome";
     public static final String COLUNA_PREEMAIL = "preEmail";
     public static final String COLUNA_PRECEP = "preCEP";
-    public static final String COLUNA_PREENDERECO = "preEndereco"; // Novo campo
+    public static final String COLUNA_PREENDERECO = "preEndereco";
     public static final String COLUNA_PRENOTA = "preNota";
     public static final String COLUNA_PRESENHA = "preSenha";
     public static final String COLUNA_PRECNPJ = "preCnpj";
@@ -70,7 +70,7 @@ public class Banco extends SQLiteOpenHelper {
                 COLUNA_PRENOME + " TEXT NOT NULL, " +
                 COLUNA_PREEMAIL + " TEXT NOT NULL, " +
                 COLUNA_PRECEP + " TEXT NOT NULL, " +
-                COLUNA_PREENDERECO + " TEXT, " +
+                COLUNA_PREENDERECO + " TEXT , " +
                 COLUNA_PRENOTA + " REAL, " +
                 COLUNA_PRESENHA + " TEXT NOT NULL, " +
                 COLUNA_PRECNPJ + " TEXT NOT NULL);");
@@ -99,8 +99,10 @@ public class Banco extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 2) {
-            db.execSQL("ALTER TABLE " + TABELA_PRESTADORSERVICO +
-                    " ADD COLUMN " + COLUNA_PRECEP + " TEXT");
+            db.execSQL("ALTER TABLE " + TABELA_PRESTADORSERVICO + " ADD COLUMN " + COLUNA_PRECEP + " TEXT");
+        }
+        if (oldVersion < 3) {
+            db.execSQL("ALTER TABLE " + TABELA_PRESTADORSERVICO + " ADD COLUMN " + COLUNA_PREENDERECO + " TEXT");
         }
     }
 
@@ -167,6 +169,7 @@ public class Banco extends SQLiteOpenHelper {
         values.put(COLUNA_PRECNPJ, cnpj);
         values.put(COLUNA_PRECEP, cep);
         values.put(COLUNA_PREENDERECO, endereco);
+        values.put(COLUNA_PRENOTA, 0.0f);
         long id = db.insert(TABELA_PRESTADORSERVICO, null, values);
         db.close();
         return id;
