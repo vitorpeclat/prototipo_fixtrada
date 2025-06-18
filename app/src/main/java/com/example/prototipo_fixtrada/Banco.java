@@ -206,7 +206,7 @@ public class Banco extends SQLiteOpenHelper {
         while (cursor.moveToNext()) {
             PrestadorServico p = new PrestadorServico();
             p.setPreNome(cursor.getString(cursor.getColumnIndex(COLUNA_PRENOME)));
-            p.setPreEndereco(cursor.getString(cursor.getColumnIndex(COLUNA_PRECEP)));
+            p.setPreEndereco(cursor.getString(cursor.getColumnIndex(COLUNA_PREENDERECO))); // Correção aqui
             prestadores.add(p);
         }
 
