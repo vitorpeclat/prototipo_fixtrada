@@ -17,7 +17,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
-// cadastro atualizado
+
 public class CadastroActivity extends AppCompatActivity {
 
     private Button btCadCliente, btCadPrestador, btConfirmarCadastro;
