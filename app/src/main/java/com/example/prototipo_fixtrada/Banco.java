@@ -10,7 +10,7 @@ import com.example.prototipo_fixtrada.construtores.PrestadorServico;
 
 import java.util.ArrayList;
 import java.util.List;
-
+// banco atualizado
 public class Banco extends SQLiteOpenHelper {
     private static final String BANCO = "fixtrada.db";
     private static final int VERSAO = 3;
