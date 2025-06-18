@@ -25,6 +25,7 @@ Banco.java</font>
 <span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">database</span><span class="s2">.</span><span class="s1">sqlite</span><span class="s2">.</span><span class="s1">SQLiteDatabase</span><span class="s2">;</span>
 <span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">database</span><span class="s2">.</span><span class="s1">sqlite</span><span class="s2">.</span><span class="s1">SQLiteOpenHelper</span><span class="s2">;</span>
 
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">prototipo_fixtrada</span><span class="s2">.</span><span class="s1">construtores</span><span class="s2">.</span><span class="s1">Mensagem</span><span class="s2">;</span>
 <span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">prototipo_fixtrada</span><span class="s2">.</span><span class="s1">construtores</span><span class="s2">.</span><span class="s1">PrestadorServico</span><span class="s2">;</span>
 
 <span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">ArrayList</span><span class="s2">;</span>
@@ -66,6 +67,7 @@ Banco.java</font>
     <span class="s0">public static final </span><span class="s1">String COLUNA_MENCONTEUDO </span><span class="s2">= </span><span class="s3">&quot;menConteudo&quot;</span><span class="s2">;</span>
     <span class="s0">public static final </span><span class="s1">String COLUNA_MENDESTINATARIO </span><span class="s2">= </span><span class="s3">&quot;menDestinatario&quot;</span><span class="s2">;</span>
     <span class="s0">public static final </span><span class="s1">String COLUNA_MENREMENTENTE </span><span class="s2">= </span><span class="s3">&quot;menRemetente&quot;</span><span class="s2">;</span>
+    <span class="s0">public static final </span><span class="s1">String COLUNA_MENHORARIO </span><span class="s2">= </span><span class="s3">&quot;menHorario&quot;</span><span class="s2">;</span>
 
     <span class="s0">public </span><span class="s1">Banco</span><span class="s2">(</span><span class="s1">Context context</span><span class="s2">) {</span>
         <span class="s0">super</span><span class="s2">(</span><span class="s1">context</span><span class="s2">, </span><span class="s1">BANCO</span><span class="s2">, </span><span class="s0">null</span><span class="s2">, </span><span class="s1">VERSAO</span><span class="s2">);</span>
@@ -108,7 +110,8 @@ Banco.java</font>
                 <span class="s2">+ </span><span class="s1">COLUNA_MENID </span><span class="s2">+ </span><span class="s3">&quot; INTEGER PRIMARY KEY AUTOINCREMENT, &quot;</span>
                 <span class="s2">+ </span><span class="s1">COLUNA_MENCONTEUDO </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL, &quot;</span>
                 <span class="s2">+ </span><span class="s1">COLUNA_MENDESTINATARIO </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL, &quot;</span>
-                <span class="s2">+ </span><span class="s1">COLUNA_MENREMENTENTE </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL);&quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_MENREMENTENTE </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL, &quot;</span>
+                <span class="s2">+ </span><span class="s1">COLUNA_MENHORARIO </span><span class="s2">+ </span><span class="s3">&quot; TEXT NOT NULL);&quot;</span>
         <span class="s2">);</span>
     <span class="s2">}</span>
     <span class="s1">@Override</span>
@@ -185,7 +188,6 @@ Banco.java</font>
         <span class="s1">db</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
         <span class="s0">return </span><span class="s1">id</span><span class="s2">;</span>
     <span class="s2">}</span>
-
     <span class="s0">public boolean </span><span class="s1">inserirNota</span><span class="s2">(</span><span class="s0">int </span><span class="s1">prestadorId</span><span class="s2">, </span><span class="s0">float </span><span class="s1">nota</span><span class="s2">) {</span>
         <span class="s1">SQLiteDatabase db </span><span class="s2">= </span><span class="s0">this</span><span class="s2">.</span><span class="s1">getWritableDatabase</span><span class="s2">();</span>
         <span class="s1">ContentValues values </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ContentValues</span><span class="s2">();</span>
