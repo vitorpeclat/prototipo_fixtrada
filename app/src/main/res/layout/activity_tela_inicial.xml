@@ -10,11 +10,11 @@
     tools:context=".TelaInicialActivity">
 
     <ImageView
-        android:layout_width="250dp"
-        android:layout_height="150dp"
-        android:src="@drawable/logoplaceholder"
+        android:layout_width="269dp"
+        android:layout_height="57dp"
         android:layout_gravity="center"
-        android:contentDescription="@string/app_logo"/>
+        android:contentDescription="@string/app_logo"
+        android:src="@drawable/LogoFixtrada" />
     <TextView
         android:id="@+id/txTitulo"
         android:layout_width="wrap_content"
