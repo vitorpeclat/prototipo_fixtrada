@@ -21,9 +21,9 @@ import java.util.List;
 public class CadastroActivity extends AppCompatActivity {
 
     private Button btCadCliente, btCadPrestador, btConfirmarCadastro;
-    private TextInputEditText edNome, edEmail, edSenha, edConfirmarSenha, edCpf, edCnpj, edEndereco,edDataNasc;
+    private TextInputEditText edNome, edEmail, edSenha, edConfirmarSenha, edCpf, edCnpj, edCep, edEndereco,edDataNasc;
     private TextInputEditText edModelo, edMarca, edPlaca, edCor, edAno, edKm;
-    private TextInputLayout layoutCpf, layoutCnpj, layoutEndereco, layoutDataNasc, layoutNome;
+    private TextInputLayout layoutCpf, layoutCnpj, layoutCep, layoutEndereco, layoutDataNasc, layoutNome;
     private TextInputLayout layoutModelo, layoutMarca, layoutPlaca, layoutCor, layoutAno, layoutKm;
     private TextView txMensagemCadastro;
     private boolean isPrestador = false;
@@ -36,16 +36,19 @@ public class CadastroActivity extends AppCompatActivity {
 
         dbHelper = new Banco(this);
 
+        // Botões
         btCadCliente = findViewById(R.id.btCadCliente); btCadCliente.setBackgroundTintList(null);
         btCadPrestador = findViewById(R.id.btCadPrestador); btCadPrestador.setBackgroundTintList(null);
         btConfirmarCadastro = findViewById(R.id.btConfirmarCadastro); btConfirmarCadastro.setBackgroundTintList(null);
 
+        // Campos comuns
         edNome = findViewById(R.id.edNome);
         edEmail = findViewById(R.id.edEmail);
         edSenha = findViewById(R.id.edSenha);
         edConfirmarSenha = findViewById(R.id.edConfirmarSenha);
         edCpf = findViewById(R.id.edCpf);
         edCnpj = findViewById(R.id.edCnpj);
+        edCep = findViewById(R.id.edCep);
         edEndereco = findViewById(R.id.edEndereco);
         edDataNasc = findViewById(R.id.edDataNasc);
 
@@ -56,8 +59,10 @@ public class CadastroActivity extends AppCompatActivity {
         edAno = findViewById(R.id.edAno);
         edKm = findViewById(R.id.edKm);
 
+        // Layouts
         layoutCpf = findViewById(R.id.layoutCpf);
         layoutCnpj = findViewById(R.id.layoutCnpj);
+        layoutCep = findViewById(R.id.layoutCep);
         layoutEndereco = findViewById(R.id.layoutEndereco);
         layoutDataNasc = findViewById(R.id.layoutDataNasc);
         layoutNome = findViewById(R.id.layoutNome);
@@ -71,9 +76,11 @@ public class CadastroActivity extends AppCompatActivity {
 
         txMensagemCadastro = findViewById(R.id.txMensagemCadastro);
 
+        // Máscaras e ações
         mascaraCpf();
         mascaraCnpj();
         mascaraDataNasc();
+        configurarCepListener();
         switchParaCliente();
 
         btCadCliente.setOnClickListener(v -> switchParaCliente());
@@ -86,7 +93,6 @@ public class CadastroActivity extends AppCompatActivity {
         });
     }
 
-
     private void switchParaCliente() {
         isPrestador = false;
         btCadCliente.setBackgroundResource(R.drawable.button_selected);
@@ -95,6 +101,7 @@ public class CadastroActivity extends AppCompatActivity {
 
         layoutCpf.setVisibility(View.VISIBLE);
         layoutCnpj.setVisibility(View.GONE);
+        layoutCep.setVisibility(View.GONE);
         layoutEndereco.setVisibility(View.GONE);
         layoutDataNasc.setVisibility(View.VISIBLE);
         layoutNome.setHint("Nome Completo");
@@ -115,6 +122,7 @@ public class CadastroActivity extends AppCompatActivity {
 
         layoutCpf.setVisibility(View.GONE);
         layoutCnpj.setVisibility(View.VISIBLE);
+        layoutCep.setVisibility(View.VISIBLE);
         layoutEndereco.setVisibility(View.VISIBLE);
         layoutDataNasc.setVisibility(View.GONE);
         layoutNome.setHint("Nome da Mecânica");
@@ -135,6 +143,7 @@ public class CadastroActivity extends AppCompatActivity {
         String senha = edSenha.getText().toString().trim();
         String confirmarSenha = edConfirmarSenha.getText().toString().trim();
         String documento = isPrestador ? edCnpj.getText().toString().trim() : edCpf.getText().toString().trim();
+        String cep = isPrestador ? edCep.getText().toString().trim() : "";
         String endereco = isPrestador ? edEndereco.getText().toString().trim() : "";
         String dataNasc = edDataNasc.getText().toString().trim();
 
@@ -154,13 +163,18 @@ public class CadastroActivity extends AppCompatActivity {
             edConfirmarSenha.setError("As senhas não coincidem");
             valido = false;
         }
+
         if (isPrestador) {
             if (documento.isEmpty() || documento.replaceAll("[^\\d]", "").length() != 14) {
                 edCnpj.setError("CNPJ inválido");
                 valido = false;
             }
+            if (cep.isEmpty() || cep.length() < 8) {
+                edCep.setError("Informe um CEP válido");
+                valido = false;
+            }
             if (endereco.isEmpty()) {
-                edEndereco.setError("Preencha o endereço");
+                edEndereco.setError("Endereço não encontrado");
                 valido = false;
             }
         } else {
@@ -172,35 +186,27 @@ public class CadastroActivity extends AppCompatActivity {
                 edDataNasc.setError("Data inválida (DD/MM/AAAA)");
                 valido = false;
             }
-
-            String modelo = edModelo.getText().toString().trim();
-            String marca = edMarca.getText().toString().trim();
-            String placa = edPlaca.getText().toString().trim();
-            String cor = edCor.getText().toString().trim();
-            String anoStr = edAno.getText().toString().trim();
-            String kmStr = edKm.getText().toString().trim();
-
-            if (modelo.isEmpty()) {
-                edModelo.setError("Informe o modelo do veículo");
+            if (edModelo.getText().toString().trim().isEmpty()) {
+                edModelo.setError("Informe o modelo");
                 valido = false;
             }
-            if (marca.isEmpty()) {
-                edMarca.setError("Informe a marca do veículo");
+            if (edMarca.getText().toString().trim().isEmpty()) {
+                edMarca.setError("Informe a marca");
                 valido = false;
             }
-            if (placa.isEmpty() || placa.length() < 6) {
+            if (edPlaca.getText().toString().trim().length() < 6) {
                 edPlaca.setError("Placa inválida");
                 valido = false;
             }
-            if (cor.isEmpty()) {
-                edCor.setError("Informe a cor do veículo");
+            if (edCor.getText().toString().trim().isEmpty()) {
+                edCor.setError("Informe a cor");
                 valido = false;
             }
-            if (anoStr.isEmpty() || !anoStr.matches("\\d{4}")) {
-                edAno.setError("Ano inválido (ex: 2020)");
+            if (edAno.getText().toString().trim().isEmpty()) {
+                edAno.setError("Ano inválido");
                 valido = false;
             }
-            if (kmStr.isEmpty()) {
+            if (edKm.getText().toString().trim().isEmpty()) {
                 edKm.setError("Informe a quilometragem");
                 valido = false;
             }
@@ -213,60 +219,25 @@ public class CadastroActivity extends AppCompatActivity {
         String email = edEmail.getText().toString().trim();
         String senha = edSenha.getText().toString().trim();
         String documento = isPrestador ? edCnpj.getText().toString().trim() : edCpf.getText().toString().trim();
+        String cep = isPrestador ? edCep.getText().toString().trim() : "";
         String endereco = isPrestador ? edEndereco.getText().toString().trim() : "";
         String dataNasc = isPrestador ? "" : edDataNasc.getText().toString().trim();
 
         long idUsuario;
         if (isPrestador) {
-            try {
-                Geocoder geocoder = new Geocoder(this);
-                List<Address> results = geocoder.getFromLocationName(endereco, 1);
-                if (results == null || results.isEmpty()) {
-                    Toast.makeText(this, "Endereço não encontrado. Verifique e tente novamente.", Toast.LENGTH_LONG).show();
-                    return;
-                } else {
-                    Address end = results.get(0);
-                    String enderecoFormatado = end.getThoroughfare(); // Rua, Avenida, etc.
-                    String numero = end.getSubThoroughfare();
-                    String cidade = end.getLocality();
-                    String estado = end.getAdminArea();
-                    String cep = end.getPostalCode();
-
-                    // Cria uma sugestão
-                    String sugestao = (enderecoFormatado != null ? enderecoFormatado : "") +
-                            (numero != null ? ", " + numero : "") +
-                            (cidade != null ? " - " + cidade : "") +
-                            (estado != null ? "/" + estado : "") +
-                            (cep != null ? " (" + cep + ")" : "");
-
-                    new AlertDialog.Builder(this)
-                            .setTitle("Endereço sugerido")
-                            .setMessage("Confirme se o endereço está correto:\n\n" + sugestao)
-                            .setPositiveButton("Confirmar", (dialog, which) -> {
-                                continuarCadastroPrestador(nome, email, senha, documento, sugestao);
-                            })
-                            .setNegativeButton("Editar", null)
-                            .show();
-
-                    return; // espera o usuário confirmar no dialog
-                }
-            } catch (Exception e) {
-                Toast.makeText(this, "Erro ao validar endereço", Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-                return;
-            }
+            idUsuario = dbHelper.inserirPrestador(nome, email, senha, documento, cep, endereco);
         } else {
             idUsuario = dbHelper.inserirCliente(nome, email, senha, documento, dataNasc);
-
             if (idUsuario != -1) {
-                String modelo = edModelo.getText().toString().trim();
-                String marca = edMarca.getText().toString().trim();
-                String placa = edPlaca.getText().toString().trim();
-                String cor = edCor.getText().toString().trim();
-                int ano = Integer.parseInt(edAno.getText().toString().trim());
-                int km = Integer.parseInt(edKm.getText().toString().trim());
-
-                dbHelper.inserirVeiculo(modelo, marca, placa, cor, ano, km, (int) idUsuario);
+                dbHelper.inserirVeiculo(
+                        edModelo.getText().toString().trim(),
+                        edMarca.getText().toString().trim(),
+                        edPlaca.getText().toString().trim(),
+                        edCor.getText().toString().trim(),
+                        Integer.parseInt(edAno.getText().toString().trim()),
+                        Integer.parseInt(edKm.getText().toString().trim()),
+                        (int) idUsuario
+                );
             }
         }
 
@@ -278,127 +249,120 @@ public class CadastroActivity extends AppCompatActivity {
         }
     }
 
-    private void continuarCadastroPrestador(String nome, String email, String senha, String cnpj, String enderecoCorrigido) {
-        long idUsuario = dbHelper.inserirPrestador(nome, email, senha, cnpj, enderecoCorrigido);
-        if (idUsuario != -1) {
-            Toast.makeText(this, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show();
-            finish();
-        } else {
-            txMensagemCadastro.setText("Erro ao cadastrar. Tente novamente.");
-        }
+    private void configurarCepListener() {
+        edCep.addTextChangedListener(new TextWatcher() {
+            @Override public void afterTextChanged(Editable s) {
+                String cep = s.toString().replaceAll("[^\\d]", "");
+                if (cep.length() == 8) {
+                    buscarEnderecoViaCep(cep);
+                }
+            }
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
+    }
+
+    private void buscarEnderecoViaCep(String cep) {
+        new Thread(() -> {
+            try {
+                java.net.URL url = new java.net.URL("https://viacep.com.br/ws/" + cep + "/json/");
+                java.net.HttpURLConnection conn = (java.net.HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+                conn.setConnectTimeout(5000);
+                conn.setReadTimeout(5000);
+                conn.connect();
+
+                java.io.InputStream inputStream = conn.getInputStream();
+                java.util.Scanner scanner = new java.util.Scanner(inputStream);
+                StringBuilder result = new StringBuilder();
+                while (scanner.hasNext()) result.append(scanner.nextLine());
+                scanner.close();
+
+                org.json.JSONObject obj = new org.json.JSONObject(result.toString());
+
+                if (!obj.has("erro")) {
+                    String enderecoCompleto = obj.optString("logradouro") + ", " +
+                            obj.optString("bairro") + " - " +
+                            obj.optString("localidade") + "/" +
+                            obj.optString("uf");
+
+                    runOnUiThread(() -> edEndereco.setText(enderecoCompleto));
+                } else {
+                    runOnUiThread(() -> edEndereco.setText(""));
+                }
+
+                conn.disconnect();
+            } catch (Exception e) {
+                runOnUiThread(() -> Toast.makeText(this, "Erro ao buscar CEP", Toast.LENGTH_SHORT).show());
+                e.printStackTrace();
+            }
+        }).start();
     }
     //MASCARAS
     private void mascaraDataNasc() {
         edDataNasc.addTextChangedListener(new TextWatcher() {
             private boolean isUpdating;
             private final String mask = "##/##/####";
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (isUpdating) {
-                    isUpdating = false;
-                    return;
-                }
-
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (isUpdating) { isUpdating = false; return; }
                 String digitsOnly = s.toString().replaceAll("[^\\d]", "");
                 StringBuilder formatted = new StringBuilder();
                 int i = 0;
-
                 for (char m : mask.toCharArray()) {
-                    if (m != '#') {
-                        formatted.append(m);
-                        continue;
-                    }
-                    if (i >= digitsOnly.length()) break;
-                    formatted.append(digitsOnly.charAt(i));
-                    i++;
+                    if (m != '#') formatted.append(m);
+                    else if (i < digitsOnly.length()) formatted.append(digitsOnly.charAt(i++));
                 }
-
                 isUpdating = true;
                 edDataNasc.setText(formatted.toString());
                 edDataNasc.setSelection(formatted.length());
             }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
+            @Override public void afterTextChanged(Editable s) {}
         });
     }
+
     private void mascaraCpf() {
         edCpf.addTextChangedListener(new TextWatcher() {
             private boolean isUpdating;
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (isUpdating) {
-                    isUpdating = false;
-                    return;
-                }
-
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (isUpdating) { isUpdating = false; return; }
                 String digits = s.toString().replaceAll("[^\\d]", "");
                 StringBuilder formatted = new StringBuilder();
-
                 int i = 0;
                 while (i < digits.length() && i < 11) {
-                    if (i == 3 || i == 6) {
-                        formatted.append(".");
-                    } else if (i == 9) {
-                        formatted.append("-");
-                    }
-                    formatted.append(digits.charAt(i));
-                    i++;
+                    if (i == 3 || i == 6) formatted.append(".");
+                    else if (i == 9) formatted.append("-");
+                    formatted.append(digits.charAt(i++));
                 }
-
                 isUpdating = true;
                 edCpf.setText(formatted.toString());
                 edCpf.setSelection(formatted.length());
             }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
+            @Override public void afterTextChanged(Editable s) {}
         });
     }
+
     private void mascaraCnpj() {
         edCnpj.addTextChangedListener(new TextWatcher() {
             private boolean isUpdating;
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (isUpdating) {
-                    isUpdating = false;
-                    return;
-                }
-
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (isUpdating) { isUpdating = false; return; }
                 String digits = s.toString().replaceAll("[^\\d]", "");
                 StringBuilder formatted = new StringBuilder();
-
                 int i = 0;
                 while (i < digits.length() && i < 14) {
-                    if (i == 2 || i == 5) {
-                        formatted.append(".");
-                    } else if (i == 8) {
-                        formatted.append("/");
-                    } else if (i == 12) {
-                        formatted.append("-");
-                    }
-                    formatted.append(digits.charAt(i));
-                    i++;
+                    if (i == 2 || i == 5) formatted.append(".");
+                    else if (i == 8) formatted.append("/");
+                    else if (i == 12) formatted.append("-");
+                    formatted.append(digits.charAt(i++));
                 }
-
                 isUpdating = true;
                 edCnpj.setText(formatted.toString());
                 edCnpj.setSelection(formatted.length());
             }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
+            @Override public void afterTextChanged(Editable s) {}
         });
     }
 }
