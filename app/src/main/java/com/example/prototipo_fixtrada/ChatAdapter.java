@@ -31,12 +31,10 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == 0) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_mensagem_cliente, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_mensagem, parent, false);
             return new EnviadaViewHolder(view);
-        } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_mensagem_prestador, parent, false);
-            return new RecebidaViewHolder(view);
         }
+        return null;
     }
 
     @Override
@@ -61,7 +59,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         EnviadaViewHolder(View itemView) {
             super(itemView);
             txtMensagem = itemView.findViewById(R.id.txtMensagemCliente);
-            txtHora = itemView.findViewById(R.id.txtHoraCliente);
+            txtHora = itemView.findViewById(R.id.txtHoraMensagem);
         }
 
         void bind(Mensagem mensagem) {
@@ -76,7 +74,7 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         RecebidaViewHolder(View itemView) {
             super(itemView);
             txtMensagem = itemView.findViewById(R.id.txtMensagemPrestador);
-            txtHora = itemView.findViewById(R.id.txtHoraPrestador);
+            txtHora = itemView.findViewById(R.id.txtHoraMensagem);
         }
 
         void bind(Mensagem mensagem) {

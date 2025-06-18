@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:orientation="vertical">
+
+    <!-- Mensagem do cliente -->
+    <TextView
+        android:id="@+id/txtMensagemCliente"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bubble_right"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:layout_gravity="start"
+        android:visibility="gone" />
+
+    <!-- Mensagem do prestador -->
+    <TextView
+        android:id="@+id/txtMensagemPrestador"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bubble_left"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        android:padding="10dp"
+        android:layout_gravity="end"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/txtHoraMensagem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="#888888"
+        android:layout_marginTop="4dp"
+        android:layout_gravity="end" />
+
+</LinearLayout>
