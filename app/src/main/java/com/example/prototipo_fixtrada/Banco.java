@@ -11,10 +11,10 @@ import com.example.prototipo_fixtrada.construtores.PrestadorServico;
 
 import java.util.ArrayList;
 import java.util.List;
-
+// banco atualizado
 public class Banco extends SQLiteOpenHelper {
     private static final String BANCO = "fixtrada.db";
-    private static final int VERSAO = 2;
+    private static final int VERSAO = 3;
     //tabela cliente
     public static final String TABELA_CLIENTE = "cliente";
     public static final String COLUNA_CLIID = "cliId";
@@ -28,7 +28,8 @@ public class Banco extends SQLiteOpenHelper {
     public static final String COLUNA_PREID = "preId";
     public static final String COLUNA_PRENOME = "preNome";
     public static final String COLUNA_PREEMAIL = "preEmail";
-    public static final String COLUNA_PREENDERECO = "preEndereco";
+    public static final String COLUNA_PRECEP = "preCEP";
+    public static final String COLUNA_PREENDERECO = "preEndereco"; // Novo campo
     public static final String COLUNA_PRENOTA = "preNota";
     public static final String COLUNA_PRESENHA = "preSenha";
     public static final String COLUNA_PRECNPJ = "preCnpj";
@@ -55,36 +56,37 @@ public class Banco extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         // Tabela cliente
-        sqLiteDatabase.execSQL("CREATE TABLE " + TABELA_CLIENTE + " ("
-                + COLUNA_CLIID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + COLUNA_CLINOME + " TEXT NOT NULL, "
-                + COLUNA_CLIEMAIL + " TEXT NOT NULL, "
-                + COLUNA_CLISENHA + " TEXT NOT NULL, "
-                + COLUNA_CLICPF + " TEXT NOT NULL, "
-                + COLUNA_CLIDATANASC + " TEXT NOT NULL);"
-        );
-        // Tabela prestadorSevico
-        sqLiteDatabase.execSQL("CREATE TABLE " + TABELA_PRESTADORSERVICO + " ("
-                + COLUNA_PREID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + COLUNA_PRENOME + " TEXT NOT NULL, "
-                + COLUNA_PREEMAIL + " TEXT NOT NULL, "
-                + COLUNA_PREENDERECO + " TEXT NOT NULL, "
-                + COLUNA_PRENOTA + " REAL, "
-                + COLUNA_PRESENHA + " TEXT NOT NULL, "
-                + COLUNA_PRECNPJ + " TEXT NOT NULL);"
-        );
+        sqLiteDatabase.execSQL("CREATE TABLE " + TABELA_CLIENTE + " (" +
+                COLUNA_CLIID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUNA_CLINOME + " TEXT NOT NULL, " +
+                COLUNA_CLIEMAIL + " TEXT NOT NULL, " +
+                COLUNA_CLISENHA + " TEXT NOT NULL, " +
+                COLUNA_CLICPF + " TEXT NOT NULL, " +
+                COLUNA_CLIDATANASC + " TEXT NOT NULL);");
+
+        // Tabela prestadorServico
+        sqLiteDatabase.execSQL("CREATE TABLE " + TABELA_PRESTADORSERVICO + " (" +
+                COLUNA_PREID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUNA_PRENOME + " TEXT NOT NULL, " +
+                COLUNA_PREEMAIL + " TEXT NOT NULL, " +
+                COLUNA_PRECEP + " TEXT NOT NULL, " +
+                COLUNA_PREENDERECO + " TEXT, " + // Novo campo opcional
+                COLUNA_PRENOTA + " REAL, " +
+                COLUNA_PRESENHA + " TEXT NOT NULL, " +
+                COLUNA_PRECNPJ + " TEXT NOT NULL);");
+
         // Tabela veiculo
-        sqLiteDatabase.execSQL("CREATE TABLE " + TABELA_VEICULO + " ("
-                + COLUNA_VEIID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + COLUNA_VEIMODELO + " TEXT NOT NULL, "
-                + COLUNA_VEIMARCA + " TEXT NOT NULL, "
-                + COLUNA_VEIPLACA + " TEXT NOT NULL, "
-                + COLUNA_VEICOR + " TEXT NOT NULL, "
-                + COLUNA_VEIANO + " INTEGER NOT NULL, "
-                + COLUNA_VEIKM + " INTEGER NOT NULL, "
-                + COLUNA_VEICLIID + " INTEGER NOT NULL, "
-                + "FOREIGN KEY(" + COLUNA_VEICLIID + ") REFERENCES " + TABELA_CLIENTE + "(" + COLUNA_CLIID + "));"
-        );
+        sqLiteDatabase.execSQL("CREATE TABLE " + TABELA_VEICULO + " (" +
+                COLUNA_VEIID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUNA_VEIMODELO + " TEXT NOT NULL, " +
+                COLUNA_VEIMARCA + " TEXT NOT NULL, " +
+                COLUNA_VEIPLACA + " TEXT NOT NULL, " +
+                COLUNA_VEICOR + " TEXT NOT NULL, " +
+                COLUNA_VEIANO + " INTEGER NOT NULL, " +
+                COLUNA_VEIKM + " INTEGER NOT NULL, " +
+                COLUNA_VEICLIID + " INTEGER NOT NULL, " +
+                "FOREIGN KEY(" + COLUNA_VEICLIID + ") REFERENCES " + TABELA_CLIENTE + "(" + COLUNA_CLIID + "));");
+
         // Tabela mensagem
         sqLiteDatabase.execSQL("CREATE TABLE " + TABELA_MENSAGEM + " ("
                 + COLUNA_MENID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -93,11 +95,21 @@ public class Banco extends SQLiteOpenHelper {
                 + COLUNA_MENHORARIO + " TEXT NOT NULL);"
         );
     }
+
+    private void inserirPrestadorInicial(SQLiteDatabase db, String nome, String email, String senha, String cnpj, String endereco) {
+        ContentValues values = new ContentValues();
+        values.put(COLUNA_PRENOME, nome);
+        values.put(COLUNA_PREEMAIL, email);
+        values.put(COLUNA_PRESENHA, senha);
+        values.put(COLUNA_PRECNPJ, cnpj);
+        values.put(COLUNA_PRECEP, endereco);
+        db.insert(TABELA_PRESTADORSERVICO, null, values);
+    }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 2) {
             db.execSQL("ALTER TABLE " + TABELA_PRESTADORSERVICO +
-                    " ADD COLUMN " + COLUNA_PREENDERECO + " TEXT");
+                    " ADD COLUMN " + COLUNA_PRECEP + " TEXT");
         }
     }
 
@@ -155,14 +167,15 @@ public class Banco extends SQLiteOpenHelper {
     }
 
     //ÁREA DO PRESTADOR
-    public long inserirPrestador(String nome, String email, String senha, String cnpj, String endereco) {
+    public long inserirPrestador(String nome, String email, String senha, String cnpj, String cep, String enderecoCompleto) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUNA_PRENOME, nome);
         values.put(COLUNA_PREEMAIL, email);
         values.put(COLUNA_PRESENHA, senha);
         values.put(COLUNA_PRECNPJ, cnpj);
-        values.put(COLUNA_PREENDERECO, endereco);
+        values.put(COLUNA_PRECEP, cep);
+        values.put(COLUNA_PREENDERECO, enderecoCompleto);
         long id = db.insert(TABELA_PRESTADORSERVICO, null, values);
         db.close();
         return id;
@@ -193,7 +206,7 @@ public class Banco extends SQLiteOpenHelper {
         while (cursor.moveToNext()) {
             PrestadorServico p = new PrestadorServico();
             p.setPreNome(cursor.getString(cursor.getColumnIndex(COLUNA_PRENOME)));
-            p.setPreEndereco(cursor.getString(cursor.getColumnIndex(COLUNA_PREENDERECO)));
+            p.setPreEndereco(cursor.getString(cursor.getColumnIndex(COLUNA_PREENDERECO))); // Correção aqui
             prestadores.add(p);
         }
 

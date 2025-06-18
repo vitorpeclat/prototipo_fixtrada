@@ -94,6 +94,7 @@
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Confirmar Senha -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -141,7 +142,24 @@
                 android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- ENDERECO (Prestador) -->
+        <!-- CEP (Prestador) -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutCep"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edCep"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="CEP"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- ENDEREÇO preenchido automaticamente -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layoutEndereco"
             android:layout_width="match_parent"
@@ -154,7 +172,7 @@
                 android:id="@+id/edEndereco"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Endereço"/>
+                android:hint="Endereço Completo" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Data de Nascimento (Cliente) -->
