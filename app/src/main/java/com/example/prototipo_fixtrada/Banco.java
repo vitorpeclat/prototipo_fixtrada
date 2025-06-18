@@ -46,7 +46,6 @@ public class Banco extends SQLiteOpenHelper {
     public static final String TABELA_MENSAGEM = "mensagem";
     public static final String COLUNA_MENID = "menId";
     public static final String COLUNA_MENCONTEUDO = "menConteudo";
-    public static final String COLUNA_MENDESTINATARIO = "menDestinatario";
     public static final String COLUNA_MENREMENTENTE = "menRemetente";
     public static final String COLUNA_MENHORARIO = "menHorario";
 
@@ -90,7 +89,6 @@ public class Banco extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("CREATE TABLE " + TABELA_MENSAGEM + " ("
                 + COLUNA_MENID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COLUNA_MENCONTEUDO + " TEXT NOT NULL, "
-                + COLUNA_MENDESTINATARIO + " TEXT NOT NULL, "
                 + COLUNA_MENREMENTENTE + " TEXT NOT NULL, "
                 + COLUNA_MENHORARIO + " TEXT NOT NULL);"
         );
@@ -203,4 +201,30 @@ public class Banco extends SQLiteOpenHelper {
         db.close();
         return prestadores;
     }
+
+    public void salvarMensagem(String remetente, String mensagem, String hora) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues valores = new ContentValues();
+        valores.put("remetente", remetente);
+        valores.put("mensagem", mensagem);
+        valores.put("hora", hora);
+        db.insert("mensagens", null, valores);
+    }
+
+    public List<Mensagem> listarMensagens() {
+        List<Mensagem> mensagens = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM mensagens", null);
+
+        while (cursor.moveToNext()) {
+            String remetente = cursor.getString(cursor.getColumnIndexOrThrow("remetente"));
+            String texto = cursor.getString(cursor.getColumnIndexOrThrow("mensagem"));
+            String hora = cursor.getString(cursor.getColumnIndexOrThrow("hora"));
+            mensagens.add(new Mensagem(remetente, texto, hora));
+        }
+
+        cursor.close();
+        return mensagens;
+    }
+
 }
