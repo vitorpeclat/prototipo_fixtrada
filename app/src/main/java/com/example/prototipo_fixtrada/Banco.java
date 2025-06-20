@@ -191,20 +191,18 @@ public class Banco extends SQLiteOpenHelper {
         db.close();
         return id;
     }
-    public boolean inserirNota(int prestadorId, float nota) {
+    public boolean inserirNota(String nome, float nota) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUNA_PRENOTA, nota);
-
-        int linhasAfetadas = db.update(
+        int afetados = db.update(
                 TABELA_PRESTADORSERVICO,
                 values,
-                COLUNA_PREID + " = ?",
-                new String[]{String.valueOf(prestadorId)}
+                COLUNA_PRENOME + " = ?",
+                new String[]{nome}
         );
-
         db.close();
-        return linhasAfetadas > 0;
+        return afetados > 0;
     }
 
     public List<PrestadorServico> listarPrestadoresComEndereco() {

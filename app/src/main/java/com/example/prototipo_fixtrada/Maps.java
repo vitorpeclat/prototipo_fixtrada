@@ -41,14 +41,14 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps); // Certifique-se de estar usando o novo XML com bottom_sheet e recycler
+        setContentView(R.layout.activity_maps);
 
-        // Bottom Sheet e RecyclerView
         bottomSheet = findViewById(R.id.bottom_sheet);
         recyclerView = findViewById(R.id.recyclerMecanicos);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         sheetBehavior = BottomSheetBehavior.from(bottomSheet);
 
+        // Botão Solicitar Serviço
         findViewById(R.id.btnSolicitarServico).setOnClickListener(v -> {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
@@ -64,6 +64,9 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
             }
         });
+
+        // Botão Avaliar
+        findViewById(R.id.btnAvaliar).setOnClickListener(v -> avaliarPrestador());
 
         SupportMapFragment mapFragment = (SupportMapFragment)
                 getSupportFragmentManager().findFragmentById(R.id.map);
@@ -103,7 +106,6 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         List<PrestadorServico> proximos = new ArrayList<>();
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
 
-        // Remove marcadores antigos
         for (Marker marker : marcadoresMecanicos) {
             marker.remove();
         }
@@ -163,7 +165,6 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
         }
     }
 
-
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
@@ -178,5 +179,10 @@ public class Maps extends FragmentActivity implements OnMapReadyCallback {
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    public void avaliarPrestador() {
+        PopupAvaliacao popup = new PopupAvaliacao(Maps.this);
+        popup.show();
     }
 }
