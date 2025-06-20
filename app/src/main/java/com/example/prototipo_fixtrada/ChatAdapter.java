@@ -1,5 +1,9 @@
 package com.example.prototipo_fixtrada;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +17,10 @@ import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private List<Mensagem> lista;
-
-    public ChatAdapter(List<Mensagem> lista) {
+    private String userCat;
+    public ChatAdapter(List<Mensagem> lista, String userCat) {
         this.lista = lista;
+        this.userCat = userCat;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -39,17 +44,19 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         Mensagem msg = lista.get(position);
         holder.txtHora.setText(msg.getHorario());
 
-        if (msg.getRemetente().equalsIgnoreCase("cliente")) {
-            holder.txtMensagemEnviada.setText(msg.getTexto());
-            holder.txtMensagemEnviada.setVisibility(View.VISIBLE);
-            holder.txtMensagemRecebida.setVisibility(View.GONE);
-        } else {
+        if (msg.getRemetente().equalsIgnoreCase(userCat)) {
             holder.txtMensagemRecebida.setText(msg.getTexto());
             holder.txtMensagemRecebida.setVisibility(View.VISIBLE);
             holder.txtMensagemEnviada.setVisibility(View.GONE);
+        } else {
+            holder.txtMensagemEnviada.setText(msg.getTexto());
+            holder.txtMensagemEnviada.setVisibility(View.VISIBLE);
+            holder.txtMensagemRecebida.setVisibility(View.GONE);
+
         }
     }
 

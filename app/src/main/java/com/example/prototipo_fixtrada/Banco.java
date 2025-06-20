@@ -94,10 +94,28 @@ public class Banco extends SQLiteOpenHelper {
                 + COLUNA_MENREMENTENTE + " TEXT NOT NULL, "
                 + COLUNA_MENHORARIO + " TEXT NOT NULL);"
         );
+
+        sqLiteDatabase.execSQL("INSERT INTO " + TABELA_CLIENTE + " (" +
+                COLUNA_CLINOME + ", " +
+                COLUNA_CLIEMAIL + ", " +
+                COLUNA_CLISENHA + ", " +
+                COLUNA_CLICPF + ", " +
+                COLUNA_CLIDATANASC + ") VALUES (" +
+                "'jao', 'jao@jao.com', '123456', '12345678901', '1990-05-12');");
+        sqLiteDatabase.execSQL("INSERT INTO " + TABELA_PRESTADORSERVICO + " (" +
+                COLUNA_PRENOME + ", " +
+                COLUNA_PREEMAIL + ", " +
+                COLUNA_PRECEP + ", " +
+                COLUNA_PREENDERECO + ", " +
+                COLUNA_PRESENHA + ", " +
+                COLUNA_PRECNPJ + ") VALUES (" +
+                "'teste', 'teste@teste.com', '05274090', 'Rua Amitola, Jardim Rosinha - São Paulo/SP', '123456', '11222333444455');");
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        /*
         if (oldVersion < 2) {
             db.execSQL("ALTER TABLE " + TABELA_PRESTADORSERVICO + " ADD COLUMN " + COLUNA_PRECEP + " TEXT");
             db.execSQL("ALTER TABLE " + TABELA_PRESTADORSERVICO + " ADD COLUMN " + COLUNA_PREENDERECO + " TEXT");
@@ -121,6 +139,7 @@ public class Banco extends SQLiteOpenHelper {
                     "'teste', 'teste@teste.com', '07791650', 'Rua das Oficinas, 100 - SP', '123456', '11222333444455');");
 
         }
+         */
     }
 
     //VALIDAÇÃO DE USUÁRIO
