@@ -4,7 +4,7 @@
 
 ## 🎯 Objetivo
 
-Criar uma plataforma prática, segura e eficiente que permita a motoristas:
+Criar um protótipo da plataforma que represente apenas o funcionamento principal do projeto:
 
 - Solicitar serviços mecânicos emergenciais no local onde estão.
 - Visualizar propostas e perfis de profissionais próximos.
