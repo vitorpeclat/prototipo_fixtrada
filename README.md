@@ -1,67 +1,65 @@
-📱 Fixtrada – Protótipo Mobile
-Fixtrada é um aplicativo móvel desenvolvido como parte do Trabalho de Conclusão de Curso do curso de Análise e Desenvolvimento de Sistemas da FATEC Santana de Parnaíba. O projeto propõe uma solução digital para facilitar a contratação de serviços mecânicos sob demanda, conectando clientes a profissionais disponíveis em sua localidade.
+# 📱 Fixtrada – Protótipo Mobile
 
-📌 Objetivo
-Oferecer uma plataforma prática, segura e eficiente para que usuários encontrem mecânicos próximos e recebam atendimento no local, com funcionalidades como geolocalização, chat em tempo real, avaliações e histórico de serviços.
+**Fixtrada** é um aplicativo móvel criado como parte do Trabalho de Graduação no curso de Análise e Desenvolvimento de Sistemas da FATEC Santana de Parnaíba. O projeto propõe uma solução digital para facilitar a contratação de serviços mecânicos sob demanda, conectando clientes a prestadores disponíveis em tempo real e no local solicitado.
 
-🔧 Tecnologias Utilizadas
-React Native – construção da interface mobile
+## 🎯 Objetivo
 
-TypeScript – tipagem estática e organização de código
+Criar uma plataforma prática, segura e eficiente que permita a motoristas:
 
-Socket.IO – comunicação em tempo real (chat)
+- Solicitar serviços mecânicos emergenciais no local onde estão.
+- Visualizar propostas e perfis de profissionais próximos.
+- Comunicar-se via chat com o prestador.
+- Avaliar o atendimento após a finalização.
 
-Google Maps API – geolocalização e mapas
+Além disso, a plataforma oferece aos mecânicos autônomos a oportunidade de ampliar sua base de clientes e gerar renda com flexibilidade.
 
-Node.js (backend) – integração com APIs e lógica de negócios
+## ⚙️ Tecnologias Utilizadas para a Versão Protótipo
 
-PostgreSQL – banco de dados relacional
+- **Java** – Backend e gerenciamento das regras de negócio
+- **XML** – Tipagem estática simples
+- **SQLite** – Banco de Dados Simples
+- **Google Maps API** – Localização de usuários e oficinas
 
-📲 Funcionalidades Principais
-Cadastro e login de clientes e prestadores
+## ✨ Funcionalidades
 
-Registro de veículos
+- Cadastro de cliente, prestador e veículos
+- Login com autenticação
+- Solicitação de atendimento com descrição do problema
+- Envio e aceite de propostas de serviço
+- Chat entre cliente e mecânico
+- Avaliação pós-serviço
+- Geolocalização de mecânicos em até 5 km
 
-Solicitação de atendimento mecânico com descrição do problema
+## 🔍 Sobre esta versão
 
-Recebimento de propostas e aceitação de orçamentos
+Esta versão simula **dois aplicativos separados**:
 
-Chat direto entre cliente e prestador
+- **Aplicativo do Cliente (usuário)**  
+- **Aplicativo do Prestador (mecânico)**
 
-Avaliação de serviços realizados
+## 🧩 Estrutura das Telas (Protótipo Mobile)
 
-Geolocalização com mecânicos em até 7 km de distância
+- Login e Cadastro
+- Cadastro de Veículo
+- Tela Inicial com Mapa
+- Tela de Solicitação de Serviço
+- Lista de Propostas
+- Chat em Tempo Real
+- Avaliação de Atendimento
 
-Histórico de atendimentos
+## 📌 Status
 
-🧪 Status do Projeto
-🚧 Protótipo em desenvolvimento (versão mobile)
-As telas foram desenhadas com foco em usabilidade e fluidez para representar o fluxo do usuário de forma clara. Este repositório contém a estrutura inicial do aplicativo mobile, com as telas principais e integração com o backend em andamento.
+🚧 Protótipo em desenvolvimento.  
+O protótipo representa uma versão incompleta do projeto, com funcionalidades principais implementadas de formas simples para avaliar a viabilidade e fluxo
 
-🗂 Estrutura das Telas
-Login e Cadastro
+## 👥 Equipe
 
-Cadastro de Veículo
+- José Paulo Borges dos Santos  
+- Pedro Henrique dos Santos  
+- Vitor Rodrigues Peclat  
 
-Home com Mapa e Solicitação de Serviço
+**Orientador:** Prof. Eduardo Alves de Freitas
 
-Visualização e Aceite de Propostas
+## 📝 Licença
 
-Chat com o Prestador
-
-Avaliação e Histórico
-
-📚 Base Conceitual
-O projeto foi estruturado com base em modelagem UML (casos de uso, diagramas de sequência, atividades e arquitetura MVC). As decisões foram guiadas por pesquisas de campo com usuários e mecânicos autônomos, visando atender demandas reais do setor de manutenção veicular.
-
-👥 Equipe
-José Paulo Borges dos Santos
-
-Pedro Henrique dos Santos
-
-Vitor Rodrigues Peclat
-
-Orientador: Prof. Eduardo Alves de Freitas
-
-📄 Licença
-Este projeto está licenciado sob os termos acadêmicos da FATEC-SP para fins de conclusão de curso. Uso e distribuição apenas mediante autorização dos autores.
+Uso acadêmico. Este repositório integra o Trabalho de Conclusão de Curso apresentado à FATEC Santana de Parnaíba em 2025. A redistribuição e reutilização do conteúdo devem ser feitas com autorização dos autores.
