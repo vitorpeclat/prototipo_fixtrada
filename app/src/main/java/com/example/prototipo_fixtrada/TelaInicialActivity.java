@@ -20,7 +20,6 @@ public class TelaInicialActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_inicial);
-
         btLogin = findViewById(R.id.btLogin); btLogin.setBackgroundTintList(null);
         btCadastro = findViewById(R.id.btCadastro); btCadastro.setBackgroundTintList(null);
         btCliente = findViewById(R.id.btCliente); btCliente.setBackgroundTintList(null);
@@ -28,7 +27,7 @@ public class TelaInicialActivity extends AppCompatActivity {
         edUsuario = findViewById(R.id.edUsuario);
         edSenha = findViewById(R.id.edSenha);
         txMensagem = findViewById(R.id.txMensagem);
-
+        //this.deleteDatabase("fixtrada.db");
         switchParaCliente();
 
         btCliente.setOnClickListener(v -> switchParaCliente());

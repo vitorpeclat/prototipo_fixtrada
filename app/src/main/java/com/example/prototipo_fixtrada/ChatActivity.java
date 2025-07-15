@@ -38,7 +38,7 @@ public class ChatActivity extends AppCompatActivity {
         banco = new Banco(this);
         listaMensagens = banco.listarMensagens();
 
-        chatAdapter = new ChatAdapter(listaMensagens);
+        chatAdapter = new ChatAdapter(listaMensagens, userCat);
         recyclerView.setAdapter(chatAdapter);
 
         EditText editMensagem = findViewById(R.id.editMensagem);
